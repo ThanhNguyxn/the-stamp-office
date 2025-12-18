@@ -1,0 +1,492 @@
+{
+    "shift": 3,
+    "name": "The Attachment Problem",
+    "tickets": [
+        {
+            "id": "T03_001",
+            "shift": 3,
+            "type": "standard",
+            "text": "Requesting ergonomic keyboard.",
+            "attachment": "Doctor's note (3 words).",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mundane",
+                "attachment"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_ATTACH_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_002",
+            "shift": 3,
+            "type": "standard",
+            "text": "Requesting window seat transfer.",
+            "attachment": "Attachment: scenic photo.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "attachment",
+                "photo"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_ATTACH_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_PROCEDURAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_003",
+            "shift": 3,
+            "type": "standard",
+            "text": "Requesting budget for team lunch.",
+            "attachment": "Receipt from future date.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "temporal",
+                "attachment"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_TEMPORAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_TEMPORAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_004",
+            "shift": 3,
+            "type": "standard",
+            "text": "Requesting access to Archive Level.",
+            "attachment": "Attachment: empty envelope.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "archivist",
+                "empty"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_ATTACH_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_ATTACH_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_005",
+            "shift": 3,
+            "type": "horror",
+            "text": "Requesting new ID badge.",
+            "attachment": "Photo: your desk, from behind.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "horror",
+                "photo"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_UNSETTLING_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_UNSETTLING_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_UNSETTLING_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_006",
+            "shift": 3,
+            "type": "level7",
+            "text": "Level 7 request: additional filing cabinet.",
+            "attachment": "Justification: 47 pages.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "attachment"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_ATTACH_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_ATTACH_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_ATTACH_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_007",
+            "shift": 3,
+            "type": "expired",
+            "text": "Requesting sick day. Retroactive.",
+            "attachment": "Doctor's note (expired).",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "expired",
+                "attachment"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_ATTACH_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_PROCEDURAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_008",
+            "shift": 3,
+            "type": "standard",
+            "text": "Requesting permission to whistle.",
+            "attachment": "Attachment: musical notation.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mismatch",
+                "attachment"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_ATTACH_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_PROCEDURAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_009",
+            "shift": 3,
+            "type": "standard",
+            "text": "Requesting coffee machine repair.",
+            "attachment": "Attachment: photo with signature.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "valid",
+                "attachment"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_ATTACH_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_010",
+            "shift": 3,
+            "type": "kevin",
+            "text": "Requesting Kevin's employee file.",
+            "attachment": "Attachment: Kevin's signature.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "attachment"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_KEVIN_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_KEVIN_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_KEVIN_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_011",
+            "shift": 3,
+            "type": "standard",
+            "text": "Requesting office relocation.",
+            "attachment": "Attachment: floor plan (wrong building).",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mismatch",
+                "attachment"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_ATTACH_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_PROCEDURAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_012",
+            "shift": 3,
+            "type": "standard",
+            "text": "Requesting clarity on attachment rules.",
+            "attachment": "Attachment: this ticket.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "recursive",
+                "paradox"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_PARADOX_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_PARADOX_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_PARADOX_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T03_013",
+            "shift": 3,
+            "type": "standard",
+            "text": "Requesting end of shift.",
+            "attachment": "Attachment: hopeful silence.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_NEUTRAL_010",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift03_complete"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_010",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift03_complete"
+                    ]
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_NEUTRAL_010",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift03_complete"
+                    ]
+                }
+            }
+        }
+    ]
+}

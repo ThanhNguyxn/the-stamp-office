@@ -51,6 +51,198 @@
             "shift": 2,
             "text": "Do not acknowledge the inconsistency.",
             "contradicts": []
+        },
+        {
+            "id": "R03_001",
+            "shift": 3,
+            "text": "Attachments must match request category.",
+            "contradicts": []
+        },
+        {
+            "id": "R03_002",
+            "shift": 3,
+            "text": "Photos require witness signatures.",
+            "contradicts": []
+        },
+        {
+            "id": "R03_003",
+            "shift": 3,
+            "text": "Empty attachments are valid. Somehow.",
+            "contradicts": []
+        },
+        {
+            "id": "R03_004",
+            "shift": 3,
+            "text": "Check twice. Stamp once.",
+            "contradicts": []
+        },
+        {
+            "id": "R04_001",
+            "shift": 4,
+            "text": "VALID-ISH applies to borderline cases.",
+            "contradicts": []
+        },
+        {
+            "id": "R04_002",
+            "shift": 4,
+            "text": "UNDER PROTEST requires written objection.",
+            "contradicts": []
+        },
+        {
+            "id": "R04_003",
+            "shift": 4,
+            "text": "CLOSE ENOUGH is close enough.",
+            "contradicts": []
+        },
+        {
+            "id": "R04_004",
+            "shift": 4,
+            "text": "Modifiers do not replace stamps.",
+            "contradicts": []
+        },
+        {
+            "id": "R05_001",
+            "shift": 5,
+            "text": "Consistency increases the meter. Always.",
+            "contradicts": []
+        },
+        {
+            "id": "R05_002",
+            "shift": 5,
+            "text": "The meter measures something. Unknown.",
+            "contradicts": []
+        },
+        {
+            "id": "R05_003",
+            "shift": 5,
+            "text": "High meter: unknown consequences.",
+            "contradicts": []
+        },
+        {
+            "id": "R05_004",
+            "shift": 5,
+            "text": "Low meter: also unknown consequences.",
+            "contradicts": []
+        },
+        {
+            "id": "R06_001",
+            "shift": 6,
+            "text": "RETROACTIVE changes the past. Carefully.",
+            "contradicts": []
+        },
+        {
+            "id": "R06_002",
+            "shift": 6,
+            "text": "Multiple retroactions cause instability.",
+            "contradicts": []
+        },
+        {
+            "id": "R06_003",
+            "shift": 6,
+            "text": "Some tickets resist retroaction.",
+            "contradicts": []
+        },
+        {
+            "id": "R06_004",
+            "shift": 6,
+            "text": "Time is a suggestion.",
+            "contradicts": []
+        },
+        {
+            "id": "R07_001",
+            "shift": 7,
+            "text": "CLASSIFIED seals tickets. Permanently.",
+            "contradicts": []
+        },
+        {
+            "id": "R07_002",
+            "shift": 7,
+            "text": "Some things must not be reviewed.",
+            "contradicts": []
+        },
+        {
+            "id": "R07_003",
+            "shift": 7,
+            "text": "The Office speaks. Listen carefully.",
+            "contradicts": []
+        },
+        {
+            "id": "R07_004",
+            "shift": 7,
+            "text": "You have been noticed.",
+            "contradicts": []
+        },
+        {
+            "id": "R08_001",
+            "shift": 8,
+            "text": "Personal tickets require extra scrutiny.",
+            "contradicts": []
+        },
+        {
+            "id": "R08_002",
+            "shift": 8,
+            "text": "Self-referential forms are valid.",
+            "contradicts": []
+        },
+        {
+            "id": "R08_003",
+            "shift": 8,
+            "text": "Your history is attachment now.",
+            "contradicts": []
+        },
+        {
+            "id": "R08_004",
+            "shift": 8,
+            "text": "Choose wisely. Or don't.",
+            "contradicts": []
+        },
+        {
+            "id": "R09_001",
+            "shift": 9,
+            "text": "Speed is mandatory. Accuracy optional.",
+            "contradicts": []
+        },
+        {
+            "id": "R09_002",
+            "shift": 9,
+            "text": "Rules may change mid-ticket.",
+            "contradicts": []
+        },
+        {
+            "id": "R09_003",
+            "shift": 9,
+            "text": "All previous rules still apply. Maybe.",
+            "contradicts": []
+        },
+        {
+            "id": "R09_004",
+            "shift": 9,
+            "text": "This is the pre-finale.",
+            "contradicts": []
+        },
+        {
+            "id": "R10_001",
+            "shift": 10,
+            "text": "This is your final shift.",
+            "contradicts": []
+        },
+        {
+            "id": "R10_002",
+            "shift": 10,
+            "text": "The Rulebook requires your signature.",
+            "contradicts": []
+        },
+        {
+            "id": "R10_003",
+            "shift": 10,
+            "text": "All choices have been recorded.",
+            "contradicts": []
+        },
+        {
+            "id": "R10_004",
+            "shift": 10,
+            "text": "Some things are not things.",
+            "contradicts": []
         }
     ]
 }

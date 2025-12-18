@@ -1,0 +1,333 @@
+{
+    "shift": 7,
+    "name": "Classified Information",
+    "tickets": [
+        {
+            "id": "T07_001",
+            "shift": 7,
+            "type": "classified",
+            "text": "[REDACTED] requests [REDACTED].",
+            "attachment": "Attachment: [REDACTED].",
+            "allowed_stamps": [
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "classified",
+                "mandatory"
+            ],
+            "outcomes": {
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_CLASS_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 5,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T07_002",
+            "shift": 7,
+            "type": "standard",
+            "text": "Requesting identity of The Voice.",
+            "attachment": "Attachment: curiosity.",
+            "allowed_stamps": [
+                "CLASSIFIED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "voice",
+                "classified"
+            ],
+            "outcomes": {
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_CLASS_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_VOICE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T07_003",
+            "shift": 7,
+            "type": "standard",
+            "text": "Requesting unclassification protocol.",
+            "attachment": "Attachment: N/A.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "classified",
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_CLASS_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T07_004",
+            "shift": 7,
+            "type": "level7",
+            "text": "Level 7 request: classify Level 8.",
+            "attachment": "Priority: [REDACTED].",
+            "allowed_stamps": [
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "classified",
+                "mandatory"
+            ],
+            "outcomes": {
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_CLASS_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 4,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T07_005",
+            "shift": 7,
+            "type": "horror",
+            "text": "Requesting your real name.",
+            "attachment": "Attachment: employment file.",
+            "allowed_stamps": [
+                "CLASSIFIED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "horror",
+                "personal"
+            ],
+            "outcomes": {
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_CLASS_005",
+                    "mood_delta": -2,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_CLASS_005",
+                    "mood_delta": -2,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T07_006",
+            "shift": 7,
+            "type": "standard",
+            "text": "Requesting lamp flicker translation.",
+            "attachment": "Morse code? Maybe?",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "voice"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_VOICE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_VOICE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_VOICE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T07_007",
+            "shift": 7,
+            "type": "classified",
+            "text": "Requesting list of watched employees.",
+            "attachment": "You're on it.",
+            "allowed_stamps": [
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "classified",
+                "mandatory",
+                "horror"
+            ],
+            "outcomes": {
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_CLASS_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 3,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T07_008",
+            "shift": 7,
+            "type": "standard",
+            "text": "Requesting The Voice's feedback.",
+            "attachment": "Performance review.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "voice"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_VOICE_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T07_009",
+            "shift": 7,
+            "type": "classified",
+            "text": "Requesting office secrets.",
+            "attachment": "Any secrets. All secrets.",
+            "allowed_stamps": [
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "classified",
+                "mandatory"
+            ],
+            "outcomes": {
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_CLASS_006",
+                    "mood_delta": 0,
+                    "contradiction_delta": 5,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T07_010",
+            "shift": 7,
+            "type": "standard",
+            "text": "Requesting to unknow something.",
+            "attachment": "Attachment: regret.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_CLASS_007",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T07_011",
+            "shift": 7,
+            "type": "kevin",
+            "text": "Kevin's classified file.",
+            "attachment": "Contents: [REDACTED].",
+            "allowed_stamps": [
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "classified"
+            ],
+            "outcomes": {
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_KEVIN_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T07_012",
+            "shift": 7,
+            "type": "standard",
+            "text": "Requesting rest. From watching.",
+            "attachment": "Attachment: tired eyes.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_CLASS_008",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift07_complete"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_CLASS_008",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift07_complete"
+                    ]
+                }
+            }
+        }
+    ]
+}

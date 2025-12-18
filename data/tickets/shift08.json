@@ -1,0 +1,444 @@
+{
+    "shift": 8,
+    "name": "About You",
+    "tickets": [
+        {
+            "id": "T08_001",
+            "shift": 8,
+            "type": "personal",
+            "text": "Requesting [YOUR NAME]'s stamp history.",
+            "attachment": "Full audit.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "personal",
+                "audit"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SELF_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_SELF_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_SELF_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T08_002",
+            "shift": 8,
+            "type": "personal",
+            "text": "Requesting your vacation. Personally.",
+            "attachment": "Self-submitted.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "personal",
+                "self"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SELF_002",
+                    "mood_delta": 2,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T08_003",
+            "shift": 8,
+            "type": "horror",
+            "text": "Requesting termination of [YOUR NAME].",
+            "attachment": "Signed: you. Dated: tomorrow.",
+            "allowed_stamps": [
+                "DENIED",
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "horror",
+                "personal"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_SELF_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_SELF_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 5,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T08_004",
+            "shift": 8,
+            "type": "personal",
+            "text": "Requesting your opinion on yourself.",
+            "attachment": "Performance review.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "personal"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SELF_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_SELF_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_SELF_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T08_005",
+            "shift": 8,
+            "type": "personal",
+            "text": "Requesting promotion for [YOUR NAME].",
+            "attachment": "Justification: you wrote this.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "personal",
+                "self"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SELF_005",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T08_006",
+            "shift": 8,
+            "type": "personal",
+            "text": "Your personnel file. For review.",
+            "attachment": "Contents: your choices.",
+            "allowed_stamps": [
+                "APPROVED",
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "personal",
+                "horror"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SELF_006",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_SELF_006",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T08_007",
+            "shift": 8,
+            "type": "horror",
+            "text": "Future You's request: trust them.",
+            "attachment": "They know what happens.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "future",
+                "horror"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FUTURE_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_FUTURE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T08_008",
+            "shift": 8,
+            "type": "personal",
+            "text": "Requesting deletion of your records.",
+            "attachment": "Fresh start request.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "personal",
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_SELF_007",
+                    "mood_delta": 0,
+                    "contradiction_delta": 4,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T08_009",
+            "shift": 8,
+            "type": "standard",
+            "text": "Requesting you stamp nothing today.",
+            "attachment": "Attachment: your exhaustion.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T08_010",
+            "shift": 8,
+            "type": "branching",
+            "text": "Requesting your loyalty declaration.",
+            "attachment": "To The Office. Now.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "rare",
+            "tags": [
+                "branching",
+                "loyalty"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_LOYALTY_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "loyalty_declared"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_LOYALTY_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "ending_b_path"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T08_011",
+            "shift": 8,
+            "type": "personal",
+            "text": "Requesting explanation for your choices.",
+            "attachment": "All of them.",
+            "allowed_stamps": [
+                "DENIED",
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "personal"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_SELF_008",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                },
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_SELF_008",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T08_012",
+            "shift": 8,
+            "type": "secret",
+            "text": "Requesting proof The Office exists.",
+            "attachment": "Secret ending ticket #1.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "rare",
+            "tags": [
+                "secret",
+                "ending"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SECRET_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "secret_ticket_1"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_SECRET_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_SECRET_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T08_013",
+            "shift": 8,
+            "type": "standard",
+            "text": "Requesting peace.",
+            "attachment": "For yourself.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "personal"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SELF_009",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T08_014",
+            "shift": 8,
+            "type": "standard",
+            "text": "Requesting end. Of this. Please.",
+            "attachment": "Attachment: you.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_NEUTRAL_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift08_complete"
+                    ]
+                }
+            }
+        }
+    ]
+}

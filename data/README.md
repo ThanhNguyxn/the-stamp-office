@@ -11,12 +11,20 @@ data/
 ├── README.md           # This file
 ├── schema.json         # JSON schema definitions
 ├── tickets/            # Per-shift ticket definitions
-│   ├── shift01.json    # Tickets for SHIFT_01
-│   └── shift02.json    # Tickets for SHIFT_02
+│   ├── shift01.json    # Tickets for SHIFT_01 (12 tickets)
+│   ├── shift02.json    # Tickets for SHIFT_02 (14 tickets)
+│   ├── shift03.json    # Tickets for SHIFT_03 (13 tickets)
+│   ├── shift04.json    # Tickets for SHIFT_04 (12 tickets)
+│   ├── shift05.json    # Tickets for SHIFT_05 (13 tickets)
+│   ├── shift06.json    # Tickets for SHIFT_06 (12 tickets)
+│   ├── shift07.json    # Tickets for SHIFT_07 (12 tickets)
+│   ├── shift08.json    # Tickets for SHIFT_08 (14 tickets)
+│   ├── shift09.json    # Tickets for SHIFT_09 (14 tickets)
+│   └── shift10.json    # Tickets for SHIFT_10 (12 tickets)
 ├── rules/              # Global and per-shift rules
-│   └── rules.json      # All rules indexed by shift
+│   └── rules.json      # All 40 rules (4 per shift)
 └── toasts/             # System toast messages
-    └── toasts.json     # Global toast pool (42 toasts)
+    └── toasts.json     # Global toast pool (119 toasts)
 ```
 
 ---

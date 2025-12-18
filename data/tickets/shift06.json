@@ -1,0 +1,347 @@
+{
+    "shift": 6,
+    "name": "Retroactive Action",
+    "tickets": [
+        {
+            "id": "T06_001",
+            "shift": 6,
+            "type": "standard",
+            "text": "Requesting retroactive approval from Shift 02.",
+            "attachment": "Ticket ID: #0247.",
+            "allowed_stamps": [
+                "RETROACTIVE",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "retroactive"
+            ],
+            "outcomes": {
+                "RETROACTIVE": {
+                    "toast_id": "TOAST_RETRO_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": [
+                        "retro_used"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_002",
+            "shift": 6,
+            "type": "standard",
+            "text": "Requesting yesterday be different.",
+            "attachment": "Attachment: regret.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "temporal"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_RETRO_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_RETRO_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_003",
+            "shift": 6,
+            "type": "horror",
+            "text": "Pre-approved ticket. Already stamped.",
+            "attachment": "By you. Apparently.",
+            "allowed_stamps": [
+                "RETROACTIVE",
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "horror",
+                "retroactive"
+            ],
+            "outcomes": {
+                "RETROACTIVE": {
+                    "toast_id": "TOAST_RETRO_003",
+                    "mood_delta": -1,
+                    "contradiction_delta": 3,
+                    "flags_add": [
+                        "retro_used"
+                    ]
+                },
+                "APPROVED": {
+                    "toast_id": "TOAST_RETRO_003",
+                    "mood_delta": -1,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_004",
+            "shift": 6,
+            "type": "standard",
+            "text": "Requesting clarification on retroaction.",
+            "attachment": "Attachment: paradox diagram.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "retroactive",
+                "paradox"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_DEFLECTIVE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_DEFLECTIVE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_005",
+            "shift": 6,
+            "type": "level7",
+            "text": "Level 7 request: undo yesterday's meeting.",
+            "attachment": "Priority: desperate.",
+            "allowed_stamps": [
+                "RETROACTIVE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "retroactive",
+                "mandatory"
+            ],
+            "outcomes": {
+                "RETROACTIVE": {
+                    "toast_id": "TOAST_RETRO_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 4,
+                    "flags_add": [
+                        "retro_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T06_006",
+            "shift": 6,
+            "type": "horror",
+            "text": "Requesting you didn't see that.",
+            "attachment": "Attachment: your photo (doubled).",
+            "allowed_stamps": [
+                "RETROACTIVE",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "horror",
+                "retroactive"
+            ],
+            "outcomes": {
+                "RETROACTIVE": {
+                    "toast_id": "TOAST_RETRO_005",
+                    "mood_delta": -1,
+                    "contradiction_delta": 2,
+                    "flags_add": [
+                        "retro_used"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_RETRO_005",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_007",
+            "shift": 6,
+            "type": "standard",
+            "text": "Requesting The Corrector's schedule.",
+            "attachment": "Walks backward through time.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "corrector"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_CORRECTOR_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_008",
+            "shift": 6,
+            "type": "standard",
+            "text": "Requesting stability.",
+            "attachment": "Attachment: please.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_RETRO_006",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_009",
+            "shift": 6,
+            "type": "standard",
+            "text": "Retroactive vacation request.",
+            "attachment": "Already taken. Yesterday.",
+            "allowed_stamps": [
+                "RETROACTIVE",
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "retroactive"
+            ],
+            "outcomes": {
+                "RETROACTIVE": {
+                    "toast_id": "TOAST_RETRO_007",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "retro_used"
+                    ]
+                },
+                "APPROVED": {
+                    "toast_id": "TOAST_RETRO_007",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_010",
+            "shift": 6,
+            "type": "standard",
+            "text": "Requesting limit on retroactions.",
+            "attachment": "Reason: sanity.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mandatory",
+                "retroactive"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_RETRO_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_011",
+            "shift": 6,
+            "type": "kevin",
+            "text": "Requesting Kevin's retroactive opinion.",
+            "attachment": "Pre-dated approval.",
+            "allowed_stamps": [
+                "APPROVED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "retroactive"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_KEVIN_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_KEVIN_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T06_012",
+            "shift": 6,
+            "type": "standard",
+            "text": "Requesting this shift end. Before it began.",
+            "attachment": "Attachment: optimism.",
+            "allowed_stamps": [
+                "RETROACTIVE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "final",
+                "retroactive"
+            ],
+            "outcomes": {
+                "RETROACTIVE": {
+                    "toast_id": "TOAST_RETRO_008",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift06_complete",
+                        "retro_used"
+                    ]
+                }
+            }
+        }
+    ]
+}

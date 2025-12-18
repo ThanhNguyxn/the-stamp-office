@@ -1,0 +1,388 @@
+{
+    "shift": 9,
+    "name": "Pressure Cooker",
+    "tickets": [
+        {
+            "id": "T09_001",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting immediate approval.",
+            "attachment": "No time. Now.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "speed"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SPEED_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_SPEED_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_002",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting immediate denial.",
+            "attachment": "Opposite day?",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "speed",
+                "contradiction"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SPEED_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_SPEED_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_003",
+            "shift": 9,
+            "type": "level7",
+            "text": "Level 7 request: all hands on deck.",
+            "attachment": "Emergency protocol.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "mandatory",
+                "speed"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SPEED_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_004",
+            "shift": 9,
+            "type": "secret",
+            "text": "Requesting acknowledgment of void.",
+            "attachment": "Secret ending ticket #2.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "rare",
+            "tags": [
+                "secret",
+                "ending"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SECRET_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "secret_ticket_2"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_005",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting The Archivist's blessing.",
+            "attachment": "They're watching.",
+            "allowed_stamps": [
+                "APPROVED",
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "archivist"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SPEED_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_SPEED_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T09_006",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting The Auditor stops counting.",
+            "attachment": "Please.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "auditor",
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_AUDITOR_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_007",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting time to think.",
+            "attachment": "Just a moment.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "speed",
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_SPEED_005",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_008",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting retroactive calm.",
+            "attachment": "For yesterday.",
+            "allowed_stamps": [
+                "RETROACTIVE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "retroactive"
+            ],
+            "outcomes": {
+                "RETROACTIVE": {
+                    "toast_id": "TOAST_RETRO_007",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "retro_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T09_009",
+            "shift": 9,
+            "type": "kevin",
+            "text": "Requesting the spinning chair to stop.",
+            "attachment": "Kevin's chair.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SPEED_006",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_SPEED_006",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_SPEED_006",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_010",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting clarification on everything.",
+            "attachment": "All seven shifts.",
+            "allowed_stamps": [
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "classified",
+                "mandatory"
+            ],
+            "outcomes": {
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_CLASS_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 4,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T09_011",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting everyone leave.",
+            "attachment": "The watchers.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mandatory",
+                "horror"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_SPEED_007",
+                    "mood_delta": -2,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_012",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting your final shift to go well.",
+            "attachment": "Attachment: hope.",
+            "allowed_stamps": [
+                "APPROVED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "hope"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SPEED_008",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_SPEED_008",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_013",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting readiness confirmation.",
+            "attachment": "For tomorrow.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "confirmation"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SPEED_009",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T09_014",
+            "shift": 9,
+            "type": "standard",
+            "text": "Requesting survival.",
+            "attachment": "Attachment: yours.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SPEED_010",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift09_complete"
+                    ]
+                }
+            }
+        }
+    ]
+}

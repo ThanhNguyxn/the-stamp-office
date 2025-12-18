@@ -105,17 +105,17 @@ the-stamp-office/
   - [x] JSON schema definitions
   - [x] Shift 01 ticket data
   - [x] Shift 02 ticket data
-  - [x] Rules data (Shift 01-02)
-  - [x] Global toast pool (42 toasts)
-  - [x] Data validator (upgraded: multi-file, cross-ID)
-  - [ ] Remaining shift data (03–10)
+  - [x] Shift 03–10 ticket data
+  - [x] Rules data (all 10 shifts, 40 rules)
+  - [x] Global toast pool (119 toasts)
+  - [x] Data validator (multi-file, cross-ID)
 - [ ] **Phase 3: Prototype** — Initial Godot project, basic mechanics
 - [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
 - [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
 
-> **Next up:** Complete Shift 03–10 data files
+> **Next up:** Phase 3 — Prototype (Godot project setup)
 
 ---
 
