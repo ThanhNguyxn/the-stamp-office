@@ -97,13 +97,16 @@ the-stamp-office/
   - [x] Rules data (40 rules across 10 shifts)
   - [x] Global toast pool (119 toasts)
   - [x] Data validator (multi-file, cross-ID)
-- [ ] **Phase 3: Prototype** — Initial Godot project, basic mechanics
+- [/] **Phase 3: Prototype** — Initial Godot project, basic mechanics
+  - [x] Godot project scaffold
+  - [x] Shift 01 playable (loads JSON data)
+  - [ ] Audio/visual polish
 - [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
 - [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
 
-> **Next up:** Phase 3 — Prototype (Godot project scaffold)
+> **Next up:** Phase 3 — Audio/visual polish, then Phase 4
 
 ---
 

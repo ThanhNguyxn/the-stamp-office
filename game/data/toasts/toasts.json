@@ -1,0 +1,1180 @@
+{
+    "toasts": [
+        {
+            "id": "TOAST_NEUTRAL_001",
+            "text": "Stamp registered. Fate adjusted.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "generic"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_NEUTRAL_002",
+            "text": "Request processed. Have a day.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "generic"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_NEUTRAL_003",
+            "text": "Your input has been noted.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "generic"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_NEUTRAL_004",
+            "text": "Ticket resolved. Reality unchanged.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "generic"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_NEUTRAL_005",
+            "text": "Decision logged. No takebacks.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "generic"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_NEUTRAL_006",
+            "text": "The system thanks you.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "generic"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_NEUTRAL_007",
+            "text": "Paperwork is progress.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "philosophical"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_NEUTRAL_008",
+            "text": "Another form, another victory.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "generic"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_NEUTRAL_009",
+            "text": "Your efficiency is acceptable.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "performance"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_NEUTRAL_010",
+            "text": "Stamp complete. Moving on.",
+            "rarity": "common",
+            "tags": [
+                "neutral",
+                "generic"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_PROCEDURAL_001",
+            "text": "Correct procedure followed.",
+            "rarity": "common",
+            "tags": [
+                "procedural",
+                "positive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SARCASTIC_001",
+            "text": "Request granted. Somehow.",
+            "rarity": "common",
+            "tags": [
+                "sarcastic",
+                "approval"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_WARM_001",
+            "text": "Kindness noted. Carry on.",
+            "rarity": "common",
+            "tags": [
+                "warm",
+                "positive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_OMINOUS_001",
+            "text": "Something has been noted.",
+            "rarity": "common",
+            "tags": [
+                "ominous",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_OBEDIENT_001",
+            "text": "Level 7 compliance confirmed.",
+            "rarity": "common",
+            "tags": [
+                "obedient",
+                "level7"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_UNEASY_001",
+            "text": "Concern acknowledged. Probably.",
+            "rarity": "common",
+            "tags": [
+                "uneasy",
+                "ambiguous"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FOREBODING_001",
+            "text": "Transfer queued. Destination: uncertain.",
+            "rarity": "common",
+            "tags": [
+                "foreboding",
+                "ominous"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CHEERFUL_001",
+            "text": "Fun has been scheduled.",
+            "rarity": "common",
+            "tags": [
+                "cheerful",
+                "ironic"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_EXISTENTIAL_001",
+            "text": "Existence status: pending.",
+            "rarity": "common",
+            "tags": [
+                "existential",
+                "philosophical"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_WELCOME_001",
+            "text": "Welcome to The Office.",
+            "rarity": "common",
+            "tags": [
+                "welcome",
+                "tutorial"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_RARE_001",
+            "text": "You're doing great. Probably.",
+            "rarity": "rare",
+            "tags": [
+                "encouraging",
+                "ambiguous"
+            ],
+            "trigger_notes": "Random chance on any approval"
+        },
+        {
+            "id": "TOAST_RARE_002",
+            "text": "The walls remember this.",
+            "rarity": "rare",
+            "tags": [
+                "horror",
+                "foreboding"
+            ],
+            "trigger_notes": "Random chance after denial"
+        },
+        {
+            "id": "TOAST_RARE_003",
+            "text": "Kevin would have decided faster.",
+            "rarity": "rare",
+            "tags": [
+                "kevin",
+                "pressure"
+            ],
+            "trigger_notes": "Appears after slow stamp"
+        },
+        {
+            "id": "TOAST_RARE_004",
+            "text": "The rules are watching.",
+            "rarity": "rare",
+            "tags": [
+                "ominous",
+                "rules"
+            ],
+            "trigger_notes": "Random after contradiction"
+        },
+        {
+            "id": "TOAST_RARE_005",
+            "text": "Some stamps have opinions now.",
+            "rarity": "rare",
+            "tags": [
+                "meta",
+                "stamps"
+            ],
+            "trigger_notes": "After modifier use"
+        },
+        {
+            "id": "TOAST_RARE_006",
+            "text": "NOT A THING is not a stamp. Ignore this.",
+            "rarity": "rare",
+            "tags": [
+                "secret",
+                "hint"
+            ],
+            "trigger_notes": "Shift 5+ random appearance"
+        },
+        {
+            "id": "TOAST_LEGENDARY_001",
+            "text": "Perfect record. Suspiciously perfect.",
+            "rarity": "legendary",
+            "tags": [
+                "legendary",
+                "performance"
+            ],
+            "trigger_notes": "Requires 100% approval rate in shift"
+        },
+        {
+            "id": "TOAST_LEGENDARY_002",
+            "text": "Congratulations. You've chosen nothing.",
+            "rarity": "legendary",
+            "tags": [
+                "legendary",
+                "maybe"
+            ],
+            "trigger_notes": "Use MAYBE on 5+ tickets in one shift"
+        },
+        {
+            "id": "TOAST_MAYBE_001",
+            "text": "MAYBE noted. Limbo initiated.",
+            "rarity": "common",
+            "tags": [
+                "maybe"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MAYBE_002",
+            "text": "Ambiguity is efficiency.",
+            "rarity": "common",
+            "tags": [
+                "maybe"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MAYBE_003",
+            "text": "Postponed indefinitely. You're welcome.",
+            "rarity": "common",
+            "tags": [
+                "maybe"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MAYBE_004",
+            "text": "Decision deferred. Blame shared.",
+            "rarity": "common",
+            "tags": [
+                "maybe"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_WEARY_001",
+            "text": "Second attempt acknowledged. Sigh.",
+            "rarity": "common",
+            "tags": [
+                "weary"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_DEFLECTIVE_001",
+            "text": "Clarification unavailable at this time.",
+            "rarity": "common",
+            "tags": [
+                "deflective",
+                "rules"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CRYPTIC_001",
+            "text": "Processed. Meaning: unclear.",
+            "rarity": "common",
+            "tags": [
+                "cryptic",
+                "ambiguous"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_KEVIN_001",
+            "text": "Kevin appreciates your support.",
+            "rarity": "common",
+            "tags": [
+                "kevin"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_KEVIN_002",
+            "text": "Kevin is disappointed. Somehow.",
+            "rarity": "common",
+            "tags": [
+                "kevin"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_KEVIN_003",
+            "text": "Kevin appreciates your doubt.",
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "existential"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_KEVIN_004",
+            "text": "Kevin has no meter. Of course.",
+            "rarity": "common",
+            "tags": [
+                "kevin"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_KEVIN_005",
+            "text": "Kevin waves. Probably.",
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "farewell"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SYMPATHETIC_001",
+            "text": "Natural light approved. Enjoy it.",
+            "rarity": "common",
+            "tags": [
+                "sympathetic",
+                "positive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CONFUSED_001",
+            "text": "Request... processed? We think?",
+            "rarity": "common",
+            "tags": [
+                "confused",
+                "absurd"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CONCERNED_001",
+            "text": "Blinking noted. Investigation pending.",
+            "rarity": "common",
+            "tags": [
+                "concerned",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CHEERFUL_002",
+            "text": "Optimism mandated. Smile harder.",
+            "rarity": "common",
+            "tags": [
+                "cheerful",
+                "ironic",
+                "forced"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_ATTACH_001",
+            "text": "Attachment verified. Probably.",
+            "rarity": "common",
+            "tags": [
+                "attachment"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_ATTACH_002",
+            "text": "Attachment mismatch detected.",
+            "rarity": "common",
+            "tags": [
+                "attachment",
+                "error"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_ATTACH_003",
+            "text": "Empty attachment is valid. Somehow.",
+            "rarity": "common",
+            "tags": [
+                "attachment"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_ATTACH_004",
+            "text": "All 47 pages have been noted. Briefly.",
+            "rarity": "common",
+            "tags": [
+                "attachment"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_TEMPORAL_001",
+            "text": "Temporal concern logged.",
+            "rarity": "common",
+            "tags": [
+                "temporal"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_UNSETTLING_001",
+            "text": "Attachment verified. Origin: unknown.",
+            "rarity": "common",
+            "tags": [
+                "horror",
+                "attachment"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_PARADOX_001",
+            "text": "Paradox noted. Continuing anyway.",
+            "rarity": "common",
+            "tags": [
+                "paradox"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MODIFIER_001",
+            "text": "Qualified approval logged.",
+            "rarity": "common",
+            "tags": [
+                "modifier"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MODIFIER_002",
+            "text": "Request granted. Reluctantly.",
+            "rarity": "common",
+            "tags": [
+                "modifier",
+                "protest"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MODIFIER_003",
+            "text": "Close enough. Moving on.",
+            "rarity": "common",
+            "tags": [
+                "modifier"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MODIFIER_004",
+            "text": "Gray areas appreciated.",
+            "rarity": "common",
+            "tags": [
+                "modifier",
+                "gray"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MODIFIER_005",
+            "text": "Absolution granted. Mostly.",
+            "rarity": "common",
+            "tags": [
+                "modifier"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_DRAWER_001",
+            "text": "The drawer disagrees.",
+            "rarity": "common",
+            "tags": [
+                "drawer",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MEDIATOR_001",
+            "text": "Balance achieved. The Mediator approves.",
+            "rarity": "rare",
+            "tags": [
+                "mediator"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_METER_001",
+            "text": "Meter updated. Don't ask.",
+            "rarity": "common",
+            "tags": [
+                "meter"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_METER_002",
+            "text": "No escape from the meter.",
+            "rarity": "common",
+            "tags": [
+                "meter"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_METER_003",
+            "text": "Meter increased. Consequences: unknown.",
+            "rarity": "common",
+            "tags": [
+                "meter"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_METER_004",
+            "text": "Consistency is a pattern. Noted.",
+            "rarity": "common",
+            "tags": [
+                "meter"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_METER_005",
+            "text": "Inconsistency approved. Meter fluctuates.",
+            "rarity": "common",
+            "tags": [
+                "meter"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_METER_006",
+            "text": "Cannot reset. Ever.",
+            "rarity": "common",
+            "tags": [
+                "meter",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_METER_007",
+            "text": "Acceptance noted. Resistance: futile.",
+            "rarity": "common",
+            "tags": [
+                "meter"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_AUDITOR_001",
+            "text": "The Auditor is counting.",
+            "rarity": "common",
+            "tags": [
+                "auditor"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_AUDITOR_002",
+            "text": "You've been watching yourself. Noted.",
+            "rarity": "common",
+            "tags": [
+                "auditor",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_RETRO_001",
+            "text": "Timeline adjusted. Déjà vu is normal.",
+            "rarity": "common",
+            "tags": [
+                "retroactive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_RETRO_002",
+            "text": "Cannot change that. Sorry.",
+            "rarity": "common",
+            "tags": [
+                "retroactive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_RETRO_003",
+            "text": "You already did this. Apparently.",
+            "rarity": "common",
+            "tags": [
+                "retroactive",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_RETRO_004",
+            "text": "Reality wobbles. Continuing.",
+            "rarity": "common",
+            "tags": [
+                "retroactive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_RETRO_005",
+            "text": "Which you? Both. Neither.",
+            "rarity": "common",
+            "tags": [
+                "retroactive",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_RETRO_006",
+            "text": "Stability unavailable.",
+            "rarity": "common",
+            "tags": [
+                "retroactive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_RETRO_007",
+            "text": "You enjoyed it. Probably.",
+            "rarity": "common",
+            "tags": [
+                "retroactive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_RETRO_008",
+            "text": "Already ended. Always was.",
+            "rarity": "common",
+            "tags": [
+                "retroactive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CORRECTOR_001",
+            "text": "The Corrector has no schedule.",
+            "rarity": "common",
+            "tags": [
+                "corrector"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CLASS_001",
+            "text": "Information sealed. Forget you saw it.",
+            "rarity": "common",
+            "tags": [
+                "classified"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CLASS_002",
+            "text": "Classification complete. Stay safe.",
+            "rarity": "common",
+            "tags": [
+                "classified"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CLASS_003",
+            "text": "Protocol doesn't exist. Neither do you.",
+            "rarity": "common",
+            "tags": [
+                "classified"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CLASS_004",
+            "text": "Level 8 classified. What's Level 8?",
+            "rarity": "common",
+            "tags": [
+                "classified"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CLASS_005",
+            "text": "Identity: classified. Even from you.",
+            "rarity": "common",
+            "tags": [
+                "classified",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CLASS_006",
+            "text": "Nice try. Classified anyway.",
+            "rarity": "common",
+            "tags": [
+                "classified"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CLASS_007",
+            "text": "Cannot unknow. Sorry.",
+            "rarity": "common",
+            "tags": [
+                "classified"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CLASS_008",
+            "text": "Rest approved. Watching continues.",
+            "rarity": "common",
+            "tags": [
+                "classified"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_VOICE_001",
+            "text": "The Voice notes your curiosity.",
+            "rarity": "common",
+            "tags": [
+                "voice"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_VOICE_002",
+            "text": "Lamp doesn't explain itself.",
+            "rarity": "common",
+            "tags": [
+                "voice"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_VOICE_003",
+            "text": "The Voice approves. Mostly.",
+            "rarity": "common",
+            "tags": [
+                "voice"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SELF_001",
+            "text": "You've been busy. We know.",
+            "rarity": "common",
+            "tags": [
+                "self",
+                "personal"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SELF_002",
+            "text": "Self-approval noted. Conflict ignored.",
+            "rarity": "common",
+            "tags": [
+                "self",
+                "personal"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SELF_003",
+            "text": "Termination... declined. For now.",
+            "rarity": "common",
+            "tags": [
+                "self",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SELF_004",
+            "text": "You're... adequate.",
+            "rarity": "common",
+            "tags": [
+                "self",
+                "personal"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SELF_005",
+            "text": "Promotion pending. Forever.",
+            "rarity": "common",
+            "tags": [
+                "self",
+                "personal"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SELF_006",
+            "text": "Your choices are documented.",
+            "rarity": "common",
+            "tags": [
+                "self",
+                "personal"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SELF_007",
+            "text": "Cannot delete. Records are permanent.",
+            "rarity": "common",
+            "tags": [
+                "self",
+                "personal"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SELF_008",
+            "text": "No explanation needed. Or possible.",
+            "rarity": "common",
+            "tags": [
+                "self",
+                "personal"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SELF_009",
+            "text": "Peace is processed. Enjoy.",
+            "rarity": "common",
+            "tags": [
+                "self",
+                "personal"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FUTURE_001",
+            "text": "Future You sends regards.",
+            "rarity": "common",
+            "tags": [
+                "future",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_LOYALTY_001",
+            "text": "Loyalty declared. The Office is pleased.",
+            "rarity": "common",
+            "tags": [
+                "loyalty"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_LOYALTY_002",
+            "text": "Loyalty... declined. Interesting.",
+            "rarity": "common",
+            "tags": [
+                "loyalty",
+                "ending"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SECRET_001",
+            "text": "Proof unnecessary. Continue.",
+            "rarity": "rare",
+            "tags": [
+                "secret",
+                "ending"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SECRET_002",
+            "text": "Void acknowledged.",
+            "rarity": "rare",
+            "tags": [
+                "secret",
+                "ending"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SECRET_003",
+            "text": "Exit found. Maybe.",
+            "rarity": "rare",
+            "tags": [
+                "secret",
+                "ending"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_001",
+            "text": "Faster. Faster. There you go.",
+            "rarity": "common",
+            "tags": [
+                "speed"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_002",
+            "text": "Contradiction detected. Continue anyway.",
+            "rarity": "common",
+            "tags": [
+                "speed"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_003",
+            "text": "Compliant. Good.",
+            "rarity": "common",
+            "tags": [
+                "speed"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_004",
+            "text": "The Archivist nods.",
+            "rarity": "common",
+            "tags": [
+                "speed",
+                "archivist"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_005",
+            "text": "No time. Keep going.",
+            "rarity": "common",
+            "tags": [
+                "speed"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_006",
+            "text": "Chair can't stop. Neither can you.",
+            "rarity": "common",
+            "tags": [
+                "speed",
+                "kevin"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_007",
+            "text": "They stay. You work.",
+            "rarity": "common",
+            "tags": [
+                "speed",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_008",
+            "text": "Hope noted. Maybe.",
+            "rarity": "common",
+            "tags": [
+                "speed"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_009",
+            "text": "Ready? Are you though?",
+            "rarity": "common",
+            "tags": [
+                "speed"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SPEED_010",
+            "text": "Survival pending verification.",
+            "rarity": "common",
+            "tags": [
+                "speed"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_001",
+            "text": "Acknowledged. This is it.",
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_002",
+            "text": "Review noted. Results vary.",
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_003",
+            "text": "Reality status: unconfirmed.",
+            "rarity": "common",
+            "tags": [
+                "final",
+                "existential"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_004",
+            "text": "Gratitude processed. Thank you.",
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_005",
+            "text": "Legacy filed. Permanently.",
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_006",
+            "text": "Forgiveness... considered.",
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_007",
+            "text": "Thoughts filed. Contradiction noted.",
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_008",
+            "text": "Truth unavailable. Classified.",
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_009",
+            "text": "Rulebook approved. Ending A path.",
+            "rarity": "common",
+            "tags": [
+                "final",
+                "ending"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_010",
+            "text": "Rulebook denied. Ending B path.",
+            "rarity": "common",
+            "tags": [
+                "final",
+                "ending"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_FINAL_011",
+            "text": "Fate sealed. Thank you for your service.",
+            "rarity": "legendary",
+            "tags": [
+                "final",
+                "legendary",
+                "ending"
+            ],
+            "trigger_notes": "Triggered by final stamp"
+        }
+    ]
+}

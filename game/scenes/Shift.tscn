@@ -1,0 +1,107 @@
+[gd_scene load_steps=2 format=3 uid="uid://cshift01scene"]
+
+[ext_resource type="Script" path="res://scripts/Shift.gd" id="1_shift"]
+
+[node name="Shift" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_shift")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.12, 0.12, 0.15, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 30.0
+offset_right = -40.0
+offset_bottom = -30.0
+theme_override_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "SHIFT 01 — Orientation"
+horizontal_alignment = 1
+
+[node name="MetersPanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MetersPanel"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="MoodLabel" type="Label" parent="VBoxContainer/MetersPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Mood: +0"
+
+[node name="ContradictionLabel" type="Label" parent="VBoxContainer/MetersPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Contradiction: 0"
+
+[node name="TicketPanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TicketPanel"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="TicketText" type="Label" parent="VBoxContainer/TicketPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Loading ticket..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AttachmentText" type="Label" parent="VBoxContainer/TicketPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "📎 Attachment text"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="StampContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="ToastPanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 60)
+
+[node name="ToastText" type="Label" parent="VBoxContainer/ToastPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.9, 0.8, 0.4, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ProgressLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+text = "Ticket 1 / 12"
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "← Back to Menu"

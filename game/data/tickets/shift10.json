@@ -1,0 +1,368 @@
+{
+    "shift": 10,
+    "name": "The Final Stamp",
+    "tickets": [
+        {
+            "id": "T10_001",
+            "shift": 10,
+            "type": "standard",
+            "text": "Requesting acknowledgment: final shift.",
+            "attachment": "We know.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FINAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T10_002",
+            "shift": 10,
+            "type": "standard",
+            "text": "Requesting review of your performance.",
+            "attachment": "Overall: varies.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "review"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FINAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_FINAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_FINAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T10_003",
+            "shift": 10,
+            "type": "standard",
+            "text": "Requesting confirmation of reality.",
+            "attachment": "Is this real?",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "existential"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FINAL_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_FINAL_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_FINAL_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T10_004",
+            "shift": 10,
+            "type": "standard",
+            "text": "Requesting The Office's gratitude.",
+            "attachment": "For your service.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "gratitude"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FINAL_004",
+                    "mood_delta": 2,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T10_005",
+            "shift": 10,
+            "type": "secret",
+            "text": "Requesting exit. Any exit.",
+            "attachment": "Secret ending ticket #3.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "rare",
+            "tags": [
+                "secret",
+                "ending"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SECRET_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "secret_ticket_3",
+                        "secret_ending_unlocked"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T10_006",
+            "shift": 10,
+            "type": "standard",
+            "text": "Requesting your legacy.",
+            "attachment": "What you leave behind.",
+            "allowed_stamps": [
+                "APPROVED",
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "legacy"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FINAL_005",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_FINAL_005",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T10_007",
+            "shift": 10,
+            "type": "standard",
+            "text": "Requesting forgiveness. From The Office.",
+            "attachment": "For everything.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "forgiveness"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FINAL_006",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_FINAL_006",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T10_008",
+            "shift": 10,
+            "type": "kevin",
+            "text": "Requesting Kevin's farewell.",
+            "attachment": "From wherever he is.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "farewell"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_KEVIN_005",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T10_009",
+            "shift": 10,
+            "type": "standard",
+            "text": "Requesting your final thoughts.",
+            "attachment": "Document them.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "thoughts"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FINAL_007",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_FINAL_007",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_FINAL_007",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T10_010",
+            "shift": 10,
+            "type": "standard",
+            "text": "Requesting the truth.",
+            "attachment": "About all of this.",
+            "allowed_stamps": [
+                "CLASSIFIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "truth",
+                "mandatory"
+            ],
+            "outcomes": {
+                "CLASSIFIED": {
+                    "toast_id": "TOAST_FINAL_008",
+                    "mood_delta": 0,
+                    "contradiction_delta": 4,
+                    "flags_add": [
+                        "classified_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T10_011",
+            "shift": 10,
+            "type": "branching",
+            "text": "The Rulebook. For your signature.",
+            "attachment": "Final approval required.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "rare",
+            "tags": [
+                "branching",
+                "ending",
+                "rulebook"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FINAL_009",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "ending_a_path"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_FINAL_010",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "ending_b_path"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T10_012",
+            "shift": 10,
+            "type": "standard",
+            "text": "Requesting: one final stamp.",
+            "attachment": "Attachment: everything.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "final",
+                "ending"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FINAL_011",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "game_complete"
+                    ]
+                }
+            }
+        }
+    ]
+}

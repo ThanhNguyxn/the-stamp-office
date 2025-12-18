@@ -1,0 +1,396 @@
+{
+    "shift": 5,
+    "name": "The Meter Rises",
+    "tickets": [
+        {
+            "id": "T05_001",
+            "shift": 5,
+            "type": "standard",
+            "text": "Requesting explanation of new meter.",
+            "attachment": "Attachment: confused diagram.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "meter"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_METER_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_METER_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_METER_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_002",
+            "shift": 5,
+            "type": "standard",
+            "text": "Requesting meter removal.",
+            "attachment": "Reason: it's unsettling.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "meter",
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_METER_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 3,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_003",
+            "shift": 5,
+            "type": "level7",
+            "text": "Level 7 request: increase meter.",
+            "attachment": "Priority: maximum.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "meter"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_METER_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 5,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_METER_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": -2,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_004",
+            "shift": 5,
+            "type": "standard",
+            "text": "Requesting consistent behavior.",
+            "attachment": "For once.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "meter",
+                "consistency"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_METER_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_METER_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_METER_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_005",
+            "shift": 5,
+            "type": "standard",
+            "text": "Requesting The Auditor's removal.",
+            "attachment": "Attachment: formal complaint.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "auditor",
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_AUDITOR_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_006",
+            "shift": 5,
+            "type": "horror",
+            "text": "Requesting your approval history.",
+            "attachment": "Attachment: your records.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "horror",
+                "auditor"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_AUDITOR_002",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_AUDITOR_002",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_AUDITOR_002",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_007",
+            "shift": 5,
+            "type": "standard",
+            "text": "Requesting self-audit form.",
+            "attachment": "Auditor's signature.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "auditor",
+                "mandatory"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_AUDITOR_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 4,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_008",
+            "shift": 5,
+            "type": "standard",
+            "text": "Requesting inconsistency.",
+            "attachment": "Just once. Please.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "meter",
+                "choice"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_METER_005",
+                    "mood_delta": 0,
+                    "contradiction_delta": -3,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_METER_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_009",
+            "shift": 5,
+            "type": "standard",
+            "text": "Requesting break from meter.",
+            "attachment": "Attachment: signed exhaustion.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "meter",
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_METER_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 2,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_010",
+            "shift": 5,
+            "type": "kevin",
+            "text": "Requesting Kevin's meter reading.",
+            "attachment": "Attachment: N/A.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "meter"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_KEVIN_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_KEVIN_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_KEVIN_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_011",
+            "shift": 5,
+            "type": "level7",
+            "text": "Level 7 request: meter reset.",
+            "attachment": "Override code: ████.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "horror",
+                "meter"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_METER_006",
+                    "mood_delta": -1,
+                    "contradiction_delta": 5,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_012",
+            "shift": 5,
+            "type": "standard",
+            "text": "Requesting acceptance of meter.",
+            "attachment": "Attachment: resignation.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "meter"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_METER_007",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T05_013",
+            "shift": 5,
+            "type": "standard",
+            "text": "Requesting end of shift.",
+            "attachment": "Attachment: visible relief.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_NEUTRAL_010",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift05_complete"
+                    ]
+                }
+            }
+        }
+    ]
+}

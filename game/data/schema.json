@@ -1,0 +1,201 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "The Stamp Office Data Schemas",
+    "description": "Schema definitions for tickets, rules, and toasts",
+    "definitions": {
+        "ticket": {
+            "type": "object",
+            "required": [
+                "id",
+                "shift",
+                "type",
+                "text",
+                "attachment",
+                "allowed_stamps",
+                "rarity",
+                "tags",
+                "outcomes"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique ticket ID (e.g., 'T01_001')"
+                },
+                "shift": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "description": "Shift number this ticket appears in"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "standard",
+                        "level7",
+                        "expired",
+                        "horror",
+                        "kevin",
+                        "secret",
+                        "tutorial",
+                        "classified",
+                        "personal",
+                        "branching"
+                    ],
+                    "description": "Ticket category for special handling"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Ticket request text (max 8 words)"
+                },
+                "attachment": {
+                    "type": "string",
+                    "description": "Attachment description (max 8 words)"
+                },
+                "allowed_stamps": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "APPROVED",
+                            "DENIED",
+                            "MAYBE",
+                            "RETROACTIVE",
+                            "CLASSIFIED",
+                            "NOT_A_THING"
+                        ]
+                    },
+                    "description": "Valid stamps for this ticket"
+                },
+                "rarity": {
+                    "type": "string",
+                    "enum": [
+                        "common",
+                        "rare",
+                        "legendary"
+                    ],
+                    "description": "Ticket appearance frequency"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Searchable tags (e.g., 'horror', 'kevin', 'tutorial')"
+                },
+                "outcomes": {
+                    "type": "object",
+                    "description": "Outcome per stamp type",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/outcome"
+                    }
+                }
+            }
+        },
+        "outcome": {
+            "type": "object",
+            "required": [
+                "toast_id",
+                "mood_delta",
+                "contradiction_delta"
+            ],
+            "properties": {
+                "toast_id": {
+                    "type": "string",
+                    "description": "Reference to toast in toasts.json"
+                },
+                "mood_delta": {
+                    "type": "integer",
+                    "minimum": -3,
+                    "maximum": 3,
+                    "description": "Mood meter change (-3 harsh, +3 kind)"
+                },
+                "contradiction_delta": {
+                    "type": "integer",
+                    "minimum": -3,
+                    "maximum": 5,
+                    "description": "Contradiction meter change (-3 cooldown, +5 escalate)"
+                },
+                "flags_add": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Flags to set after this outcome"
+                }
+            }
+        },
+        "rule": {
+            "type": "object",
+            "required": [
+                "id",
+                "shift",
+                "text"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique rule ID (e.g., 'R01_001')"
+                },
+                "shift": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "description": "Shift when rule is introduced"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Rule text (max 8 words)"
+                },
+                "contradicts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of rules this contradicts"
+                }
+            }
+        },
+        "toast": {
+            "type": "object",
+            "required": [
+                "id",
+                "text",
+                "rarity",
+                "tags"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique toast ID (e.g., 'TOAST_001')"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Toast message text"
+                },
+                "rarity": {
+                    "type": "string",
+                    "enum": [
+                        "common",
+                        "rare",
+                        "legendary"
+                    ],
+                    "description": "Toast frequency tier"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Categorization tags"
+                },
+                "trigger_notes": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Conditions for legendary toasts (null for common)"
+                }
+            }
+        }
+    }
+}

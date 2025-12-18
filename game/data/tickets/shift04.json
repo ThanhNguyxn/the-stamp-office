@@ -1,0 +1,382 @@
+{
+    "shift": 4,
+    "name": "Qualified Approval",
+    "tickets": [
+        {
+            "id": "T04_001",
+            "shift": 4,
+            "type": "standard",
+            "text": "Requesting extended deadline. Slightly.",
+            "attachment": "Justification: almost reasonable.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "modifier",
+                "valid-ish"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_MODIFIER_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_002",
+            "shift": 4,
+            "type": "standard",
+            "text": "Requesting chair replacement. Again.",
+            "attachment": "Previous request: denied twice.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "modifier",
+                "protest"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_MODIFIER_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_003",
+            "shift": 4,
+            "type": "standard",
+            "text": "Requesting office temperature change.",
+            "attachment": "Preferred temp: subjective.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "modifier",
+                "close-enough"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_MODIFIER_003",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_004",
+            "shift": 4,
+            "type": "level7",
+            "text": "Level 7 request: mandatory silence hour.",
+            "attachment": "Attachment: noise complaints.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "modifier"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_OBEDIENT_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_MODIFIER_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_005",
+            "shift": 4,
+            "type": "standard",
+            "text": "Requesting partial day off.",
+            "attachment": "Reason: partially personal.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "modifier",
+                "borderline"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_MODIFIER_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_006",
+            "shift": 4,
+            "type": "horror",
+            "text": "Drawer opened. Requesting explanation.",
+            "attachment": "Attachment: your signature (forged?).",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "horror",
+                "drawer"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_DRAWER_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_DRAWER_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_DRAWER_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_007",
+            "shift": 4,
+            "type": "standard",
+            "text": "Requesting forgiveness for past error.",
+            "attachment": "Error details: redacted.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "modifier",
+                "close-enough"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_MODIFIER_005",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_008",
+            "shift": 4,
+            "type": "standard",
+            "text": "Requesting all three modifiers.",
+            "attachment": "Attachment: The Mediator's card.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "rare",
+            "tags": [
+                "mediator",
+                "all-modifiers"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_MEDIATOR_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "triple_modifier"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T04_009",
+            "shift": 4,
+            "type": "standard",
+            "text": "Requesting clarification on modifiers.",
+            "attachment": "Attachment: circular reference.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "paradox",
+                "modifier"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_PARADOX_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_PARADOX_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_010",
+            "shift": 4,
+            "type": "kevin",
+            "text": "Requesting Kevin's opinion on modifiers.",
+            "attachment": "Kevin's response: ' '.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_KEVIN_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_KEVIN_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_KEVIN_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_011",
+            "shift": 4,
+            "type": "standard",
+            "text": "Requesting removal of new stamp.",
+            "attachment": "Reason: didn't ask for it.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mandatory",
+                "drawer"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_DRAWER_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T04_012",
+            "shift": 4,
+            "type": "standard",
+            "text": "Requesting shift to end.",
+            "attachment": "Attachment: exhaustion.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "final"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_MODIFIER_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift04_complete"
+                    ]
+                }
+            }
+        }
+    ]
+}

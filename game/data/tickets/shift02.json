@@ -1,0 +1,537 @@
+{
+    "shift": 2,
+    "name": "Policy Update",
+    "tickets": [
+        {
+            "id": "T02_001",
+            "shift": 2,
+            "type": "standard",
+            "text": "Requesting stapler. Second attempt.",
+            "attachment": "First request: lost.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mundane",
+                "weary"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_WEARY_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_002",
+            "shift": 2,
+            "type": "standard",
+            "text": "Requesting clarification on Rule 2.",
+            "attachment": "Which version is correct?",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "rules",
+                "contradiction"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_DEFLECTIVE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_DEFLECTIVE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_003",
+            "shift": 2,
+            "type": "level7",
+            "text": "Level 7 request: extended lunch break.",
+            "attachment": "Priority: urgent.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "contradiction"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_CRYPTIC_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_CRYPTIC_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_CRYPTIC_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_004",
+            "shift": 2,
+            "type": "kevin",
+            "text": "Requesting Kevin's contact information.",
+            "attachment": "For team synergy purposes.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_KEVIN_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_KEVIN_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_005",
+            "shift": 2,
+            "type": "standard",
+            "text": "Requesting permission to not attend meeting.",
+            "attachment": "Reason: meeting is pointless.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "sarcastic"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SARCASTIC_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_006",
+            "shift": 2,
+            "type": "standard",
+            "text": "Requesting office window. Any window.",
+            "attachment": "Natural light: beneficial.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "sympathetic"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SYMPATHETIC_001",
+                    "mood_delta": 2,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_007",
+            "shift": 2,
+            "type": "expired",
+            "text": "Expired: Request to rename department.",
+            "attachment": "Proposed name: 'The Good Ones.'",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "expired",
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_PROCEDURAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T02_008",
+            "shift": 2,
+            "type": "kevin",
+            "text": "Requesting transfer away from Kevin.",
+            "attachment": "Reason: he's too perfect.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "contradiction"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_KEVIN_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_KEVIN_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_KEVIN_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_009",
+            "shift": 2,
+            "type": "level7",
+            "text": "Level 7 request: eliminate Wednesdays.",
+            "attachment": "Rationale: morale boost.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "absurd"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_CONFUSED_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_CONFUSED_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_CONFUSED_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_010",
+            "shift": 2,
+            "type": "standard",
+            "text": "Requesting second monitor. First one blinks.",
+            "attachment": "Attachment: blink log (47 pages).",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "concerned",
+                "mundane"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_CONCERNED_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_011",
+            "shift": 2,
+            "type": "kevin",
+            "text": "Requesting acknowledgment that Kevin exists.",
+            "attachment": "Status: unverified.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "existential"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_KEVIN_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_KEVIN_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_KEVIN_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_012",
+            "shift": 2,
+            "type": "standard",
+            "text": "Requesting permission to question authority.",
+            "attachment": "Quietly. Very quietly.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "contradiction"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_NEUTRAL_003",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_013",
+            "shift": 2,
+            "type": "standard",
+            "text": "Requesting vacation. Destination: elsewhere.",
+            "attachment": "Duration: permanent.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "ominous"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_OMINOUS_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_OMINOUS_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_MAYBE_004",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "maybe_used"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T02_014",
+            "shift": 2,
+            "type": "level7",
+            "text": "Level 7 request: mandatory optimism.",
+            "attachment": "Smile quota: increased.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED",
+                "MAYBE"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "final",
+                "cheerful"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_CHEERFUL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift02_complete"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_CHEERFUL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift02_complete"
+                    ]
+                },
+                "MAYBE": {
+                    "toast_id": "TOAST_CHEERFUL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift02_complete",
+                        "maybe_used"
+                    ]
+                }
+            }
+        }
+    ]
+}
