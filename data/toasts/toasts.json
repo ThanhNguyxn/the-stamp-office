@@ -279,6 +279,145 @@
                 "maybe"
             ],
             "trigger_notes": "Use MAYBE on 5+ tickets in one shift"
+        },
+        {
+            "id": "TOAST_MAYBE_001",
+            "text": "MAYBE noted. Limbo initiated.",
+            "rarity": "common",
+            "tags": [
+                "maybe",
+                "shift02"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MAYBE_002",
+            "text": "Ambiguity is efficiency.",
+            "rarity": "common",
+            "tags": [
+                "maybe",
+                "shift02"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MAYBE_003",
+            "text": "Postponed indefinitely. You're welcome.",
+            "rarity": "common",
+            "tags": [
+                "maybe",
+                "shift02"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_MAYBE_004",
+            "text": "Decision deferred. Blame shared.",
+            "rarity": "common",
+            "tags": [
+                "maybe",
+                "shift02"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_WEARY_001",
+            "text": "Second attempt acknowledged. Sigh.",
+            "rarity": "common",
+            "tags": [
+                "weary",
+                "shift02"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_DEFLECTIVE_001",
+            "text": "Clarification unavailable at this time.",
+            "rarity": "common",
+            "tags": [
+                "deflective",
+                "rules"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CRYPTIC_001",
+            "text": "Processed. Meaning: unclear.",
+            "rarity": "common",
+            "tags": [
+                "cryptic",
+                "ambiguous"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_KEVIN_001",
+            "text": "Kevin appreciates your support.",
+            "rarity": "common",
+            "tags": [
+                "kevin"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_KEVIN_002",
+            "text": "Kevin is disappointed. Somehow.",
+            "rarity": "common",
+            "tags": [
+                "kevin"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_KEVIN_003",
+            "text": "Kevin appreciates your doubt.",
+            "rarity": "common",
+            "tags": [
+                "kevin",
+                "existential"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_SYMPATHETIC_001",
+            "text": "Natural light approved. Enjoy it.",
+            "rarity": "common",
+            "tags": [
+                "sympathetic",
+                "positive"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CONFUSED_001",
+            "text": "Request... processed? We think?",
+            "rarity": "common",
+            "tags": [
+                "confused",
+                "absurd"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CONCERNED_001",
+            "text": "Blinking noted. Investigation pending.",
+            "rarity": "common",
+            "tags": [
+                "concerned",
+                "horror"
+            ],
+            "trigger_notes": null
+        },
+        {
+            "id": "TOAST_CHEERFUL_002",
+            "text": "Optimism mandated. Smile harder.",
+            "rarity": "common",
+            "tags": [
+                "cheerful",
+                "ironic",
+                "forced"
+            ],
+            "trigger_notes": null
         }
     ]
 }

@@ -11,11 +11,12 @@ data/
 ├── README.md           # This file
 ├── schema.json         # JSON schema definitions
 ├── tickets/            # Per-shift ticket definitions
-│   └── shift01.json    # Tickets for SHIFT_01
+│   ├── shift01.json    # Tickets for SHIFT_01
+│   └── shift02.json    # Tickets for SHIFT_02
 ├── rules/              # Global and per-shift rules
 │   └── rules.json      # All rules indexed by shift
 └── toasts/             # System toast messages
-    └── toasts.json     # Global toast pool
+    └── toasts.json     # Global toast pool (42 toasts)
 ```
 
 ---
@@ -81,7 +82,9 @@ python tools/validate_data.py
 Checks:
 - All `toast_id` references exist in `toasts.json`
 - All `text` and `attachment` fields are ≤8 words
-- All `id` values are unique within their file
+- All `id` values are unique **across all ticket files**
+- Required keys exist in all data objects
+- Per-file PASS/FAIL summary
 
 ---
 
