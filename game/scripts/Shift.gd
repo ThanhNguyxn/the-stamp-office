@@ -1,6 +1,7 @@
 extends Control
-## Shift - Gameplay controller
+## Shift - Gameplay controller for any shift
 
+@onready var header: Label = $VBox/Header
 @onready var ticket_text: Label = $VBox/TicketPanel/TicketVBox/TicketText
 @onready var attachment: Label = $VBox/TicketPanel/TicketVBox/Attachment
 @onready var stamp_buttons: VBoxContainer = $VBox/StampButtons
@@ -10,6 +11,7 @@ extends Control
 @onready var progress: Label = $VBox/Progress
 @onready var back_button: Button = $VBox/BackButton
 
+var shift_number: int = 1
 var tickets: Array = []
 var index: int = 0
 var mood: int = 0
@@ -20,12 +22,17 @@ func _ready() -> void:
 	back_button.pressed.connect(_back)
 	back_button.visible = false
 	toast.text = ""
-	tickets = DataLoader.load_shift01()
+	
+	# Get selected shift from GameState
+	shift_number = GameState.selected_shift
+	header.text = "SHIFT %02d" % shift_number
+	
+	tickets = DataLoader.load_shift(shift_number)
 	if tickets.size() > 0:
 		_show(0)
 	else:
 		ticket_text.text = "No tickets found"
-		attachment.text = "Ensure data/ folder exists"
+		attachment.text = "Run: python tools/sync_game_data.py"
 
 func _show(i: int) -> void:
 	if i >= tickets.size():
@@ -38,10 +45,12 @@ func _show(i: int) -> void:
 	progress.text = "Ticket %d / %d" % [i + 1, tickets.size()]
 	toast.text = ""
 	_update_meters()
+	
 	# Clear old buttons
 	for c in stamp_buttons.get_children():
 		c.queue_free()
-	# Create stamp buttons (horizontal row)
+	
+	# Create stamp buttons
 	var hbox = HBoxContainer.new()
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	hbox.add_theme_constant_override("separation", 15)
@@ -81,13 +90,27 @@ func _update_meters() -> void:
 	contradiction_value.text = "Contradiction: %d" % contradiction
 
 func _complete() -> void:
-	ticket_text.text = "SHIFT COMPLETE"
+	ticket_text.text = "SHIFT %02d COMPLETE" % shift_number
 	attachment.text = "Thank you for your service."
 	toast.text = "🎉 All tickets processed!"
 	progress.text = "Final — Mood: %+d | Contradiction: %d" % [mood, contradiction]
+	
 	for c in stamp_buttons.get_children():
 		c.queue_free()
+	
+	# Add next shift button if not at shift 10
+	if shift_number < 10:
+		var next_btn = Button.new()
+		next_btn.text = "▶ Next Shift (%02d)" % (shift_number + 1)
+		next_btn.custom_minimum_size = Vector2(200, 45)
+		next_btn.pressed.connect(_next_shift)
+		stamp_buttons.add_child(next_btn)
+	
 	back_button.visible = true
+
+func _next_shift() -> void:
+	GameState.selected_shift = shift_number + 1
+	get_tree().reload_current_scene()
 
 func _back() -> void:
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")

@@ -45,8 +45,6 @@ Loading rules.json...
   Found 40 rules
 Loading shift01.json...
   Found 12 tickets
-Loading shift02.json...
-  Found 14 tickets
 ...
 Loading shift10.json...
   Found 12 tickets
@@ -64,6 +62,29 @@ Per-File Summary:
 PASS - All checks passed!
 ============================================================
 ```
+
+---
+
+## Sync Data into Godot Project
+
+Copies canonical `data/` folder into `game/data/` so Godot can load JSON files.
+
+### Usage
+
+```bash
+# From repo root
+python tools/sync_game_data.py
+```
+
+### What It Copies
+
+| Source | Destination |
+|--------|-------------|
+| `data/tickets/*.json` | `game/data/tickets/` |
+| `data/toasts/toasts.json` | `game/data/toasts/` |
+| `data/rules/rules.json` | `game/data/rules/` |
+
+Run this after editing any data files to keep the Godot project in sync.
 
 ---
 

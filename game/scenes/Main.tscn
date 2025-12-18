@@ -26,12 +26,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -120.0
+offset_top = -150.0
 offset_right = 200.0
-offset_bottom = 120.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 25
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="Title" type="Label" parent="VBox"]
@@ -48,14 +48,28 @@ text = "Horror look. Comedy feel. Paperwork runs reality."
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="VBox"]
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="ShiftBox" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="ShiftLabel" type="Label" parent="VBox/ShiftBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Select Shift:"
+
+[node name="ShiftSelect" type="OptionButton" parent="VBox/ShiftBox"]
+custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 
 [node name="StartButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "▶ Start Shift 01"
+text = "▶ Start"
 
 [node name="QuitButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(250, 50)
@@ -77,5 +91,5 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
-text = "v0.1.0 — Scaffold"
+text = "v0.2.0 — Shift Selector"
 horizontal_alignment = 1

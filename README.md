@@ -102,6 +102,8 @@ the-stamp-office/
 - [/] **Phase 3: Prototype** — Initial Godot project, basic mechanics
   - [x] Godot project scaffold
   - [x] Shift 01 playable (loads JSON data)
+  - [x] Data sync into game/data
+  - [x] Shift selector (01–10)
   - [ ] Audio/visual polish
 - [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop

@@ -1,6 +1,6 @@
 extends Node
-## DataLoader - Loads JSON data from the data folder
-## Add to Project Settings > Autoload as "DataLoader"
+## DataLoader - Loads JSON data from game/data/
+## Registered as autoload in project.godot
 
 var _toasts: Dictionary = {}
 
@@ -17,8 +17,9 @@ func _load_toasts() -> void:
 				_toasts[t["id"]] = t["text"]
 		file.close()
 
-func load_shift01() -> Array:
-	var file = FileAccess.open("res://data/tickets/shift01.json", FileAccess.READ)
+func load_shift(shift_number: int) -> Array:
+	var path = "res://data/tickets/shift%02d.json" % shift_number
+	var file = FileAccess.open(path, FileAccess.READ)
 	if file:
 		var json = JSON.new()
 		if json.parse(file.get_as_text()) == OK:

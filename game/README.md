@@ -1,29 +1,54 @@
 # The Stamp Office - Game
 
-Godot 4.x project for **The Stamp Office**.
+Godot 4.x prototype for **The Stamp Office**.
 
 ---
 
-## Status: Shift 01 Playable ✅
+## Status: Shifts 01–10 Playable ✅
+
+All 10 shifts are playable via the shift selector!
 
 ---
 
-## Run Shift 01
+## Run the Prototype
 
-1. Install [Godot 4.2+](https://godotengine.org/download)
-2. Open Godot → **Import** → select `game/project.godot`
-3. Press **F5** to run
-4. Click **Start Shift 01**
+### Step 1: Sync Data
+
+```bash
+# From repo root
+python tools/sync_game_data.py
+```
+
+This copies `data/` → `game/data/` so Godot can load JSON files.
+
+### Step 2: Run Godot
+
+```bash
+# Using Godot CLI
+godot --path game
+
+# Or open in Godot Editor:
+# 1. Open Godot 4.2+
+# 2. Import → select game/project.godot
+# 3. Press F5
+```
+
+### Step 3: Play
+
+1. Select a shift (01–10) from the dropdown
+2. Click **Start**
+3. Process tickets by clicking stamp buttons
+4. After completing a shift, click **Next Shift** or **Back to Menu**
 
 ---
 
-## How It Works
+## Features
 
-1. **DataLoader.gd** loads `shift01.json` and `toasts.json`
-2. **Shift.gd** displays tickets one-by-one
-3. Player clicks stamp buttons (APPROVED, DENIED, etc.)
-4. Toast displays, meters update
-5. After 12 tickets: "Shift Complete"
+- **Shift Selector** — Play any shift 01–10
+- **Data-Driven** — All tickets load from JSON
+- **Toast System** — Shows feedback messages
+- **Meters** — Mood and Contradiction tracking
+- **Next Shift** — Continue to next shift after completion
 
 ---
 
@@ -31,10 +56,11 @@ Godot 4.x project for **The Stamp Office**.
 
 | File | Purpose |
 |------|---------|
-| `project.godot` | Config + DataLoader autoload |
-| `scenes/Main.tscn` | Main menu |
-| `scenes/Shift.tscn` | Shift gameplay UI |
+| `project.godot` | Config + autoloads |
 | `scripts/DataLoader.gd` | JSON loader |
-| `scripts/Main.gd` | Menu logic |
+| `scripts/GameState.gd` | Stores selected shift |
+| `scripts/Main.gd` | Menu + shift selector |
 | `scripts/Shift.gd` | Gameplay logic |
-| `data/` | JSON data files |
+| `scenes/Main.tscn` | Main menu UI |
+| `scenes/Shift.tscn` | Shift gameplay UI |
+| `data/` | Synced JSON data |
