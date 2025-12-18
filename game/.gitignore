@@ -1,0 +1,16 @@
+# Godot 4 generated files
+.godot/
+
+# Import cache
+*.import
+
+# Export templates
+export_presets.cfg
+
+# Mono/C# builds
+.mono/
+data_*/
+
+# OS generated files
+.DS_Store
+Thumbs.db

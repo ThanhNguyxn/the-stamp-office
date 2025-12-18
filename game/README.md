@@ -1,13 +1,40 @@
 # The Stamp Office - Game
 
-Godot 4.x project for **The Stamp Office**.
+Godot 4.x project scaffold for **The Stamp Office**.
+
+---
+
+## Status: Scaffold Only
+
+This is the initial project structure. JSON data loading will be added in the next commit.
 
 ---
 
 ## Requirements
 
 - [Godot 4.2+](https://godotengine.org/download) (Standard or .NET)
-- Data files from `../data/` (copied to `game/data/` for editor use)
+
+---
+
+## How to Open
+
+1. Download and install [Godot 4.2+](https://godotengine.org/download)
+2. Open Godot and click **Import**
+3. Navigate to `game/project.godot` and select it
+4. Click **Import & Edit**
+5. Press **F5** or click **Run** to launch
+
+---
+
+## What Exists
+
+| File | Purpose |
+|------|---------|
+| `project.godot` | Godot project configuration |
+| `scenes/Main.tscn` | Main menu (title + buttons) |
+| `scenes/Shift.tscn` | Shift gameplay UI placeholders |
+| `scripts/Main.gd` | Menu button handlers |
+| `scripts/Shift.gd` | Shift placeholder (Back button works) |
 
 ---
 
@@ -15,68 +42,21 @@ Godot 4.x project for **The Stamp Office**.
 
 ```
 game/
-├── project.godot          # Godot project config
+├── project.godot
+├── .gitignore
 ├── scenes/
-│   ├── Main.tscn          # Main menu
-│   └── Shift.tscn         # Shift gameplay scene
-├── scripts/
-│   ├── DataLoader.gd      # JSON data loader (autoload)
-│   ├── Main.gd            # Main menu controller
-│   └── Shift.gd           # Shift gameplay controller
-└── data/                  # Copy of ../data/ for Godot
-    ├── tickets/
-    ├── toasts/
-    └── rules/
+│   ├── Main.tscn      # Main menu
+│   └── Shift.tscn     # Shift gameplay
+└── scripts/
+    ├── Main.gd        # Menu logic
+    └── Shift.gd       # Shift logic (scaffold)
 ```
 
 ---
 
-## Run Shift 01
+## Next Steps
 
-### Option 1: Godot Editor
-
-1. Open Godot 4.2+
-2. Click **Import** and select `game/project.godot`
-3. Copy `data/` folder into `game/data/` if not already present:
-   ```bash
-   cp -r data game/data
-   ```
-4. Click **Run** (F5) or press the Play button
-5. Click **Start Shift 01**
-
-### Option 2: Command Line
-
-```bash
-# Copy data files
-cp -r data game/data
-
-# Run with Godot (adjust path to your Godot installation)
-godot --path game
-```
-
----
-
-## How It Works
-
-1. **DataLoader.gd** loads ticket and toast JSON on startup
-2. **Shift.gd** displays tickets one-by-one
-3. Player clicks stamp buttons (APPROVED, DENIED, MAYBE, etc.)
-4. Outcome toast is displayed, mood/contradiction updated
-5. After all tickets: "Shift Complete" screen
-
----
-
-## Adding New Shifts
-
-1. Ensure `data/tickets/shiftXX.json` exists
-2. Update `Shift.gd` to call `DataLoader.load_shift(XX)`
-3. Create a shift selector UI (future Phase 4 work)
-
----
-
-## Current Status
-
-- ✅ **Shift 01** playable
-- ⬜ Shift 02–10 (data exists, UI selector needed)
-- ⬜ Audio/visual polish
-- ⬜ Save system
+- [ ] Add `DataLoader.gd` for JSON loading
+- [ ] Connect ticket data to Shift UI
+- [ ] Implement stamp button generation
+- [ ] Add toast display system
