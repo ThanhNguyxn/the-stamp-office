@@ -32,14 +32,17 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 
 ## 🚀 Quickstart
 
-> **Status: Prototype Available**
+> **Status: Prototype Complete**
 > 
-> A working prototype exists! Shift 01 is playable. The project follows documentation-first development — explore the design docs in `docs/` to understand the full vision.
+> All 10 shifts are playable via the shift selector! The project follows documentation-first development — explore the design docs in `docs/` to understand the full vision.
 
 ```bash
 # Clone the repository
 git clone https://github.com/ThanhNguyxn/the-stamp-office.git
 cd the-stamp-office
+
+# Sync data into Godot project
+python tools/sync_game_data.py
 
 # Run the prototype (requires Godot 4.2+)
 godot --path game
@@ -73,8 +76,8 @@ the-stamp-office/
 │       └── toasts.json        # Global toast pool (119 toasts)
 ├── prompts/                   # LLM prompts for content generation
 ├── tools/                     # Development utilities
-│   ├── README.md              # Tools documentation
-│   └── validate_data.py       # Data validator script
+│   ├── validate_data.py       # Data validator
+│   └── sync_game_data.py      # Sync data/ → game/data/
 ├── game/                      # Godot 4 prototype
 ├── .github/                   # Issue/PR templates
 ├── LICENSE
@@ -99,18 +102,19 @@ the-stamp-office/
   - [x] Rules data (40 rules across 10 shifts)
   - [x] Global toast pool (119 toasts)
   - [x] Data validator (multi-file, cross-ID)
-- [/] **Phase 3: Prototype** — Initial Godot project, basic mechanics
+- [x] **Phase 3: Prototype** — Initial Godot project, basic mechanics ✓
   - [x] Godot project scaffold
-  - [x] Shift 01 playable (loads JSON data)
-  - [x] Data sync into game/data
-  - [x] Shift selector (01–10)
-  - [ ] Audio/visual polish
+  - [x] Shift 01–10 playable (loads JSON data)
+  - [x] Data sync tool
+  - [x] Shift selector
 - [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
+  - [ ] Audio/visual polish
+  - [ ] 3D environment
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
 - [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
 
-> **Next up:** Phase 3 — Audio/visual polish, then Phase 4
+> **Next up:** Phase 4 — Vertical Slice (audio/visual polish, 3D environment)
 
 ---
 
