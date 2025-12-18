@@ -73,7 +73,7 @@ the-stamp-office/
 ├── tools/                     # Development utilities
 │   ├── README.md              # Tools documentation
 │   └── validate_data.py       # Data validator script
-├── game/                      # Godot project (planned)
+├── game/                      # Godot 4 prototype
 ├── .github/                   # Issue/PR templates
 ├── LICENSE
 ├── README.md

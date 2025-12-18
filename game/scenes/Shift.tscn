@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cshift01scene"]
+[gd_scene load_steps=2 format=3 uid="uid://cshiftscene001"]
 
 [ext_resource type="Script" path="res://scripts/Shift.gd" id="1_shift"]
 
@@ -11,97 +11,92 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_shift")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.12, 0.12, 0.15, 1)
+color = Color(0.1, 0.1, 0.12, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = 30.0
-offset_right = -40.0
-offset_bottom = -30.0
+offset_left = 50.0
+offset_top = 40.0
+offset_right = -50.0
+offset_bottom = -40.0
 theme_override_constants/separation = 20
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+[node name="Header" type="Label" parent="VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 24
 text = "SHIFT 01 — Orientation"
 horizontal_alignment = 1
 
-[node name="MetersPanel" type="PanelContainer" parent="VBoxContainer"]
+[node name="MetersBox" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MetersPanel"]
-layout_mode = 2
-theme_override_constants/separation = 40
 alignment = 1
+theme_override_constants/separation = 50
 
-[node name="MoodLabel" type="Label" parent="VBoxContainer/MetersPanel/HBoxContainer"]
+[node name="MoodValue" type="Label" parent="VBox/MetersBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Mood: +0"
 
-[node name="ContradictionLabel" type="Label" parent="VBoxContainer/MetersPanel/HBoxContainer"]
+[node name="ContradictionValue" type="Label" parent="VBox/MetersBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Contradiction: 0"
 
-[node name="TicketPanel" type="PanelContainer" parent="VBoxContainer"]
+[node name="TicketPanel" type="PanelContainer" parent="VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TicketPanel"]
+[node name="TicketVBox" type="VBoxContainer" parent="VBox/TicketPanel"]
 layout_mode = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 12
 alignment = 1
 
-[node name="TicketText" type="Label" parent="VBoxContainer/TicketPanel/VBoxContainer"]
+[node name="TicketText" type="Label" parent="VBox/TicketPanel/TicketVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "Prototype loaded!"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="AttachmentText" type="Label" parent="VBoxContainer/TicketPanel/VBoxContainer"]
+[node name="Attachment" type="Label" parent="VBox/TicketPanel/TicketVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
 text = "📎 Attachment placeholder"
 horizontal_alignment = 1
-autowrap_mode = 2
 
-[node name="StampContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="StampButtons" type="VBoxContainer" parent="VBox"]
 layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
-theme_override_constants/separation = 20
 
-[node name="ToastPanel" type="PanelContainer" parent="VBoxContainer"]
+[node name="ToastPanel" type="PanelContainer" parent="VBox"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 50)
 
-[node name="ToastText" type="Label" parent="VBoxContainer/ToastPanel"]
+[node name="Toast" type="Label" parent="VBox/ToastPanel"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.9, 0.8, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.9, 0.8, 0.3, 1)
 text = "💬 Toast placeholder"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
 
-[node name="ProgressLabel" type="Label" parent="VBoxContainer"]
+[node name="Progress" type="Label" parent="VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
 text = "Scaffold — JSON loading in next commit"
 horizontal_alignment = 1
 
-[node name="BackButton" type="Button" parent="VBoxContainer"]
+[node name="BackButton" type="Button" parent="VBox"]
 layout_mode = 2
 text = "← Back to Menu"

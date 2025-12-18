@@ -15,10 +15,6 @@ config/description="A 3D low-poly absurdist narrative job simulation where burea
 run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 
-[autoload]
-
-DataLoader="*res://scripts/DataLoader.gd"
-
 [display]
 
 window/size/viewport_width=1280
