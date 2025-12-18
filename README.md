@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/ThanhNguyxn/the-stamp-office)](https://github.com/ThanhNguyxn/the-stamp-office/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Engine: Godot (planned)](https://img.shields.io/badge/Engine-Godot%20(planned)-478cbf)](https://godotengine.org/)
+[![Engine: Godot (prototype)](https://img.shields.io/badge/Engine-Godot%20(prototype)-478cbf)](https://godotengine.org/)
 
 > **Horror look. Comedy feel. Paperwork runs reality.**
 
@@ -32,18 +32,20 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 
 ## 🚀 Quickstart
 
-> **Status: Documentation-First**
+> **Status: Prototype Available**
 > 
-> This project is currently in the design and documentation phase. Engine code is **coming soon**.
-> 
-> For now, explore the design documents in the `docs/` folder to understand the vision.
+> A working prototype exists! Shift 01 is playable. The project follows documentation-first development — explore the design docs in `docs/` to understand the full vision.
 
 ```bash
 # Clone the repository
 git clone https://github.com/ThanhNguyxn/the-stamp-office.git
+cd the-stamp-office
 
-# Explore the documentation
-cd the-stamp-office/docs
+# Run the prototype (requires Godot 4.2+)
+godot --path game
+
+# Or explore the documentation
+cd docs
 ```
 
 ---

@@ -33,7 +33,7 @@ If applicable, add screenshots or a short video to help explain the issue.
 - **OS:** (e.g., Windows 11, macOS 14, Ubuntu 22.04)
 - **Git version:** (run `git --version`)
 - **Python version:** (if applicable, run `python --version`)
-- **Engine version:** (when Godot is implemented)
+- **Godot version:** (e.g., Godot 4.2+)
 
 ## Additional context
 
