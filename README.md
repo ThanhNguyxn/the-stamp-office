@@ -58,8 +58,16 @@ the-stamp-office/
 │   ├── meme_safety.md         # Humor guidelines
 │   ├── clip_moment_board.md   # Shareable moments catalog
 │   └── script/                # Shift scripts and endings
-│       ├── SHIFT_01.md        # Orientation shift
-│       ├── SHIFT_02.md        # Policy update shift
+│       ├── SHIFT_01.md        # Orientation (stamping basics)
+│       ├── SHIFT_02.md        # Policy update (MAYBE stamp)
+│       ├── SHIFT_03.md        # Attachments
+│       ├── SHIFT_04.md        # Two-step notes
+│       ├── SHIFT_05.md        # Contradiction Meter
+│       ├── SHIFT_06.md        # RETROACTIVE stamp
+│       ├── SHIFT_07.md        # CLASSIFIED stamp
+│       ├── SHIFT_08.md        # Forms about YOU
+│       ├── SHIFT_09.md        # Pre-finale pressure
+│       ├── SHIFT_10.md        # Final stamp + endings
 │       └── ENDINGS.md         # All endings + hint plan
 ├── data/                      # Game data files (planned)
 ├── prompts/                   # LLM prompts for content generation
@@ -78,11 +86,10 @@ the-stamp-office/
 ## 🗺️ Roadmap
 
 - [x] **Phase 0: Meta** — Repository setup, OSS templates ✓
-- [/] **Phase 1: Foundation** — Core design documents, game bible
+- [x] **Phase 1: Foundation** — Core design documents, game bible ✓
   - [x] Vision, style lock, meme safety, clip moments
-  - [x] SHIFT_01 and SHIFT_02 scripts
+  - [x] SHIFT_01 through SHIFT_10 scripts
   - [x] Endings document
-  - [ ] Remaining shift scripts (03–10)
 - [ ] **Phase 2: Data Architecture** — Define ticket/rule systems, dialogue structures
 - [ ] **Phase 3: Prototype** — Initial Godot project, basic mechanics
 - [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
@@ -90,7 +97,7 @@ the-stamp-office/
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
 - [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
 
-> **Next up:** Write SHIFT_03 through SHIFT_10 scripts
+> **Next up:** Phase 2 — Data Architecture (schema + JSON structures)
 
 ---
 
