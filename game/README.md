@@ -1,40 +1,53 @@
 # The Stamp Office - Game
 
-Godot 4.x project scaffold for **The Stamp Office**.
+Godot 4.x project for **The Stamp Office**.
 
 ---
 
-## Status: Scaffold Only
+## Status: Shift 01 Playable ✅
 
-This is the initial project structure. JSON data loading will be added in the next commit.
+Shift 01 now loads ticket data from JSON and is fully playable!
 
 ---
 
 ## Requirements
 
 - [Godot 4.2+](https://godotengine.org/download) (Standard or .NET)
+- Data files in `game/data/` (already included)
 
 ---
 
-## How to Open
+## Run Shift 01
+
+### Option 1: Godot Editor
 
 1. Download and install [Godot 4.2+](https://godotengine.org/download)
 2. Open Godot and click **Import**
 3. Navigate to `game/project.godot` and select it
 4. Click **Import & Edit**
-5. Press **F5** or click **Run** to launch
+5. Press **F5** or click the **Play** button
+6. Click **"Start Shift 01"** on the main menu
+
+### Option 2: Command Line
+
+```bash
+# Navigate to repo
+cd the-stamp-office
+
+# Run with Godot (adjust path to your installation)
+godot --path game
+```
 
 ---
 
-## What Exists
+## How It Works
 
-| File | Purpose |
-|------|---------|
-| `project.godot` | Godot project configuration |
-| `scenes/Main.tscn` | Main menu (title + buttons) |
-| `scenes/Shift.tscn` | Shift gameplay UI placeholders |
-| `scripts/Main.gd` | Menu button handlers |
-| `scripts/Shift.gd` | Shift placeholder (Back button works) |
+1. **DataLoader.gd** (autoload) loads ticket and toast JSON on startup
+2. **Shift.gd** displays tickets one-by-one from `shift01.json`
+3. Player clicks stamp buttons (APPROVED, DENIED, MAYBE, etc.)
+4. Outcome toast is displayed from `toasts.json`
+5. Mood and Contradiction meters update based on deltas
+6. After 12 tickets: "Shift Complete" screen with final stats
 
 ---
 
@@ -42,21 +55,28 @@ This is the initial project structure. JSON data loading will be added in the ne
 
 ```
 game/
-├── project.godot
+├── project.godot           # Godot config (DataLoader autoload)
 ├── .gitignore
+├── data/                   # JSON data files
+│   ├── tickets/shift01.json ... shift10.json
+│   ├── toasts/toasts.json
+│   └── rules/rules.json
 ├── scenes/
-│   ├── Main.tscn      # Main menu
-│   └── Shift.tscn     # Shift gameplay
+│   ├── Main.tscn           # Main menu
+│   └── Shift.tscn          # Shift gameplay
 └── scripts/
-    ├── Main.gd        # Menu logic
-    └── Shift.gd       # Shift logic (scaffold)
+    ├── DataLoader.gd       # JSON loader (autoload)
+    ├── Main.gd             # Menu logic
+    └── Shift.gd            # Shift gameplay
 ```
 
 ---
 
-## Next Steps
+## Current Status
 
-- [ ] Add `DataLoader.gd` for JSON loading
-- [ ] Connect ticket data to Shift UI
-- [ ] Implement stamp button generation
-- [ ] Add toast display system
+- ✅ **Shift 01** playable with 12 tickets
+- ✅ Toast system working
+- ✅ Mood & Contradiction meters
+- ⬜ Shift 02–10 (data exists, need shift selector)
+- ⬜ Audio/visual polish
+- ⬜ Save system
