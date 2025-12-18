@@ -58,27 +58,17 @@ the-stamp-office/
 │   ├── meme_safety.md         # Humor guidelines
 │   ├── clip_moment_board.md   # Shareable moments catalog
 │   └── script/                # Shift scripts and endings
-│       ├── SHIFT_01.md        # Orientation (stamping basics)
-│       ├── SHIFT_02.md        # Policy update (MAYBE stamp)
-│       ├── SHIFT_03.md        # Attachments
-│       ├── SHIFT_04.md        # Two-step notes
-│       ├── SHIFT_05.md        # Contradiction Meter
-│       ├── SHIFT_06.md        # RETROACTIVE stamp
-│       ├── SHIFT_07.md        # CLASSIFIED stamp
-│       ├── SHIFT_08.md        # Forms about YOU
-│       ├── SHIFT_09.md        # Pre-finale pressure
-│       ├── SHIFT_10.md        # Final stamp + endings
-│       └── ENDINGS.md         # All endings + hint plan
+│       ├── SHIFT_01.md … SHIFT_10.md
+│       └── ENDINGS.md
 ├── data/                      # Game data files
 │   ├── README.md              # Data structure documentation
 │   ├── schema.json            # JSON schema definitions
 │   ├── tickets/               # Per-shift ticket data
-│   │   ├── shift01.json       # Shift 01 tickets
-│   │   └── shift02.json       # Shift 02 tickets
+│   │   └── shift01.json … shift10.json
 │   ├── rules/
-│   │   └── rules.json         # All rules by shift
+│   │   └── rules.json         # All 40 rules (4 per shift)
 │   └── toasts/
-│       └── toasts.json        # Global toast pool
+│       └── toasts.json        # Global toast pool (119 toasts)
 ├── prompts/                   # LLM prompts for content generation
 ├── tools/                     # Development utilities
 │   ├── README.md              # Tools documentation
@@ -103,10 +93,8 @@ the-stamp-office/
   - [x] Endings document
 - [x] **Phase 2: Data Architecture** — Define ticket/rule systems, dialogue structures ✓
   - [x] JSON schema definitions
-  - [x] Shift 01 ticket data
-  - [x] Shift 02 ticket data
-  - [x] Shift 03–10 ticket data
-  - [x] Rules data (all 10 shifts, 40 rules)
+  - [x] Shift 01–10 ticket data (127 tickets total)
+  - [x] Rules data (40 rules across 10 shifts)
   - [x] Global toast pool (119 toasts)
   - [x] Data validator (multi-file, cross-ID)
 - [ ] **Phase 3: Prototype** — Initial Godot project, basic mechanics
@@ -115,7 +103,7 @@ the-stamp-office/
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
 - [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
 
-> **Next up:** Phase 3 — Prototype (Godot project setup)
+> **Next up:** Phase 3 — Prototype (Godot project scaffold)
 
 ---
 
@@ -166,4 +154,3 @@ If you enjoy this project and want to support its development:
 <p align="center">
   <i>"Please take a number. Your reality will be processed in the order it was received."</i>
 </p>
-# the-stamp-office
