@@ -11,19 +11,10 @@ data/
 ├── README.md           # This file
 ├── schema.json         # JSON schema definitions
 ├── tickets/            # Per-shift ticket definitions
-│   ├── shift01.json    # Tickets for SHIFT_01 (12 tickets)
-│   ├── shift02.json    # Tickets for SHIFT_02 (14 tickets)
-│   ├── shift03.json    # Tickets for SHIFT_03 (13 tickets)
-│   ├── shift04.json    # Tickets for SHIFT_04 (12 tickets)
-│   ├── shift05.json    # Tickets for SHIFT_05 (13 tickets)
-│   ├── shift06.json    # Tickets for SHIFT_06 (12 tickets)
-│   ├── shift07.json    # Tickets for SHIFT_07 (12 tickets)
-│   ├── shift08.json    # Tickets for SHIFT_08 (14 tickets)
-│   ├── shift09.json    # Tickets for SHIFT_09 (14 tickets)
-│   └── shift10.json    # Tickets for SHIFT_10 (12 tickets)
-├── rules/              # Global and per-shift rules
+│   └── shift01.json … shift10.json (127 tickets total)
+├── rules/
 │   └── rules.json      # All 40 rules (4 per shift)
-└── toasts/             # System toast messages
+└── toasts/
     └── toasts.json     # Global toast pool (119 toasts)
 ```
 
@@ -67,19 +58,20 @@ Tickets affect two meters via their `outcomes`:
 
 ### `mood_delta`
 - **Range:** `-3` to `+3`
-- **+values:** Player made a "good" choice (subjectively)
+- **+values:** Player made a "good" choice (subjectively kind)
 - **−values:** Player made an uncomfortable/harsh choice
 - **0:** Neutral impact
 
 ### `contradiction_delta`
-- **Range:** `0` to `+5`
-- **+values:** Following rules "correctly" increases this
+- **Range:** `-3` to `+5`
+- **+values:** Following rules "correctly" increases tension
+- **−values:** Breaking rules cools down the meter
 - **0:** No impact on contradiction
 - **Note:** High contradiction = Ending B path
 
 ---
 
-## Validation
+## How to Validate
 
 Run the validator before committing:
 
@@ -87,7 +79,12 @@ Run the validator before committing:
 python tools/validate_data.py
 ```
 
-Checks:
+Expected output:
+```
+PASS - All checks passed!
+```
+
+Checks performed:
 - All `toast_id` references exist in `toasts.json`
 - All `text` and `attachment` fields are ≤8 words
 - All `id` values are unique **across all ticket files**
@@ -101,5 +98,5 @@ Checks:
 1. Create `tickets/shiftXX.json` following the schema
 2. Add rules to `rules.json` with correct `shift` value
 3. Add any new toasts to `toasts.json`
-4. Run validator
+4. Run validator: `python tools/validate_data.py`
 5. Commit with `data: add shiftXX data`

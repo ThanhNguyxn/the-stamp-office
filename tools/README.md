@@ -6,7 +6,7 @@ Development utilities for **The Stamp Office**.
 
 ## Data Validator
 
-Validates game data files for consistency and correctness.
+Validates game data files for consistency and correctness. Scans all `shift*.json` files in `data/tickets/`.
 
 ### Usage
 
@@ -21,7 +21,8 @@ python tools/validate_data.py
 |-------|-------------|
 | Toast references | All `toast_id` values exist in `toasts.json` |
 | Word counts | Text and attachment fields are ≤8 words |
-| Unique IDs | No duplicate IDs within files |
+| Unique IDs | No duplicate IDs across all shift files |
+| Required keys | All data objects have required fields |
 | JSON validity | Files parse correctly |
 
 ### Exit Codes
@@ -34,20 +35,34 @@ python tools/validate_data.py
 ### Example Output
 
 ```
-==================================================
+============================================================
 The Stamp Office - Data Validator
-==================================================
+============================================================
 
 Loading toasts.json...
-  Found 28 toast IDs
+  Found 119 toast IDs
 Loading rules.json...
-  Found 8 rules
+  Found 40 rules
 Loading shift01.json...
   Found 12 tickets
+Loading shift02.json...
+  Found 14 tickets
+...
+Loading shift10.json...
+  Found 12 tickets
 
-==================================================
+------------------------------------------------------------
+Per-File Summary:
+------------------------------------------------------------
+  ✓ toasts.json: PASS
+  ✓ rules.json: PASS
+  ✓ shift01.json: PASS
+  ...
+  ✓ shift10.json: PASS
+
+============================================================
 PASS - All checks passed!
-==================================================
+============================================================
 ```
 
 ---

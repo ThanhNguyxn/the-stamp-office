@@ -36,7 +36,10 @@
                         "horror",
                         "kevin",
                         "secret",
-                        "tutorial"
+                        "tutorial",
+                        "classified",
+                        "personal",
+                        "branching"
                     ],
                     "description": "Ticket category for special handling"
                 },
@@ -104,13 +107,13 @@
                     "type": "integer",
                     "minimum": -3,
                     "maximum": 3,
-                    "description": "Mood meter change"
+                    "description": "Mood meter change (-3 harsh, +3 kind)"
                 },
                 "contradiction_delta": {
                     "type": "integer",
-                    "minimum": 0,
+                    "minimum": -3,
                     "maximum": 5,
-                    "description": "Contradiction meter change"
+                    "description": "Contradiction meter change (-3 cooldown, +5 escalate)"
                 },
                 "flags_add": {
                     "type": "array",
@@ -186,8 +189,11 @@
                     "description": "Categorization tags"
                 },
                 "trigger_notes": {
-                    "type": "string",
-                    "description": "Conditions for legendary toasts"
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Conditions for legendary toasts (null for common)"
                 }
             }
         }
