@@ -1,0 +1,353 @@
+{
+    "shift": 1,
+    "name": "Orientation",
+    "tickets": [
+        {
+            "id": "T01_001",
+            "shift": 1,
+            "type": "tutorial",
+            "text": "Requesting one (1) desk lamp.",
+            "attachment": "Justification: darkness bad.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "tutorial",
+                "mundane"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_NEUTRAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "first_stamp_complete"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "first_stamp_complete"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T01_002",
+            "shift": 1,
+            "type": "standard",
+            "text": "Requesting access to Break Room B.",
+            "attachment": "Current status: employee.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mundane"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_NEUTRAL_003",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T01_003",
+            "shift": 1,
+            "type": "standard",
+            "text": "Requesting promotion to Senior Clerk.",
+            "attachment": "Tenure: 3 days.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "sarcastic"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_SARCASTIC_001",
+                    "mood_delta": -1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_PROCEDURAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T01_004",
+            "shift": 1,
+            "type": "standard",
+            "text": "Requesting office plant. Emotional support.",
+            "attachment": "Attachment: drawing of plant.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "warm",
+                "mundane"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_WARM_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T01_005",
+            "shift": 1,
+            "type": "horror",
+            "text": "Requesting day off. Personal reasons.",
+            "attachment": "Note: reasons are classified.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "horror",
+                "flicker"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_OMINOUS_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "lights_flickered"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_OMINOUS_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "lights_flickered"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "T01_006",
+            "shift": 1,
+            "type": "level7",
+            "text": "Level 7 request: additional stapler.",
+            "attachment": "Priority: MAXIMUM.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "mandatory"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_OBEDIENT_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T01_007",
+            "shift": 1,
+            "type": "standard",
+            "text": "Requesting new chair. Current one… watches.",
+            "attachment": "Evidence: photo of chair.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "uneasy",
+                "horror"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_UNEASY_001",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T01_008",
+            "shift": 1,
+            "type": "expired",
+            "text": "Expired: Request for holiday bonus.",
+            "attachment": "Date: 11 months ago.",
+            "allowed_stamps": [
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "expired",
+                "mandatory"
+            ],
+            "outcomes": {
+                "DENIED": {
+                    "toast_id": "TOAST_PROCEDURAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T01_009",
+            "shift": 1,
+            "type": "standard",
+            "text": "Requesting permission to hum quietly.",
+            "attachment": "Volume: barely audible.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "mundane"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_NEUTRAL_003",
+                    "mood_delta": 1,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_NEUTRAL_002",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T01_010",
+            "shift": 1,
+            "type": "standard",
+            "text": "Requesting transfer to Sector 9.",
+            "attachment": "Reason: anywhere but here.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "foreboding"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_FOREBODING_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_FOREBODING_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 1,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T01_011",
+            "shift": 1,
+            "type": "level7",
+            "text": "Level 7 request: mandatory fun event.",
+            "attachment": "Attendance: not optional.",
+            "allowed_stamps": [
+                "APPROVED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "level7",
+                "mandatory"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_CHEERFUL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": []
+                }
+            }
+        },
+        {
+            "id": "T01_012",
+            "shift": 1,
+            "type": "standard",
+            "text": "Requesting acknowledgment of existence.",
+            "attachment": "Status: unconfirmed.",
+            "allowed_stamps": [
+                "APPROVED",
+                "DENIED"
+            ],
+            "rarity": "common",
+            "tags": [
+                "existential",
+                "final"
+            ],
+            "outcomes": {
+                "APPROVED": {
+                    "toast_id": "TOAST_EXISTENTIAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift01_complete"
+                    ]
+                },
+                "DENIED": {
+                    "toast_id": "TOAST_EXISTENTIAL_001",
+                    "mood_delta": 0,
+                    "contradiction_delta": 0,
+                    "flags_add": [
+                        "shift01_complete"
+                    ]
+                }
+            }
+        }
+    ]
+}

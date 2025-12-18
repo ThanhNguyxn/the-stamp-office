@@ -1,0 +1,56 @@
+{
+    "rules": [
+        {
+            "id": "R01_001",
+            "shift": 1,
+            "text": "All tickets require exactly one stamp.",
+            "contradicts": []
+        },
+        {
+            "id": "R01_002",
+            "shift": 1,
+            "text": "Requests from Level 7 are always approved.",
+            "contradicts": [
+                "R02_002"
+            ]
+        },
+        {
+            "id": "R01_003",
+            "shift": 1,
+            "text": "Expired tickets must be denied.",
+            "contradicts": []
+        },
+        {
+            "id": "R01_004",
+            "shift": 1,
+            "text": "Smile. You are being evaluated.",
+            "contradicts": []
+        },
+        {
+            "id": "R02_001",
+            "shift": 2,
+            "text": "MAYBE stamps delay decisions indefinitely.",
+            "contradicts": []
+        },
+        {
+            "id": "R02_002",
+            "shift": 2,
+            "text": "Requests from Level 7 require extra review.",
+            "contradicts": [
+                "R01_002"
+            ]
+        },
+        {
+            "id": "R02_003",
+            "shift": 2,
+            "text": "Contradictory rules resolve themselves. Eventually.",
+            "contradicts": []
+        },
+        {
+            "id": "R02_004",
+            "shift": 2,
+            "text": "Do not acknowledge the inconsistency.",
+            "contradicts": []
+        }
+    ]
+}

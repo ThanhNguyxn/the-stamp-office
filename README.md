@@ -69,9 +69,19 @@ the-stamp-office/
 │       ├── SHIFT_09.md        # Pre-finale pressure
 │       ├── SHIFT_10.md        # Final stamp + endings
 │       └── ENDINGS.md         # All endings + hint plan
-├── data/                      # Game data files (planned)
+├── data/                      # Game data files
+│   ├── README.md              # Data structure documentation
+│   ├── schema.json            # JSON schema definitions
+│   ├── tickets/               # Per-shift ticket data
+│   │   └── shift01.json       # Shift 01 tickets
+│   ├── rules/
+│   │   └── rules.json         # All rules by shift
+│   └── toasts/
+│       └── toasts.json        # Global toast pool
 ├── prompts/                   # LLM prompts for content generation
-├── tools/                     # Development utilities and scripts
+├── tools/                     # Development utilities
+│   ├── README.md              # Tools documentation
+│   └── validate_data.py       # Data validator script
 ├── game/                      # Godot project (planned)
 ├── .github/                   # Issue/PR templates
 ├── LICENSE
@@ -90,14 +100,20 @@ the-stamp-office/
   - [x] Vision, style lock, meme safety, clip moments
   - [x] SHIFT_01 through SHIFT_10 scripts
   - [x] Endings document
-- [ ] **Phase 2: Data Architecture** — Define ticket/rule systems, dialogue structures
+- [/] **Phase 2: Data Architecture** — Define ticket/rule systems, dialogue structures
+  - [x] JSON schema definitions
+  - [x] Shift 01 ticket data
+  - [x] Rules data (Shift 01-02)
+  - [x] Global toast pool
+  - [x] Data validator script
+  - [ ] Remaining shift data (02–10)
 - [ ] **Phase 3: Prototype** — Initial Godot project, basic mechanics
 - [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
 - [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
 
-> **Next up:** Phase 2 — Data Architecture (schema + JSON structures)
+> **Next up:** Complete Shift 02–10 data files
 
 ---
 
