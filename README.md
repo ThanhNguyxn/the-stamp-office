@@ -52,15 +52,23 @@ cd the-stamp-office/docs
 
 ```
 the-stamp-office/
-├── docs/           # Design documents, lore, and specifications
-├── data/           # Game data files (items, rules, dialogue)
-├── prompts/        # AI/LLM prompts for content generation
-├── tools/          # Development utilities and scripts
-├── game/           # Game source code (Godot project - planned)
-├── .github/        # Issue templates and PR templates
-├── LICENSE         # MIT License
-├── README.md       # You are here
-├── CONTRIBUTING.md # Contribution guidelines
+├── docs/                      # Design documents and specifications
+│   ├── vision.md              # Core pitch, pillars, structure
+│   ├── style_lock.md          # Visual/audio/UI rules
+│   ├── meme_safety.md         # Humor guidelines
+│   ├── clip_moment_board.md   # Shareable moments catalog
+│   └── script/                # Shift scripts and endings
+│       ├── SHIFT_01.md        # Orientation shift
+│       ├── SHIFT_02.md        # Policy update shift
+│       └── ENDINGS.md         # All endings + hint plan
+├── data/                      # Game data files (planned)
+├── prompts/                   # LLM prompts for content generation
+├── tools/                     # Development utilities and scripts
+├── game/                      # Godot project (planned)
+├── .github/                   # Issue/PR templates
+├── LICENSE
+├── README.md
+├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md
 └── SECURITY.md
 ```
@@ -69,14 +77,20 @@ the-stamp-office/
 
 ## 🗺️ Roadmap
 
-- [x] **Phase 0: Meta** — Repository setup, documentation templates
-- [ ] **Phase 1: Foundation** — Core design documents, game bible
+- [x] **Phase 0: Meta** — Repository setup, OSS templates ✓
+- [/] **Phase 1: Foundation** — Core design documents, game bible
+  - [x] Vision, style lock, meme safety, clip moments
+  - [x] SHIFT_01 and SHIFT_02 scripts
+  - [x] Endings document
+  - [ ] Remaining shift scripts (03–10)
 - [ ] **Phase 2: Data Architecture** — Define ticket/rule systems, dialogue structures
 - [ ] **Phase 3: Prototype** — Initial Godot project, basic mechanics
 - [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
 - [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
+
+> **Next up:** Write SHIFT_03 through SHIFT_10 scripts
 
 ---
 
