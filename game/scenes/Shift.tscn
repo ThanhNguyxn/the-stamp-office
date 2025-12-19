@@ -63,130 +63,219 @@ render_target_update_mode = 4
 
 [node name="Office3D" parent="OfficeViewportContainer/OfficeViewport" instance=ExtResource("2_office")]
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="PaperViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(800, 600)
+render_target_update_mode = 4
+
+[node name="PaperUI" type="Control" parent="PaperViewport"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="PaperViewport/PaperUI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.08, 0.08, 0.1, 0.45)
+color = Color(0.95, 0.93, 0.88, 1)
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="PaperViewport/PaperUI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = 40.0
-offset_right = -50.0
-offset_bottom = -40.0
-theme_override_constants/separation = 12
+offset_left = 20.0
+offset_top = 15.0
+offset_right = -20.0
+offset_bottom = -15.0
+theme_override_constants/separation = 8
 
-[node name="HeaderRow" type="HBoxContainer" parent="VBox"]
+[node name="HeaderRow" type="HBoxContainer" parent="PaperViewport/PaperUI/VBox"]
 layout_mode = 2
 alignment = 1
-theme_override_constants/separation = 20
+theme_override_constants/separation = 15
 
-[node name="Header" type="Label" parent="VBox/HeaderRow"]
+[node name="Header" type="Label" parent="PaperViewport/PaperUI/VBox/HeaderRow"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "SHIFT 01 — Orientation"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.15, 0.12, 0.1, 1)
+text = "SHIFT 01"
 
-[node name="RulebookButton" type="Button" parent="VBox/HeaderRow"]
-custom_minimum_size = Vector2(100, 35)
+[node name="RulebookButton" type="Button" parent="PaperViewport/PaperUI/VBox/HeaderRow"]
+custom_minimum_size = Vector2(80, 28)
 layout_mode = 2
 text = "📖 Rules"
 
-[node name="MetersBox" type="HBoxContainer" parent="VBox"]
+[node name="MetersBox" type="HBoxContainer" parent="PaperViewport/PaperUI/VBox"]
 layout_mode = 2
 alignment = 1
-theme_override_constants/separation = 50
+theme_override_constants/separation = 30
 
-[node name="MoodValue" type="Label" parent="VBox/MetersBox"]
+[node name="MoodValue" type="Label" parent="PaperViewport/PaperUI/VBox/MetersBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.3, 0.3, 0.25, 1)
 text = "Mood: +0"
 
-[node name="ContradictionValue" type="Label" parent="VBox/MetersBox"]
+[node name="ContradictionValue" type="Label" parent="PaperViewport/PaperUI/VBox/MetersBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.3, 0.3, 0.25, 1)
 text = "Contradiction: 0"
 
-[node name="WorkflowBar" type="HBoxContainer" parent="VBox"]
+[node name="WorkflowBar" type="HBoxContainer" parent="PaperViewport/PaperUI/VBox"]
 layout_mode = 2
 alignment = 1
-theme_override_constants/separation = 10
+theme_override_constants/separation = 6
 
-[node name="OpenFolderBtn" type="Button" parent="VBox/WorkflowBar"]
-custom_minimum_size = Vector2(130, 40)
+[node name="OpenFolderBtn" type="Button" parent="PaperViewport/PaperUI/VBox/WorkflowBar"]
+custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
-text = "📁 Open Folder"
+text = "📁 Open"
 
-[node name="InspectBtn" type="Button" parent="VBox/WorkflowBar"]
-custom_minimum_size = Vector2(150, 40)
+[node name="InspectBtn" type="Button" parent="PaperViewport/PaperUI/VBox/WorkflowBar"]
+custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 text = "🔍 Inspect"
 
-[node name="CheckRulesBtn" type="Button" parent="VBox/WorkflowBar"]
-custom_minimum_size = Vector2(140, 40)
+[node name="CheckRulesBtn" type="Button" parent="PaperViewport/PaperUI/VBox/WorkflowBar"]
+custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
-text = "📋 Check Rules"
+text = "📋 Rules"
 
-[node name="FileTicketBtn" type="Button" parent="VBox/WorkflowBar"]
-custom_minimum_size = Vector2(130, 40)
+[node name="FileTicketBtn" type="Button" parent="PaperViewport/PaperUI/VBox/WorkflowBar"]
+custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
-text = "📤 File Ticket"
+text = "📤 File"
 
-[node name="TicketPanel" type="PanelContainer" parent="VBox"]
+[node name="TicketPanel" type="PanelContainer" parent="PaperViewport/PaperUI/VBox"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TicketVBox" type="VBoxContainer" parent="VBox/TicketPanel"]
+[node name="TicketVBox" type="VBoxContainer" parent="PaperViewport/PaperUI/VBox/TicketPanel"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="TicketText" type="Label" parent="VBox/TicketPanel/TicketVBox"]
+[node name="TicketText" type="Label" parent="PaperViewport/PaperUI/VBox/TicketPanel/TicketVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "Prototype loaded!"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.1, 0.1, 0.08, 1)
+text = "Ticket text here..."
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Attachment" type="Label" parent="VBox/TicketPanel/TicketVBox"]
+[node name="Attachment" type="Label" parent="PaperViewport/PaperUI/VBox/TicketPanel/TicketVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
-text = "📎 Attachment placeholder"
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.4, 0.4, 0.35, 1)
+text = "📎 Attachment"
 horizontal_alignment = 1
 
-[node name="StampButtons" type="VBoxContainer" parent="VBox"]
+[node name="StampButtons" type="VBoxContainer" parent="PaperViewport/PaperUI/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 6
 alignment = 1
 
-[node name="ToastPanel" type="PanelContainer" parent="VBox"]
+[node name="BackButton" type="Button" parent="PaperViewport/PaperUI/VBox"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-custom_minimum_size = Vector2(0, 50)
+text = "← Back"
 
-[node name="Toast" type="Label" parent="VBox/ToastPanel"]
+[node name="EventOverlay" type="PanelContainer" parent="PaperViewport/PaperUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -100.0
+offset_right = 180.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="PaperViewport/PaperUI/EventOverlay"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="EventTitle" type="Label" parent="PaperViewport/PaperUI/EventOverlay/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.8, 0.5, 0.1, 1)
+text = "⚠️ EVENT"
+horizontal_alignment = 1
+
+[node name="EventBody" type="Label" parent="PaperViewport/PaperUI/EventOverlay/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Description..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ButtonBox" type="HBoxContainer" parent="PaperViewport/PaperUI/EventOverlay/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 15
+
+[node name="ChoiceA" type="Button" parent="PaperViewport/PaperUI/EventOverlay/VBox/ButtonBox"]
+custom_minimum_size = Vector2(120, 35)
+layout_mode = 2
+text = "A) Choice"
+
+[node name="ChoiceB" type="Button" parent="PaperViewport/PaperUI/EventOverlay/VBox/ButtonBox"]
+custom_minimum_size = Vector2(120, 35)
+layout_mode = 2
+text = "B) Choice"
+
+[node name="RulebookPopup" type="PanelContainer" parent="PaperViewport/PaperUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="PaperViewport/PaperUI/RulebookPopup"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="PaperViewport/PaperUI/RulebookPopup/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.9, 0.8, 0.3, 1)
-text = "💬 Toast placeholder"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Progress" type="Label" parent="VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
-text = "Ticket 1 / 12"
+text = "📖 RULEBOOK"
 horizontal_alignment = 1
 
-[node name="BackButton" type="Button" parent="VBox"]
+[node name="Scroll" type="ScrollContainer" parent="PaperViewport/PaperUI/RulebookPopup/VBox"]
 layout_mode = 2
-text = "← Back to Menu"
+size_flags_vertical = 3
+
+[node name="RulesText" type="Label" parent="PaperViewport/PaperUI/RulebookPopup/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "Loading..."
+autowrap_mode = 2
+
+[node name="RulebookCloseButton" type="Button" parent="PaperViewport/PaperUI/RulebookPopup/VBox"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "✓ Close"
 
 [node name="ScanlineOverlay" type="ColorRect" parent="."]
 mouse_filter = 2
@@ -197,94 +286,34 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0)
 
-[node name="EventOverlay" type="PanelContainer" parent="."]
-visible = false
+[node name="BottomHUD" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -120.0
-offset_right = 250.0
-offset_bottom = 120.0
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -60.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 
-[node name="VBox" type="VBoxContainer" parent="EventOverlay"]
+[node name="VBox" type="VBoxContainer" parent="BottomHUD"]
 layout_mode = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 2
 
-[node name="EventTitle" type="Label" parent="EventOverlay/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
-text = "⚠️ EVENT TITLE"
-horizontal_alignment = 1
-
-[node name="EventBody" type="Label" parent="EventOverlay/VBox"]
+[node name="Toast" type="Label" parent="BottomHUD/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "Event description goes here.\nChoose wisely."
+theme_override_colors/font_color = Color(0.9, 0.8, 0.3, 1)
+text = "💬 Please follow the workflow steps"
 horizontal_alignment = 1
-autowrap_mode = 2
+vertical_alignment = 1
 
-[node name="ButtonBox" type="HBoxContainer" parent="EventOverlay/VBox"]
+[node name="Progress" type="Label" parent="BottomHUD/VBox"]
 layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 20
-
-[node name="ChoiceA" type="Button" parent="EventOverlay/VBox/ButtonBox"]
-custom_minimum_size = Vector2(150, 45)
-layout_mode = 2
-text = "A) Choice A"
-
-[node name="ChoiceB" type="Button" parent="EventOverlay/VBox/ButtonBox"]
-custom_minimum_size = Vector2(150, 45)
-layout_mode = 2
-text = "B) Choice B"
-
-[node name="RulebookPopup" type="PanelContainer" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -200.0
-offset_right = 300.0
-offset_bottom = 200.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBox" type="VBoxContainer" parent="RulebookPopup"]
-layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="Title" type="Label" parent="RulebookPopup/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "📖 RULEBOOK"
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+text = "Ticket 1 / 12"
 horizontal_alignment = 1
-
-[node name="Scroll" type="ScrollContainer" parent="RulebookPopup/VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="RulesText" type="Label" parent="RulebookPopup/VBox/Scroll"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 14
-text = "Loading rules..."
-autowrap_mode = 2
-
-[node name="RulebookCloseButton" type="Button" parent="RulebookPopup/VBox"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-text = "✓ Acknowledge"
 
 [node name="Sfx" type="Node" parent="."]
 script = ExtResource("3_sfx")

@@ -15,7 +15,7 @@ data/
 ├── rules/
 │   └── rules.json      # All 40 rules (4 per shift)
 └── toasts/
-    └── toasts.json     # Global toast pool (119 toasts)
+	└── toasts.json     # Global toast pool (119 toasts)
 ```
 
 ---

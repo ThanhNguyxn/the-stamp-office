@@ -1,41 +1,45 @@
 extends Control
-## Shift - Desk job workflow gameplay with 4-step ticket processing
-## Includes procedural SFX, visual effects, random interrupt events, and save integration
-## Defensive: null-checks everywhere for Save autoload and nodes
+## Shift - Desk job workflow gameplay with world-space UI on 3D paper
+## UI rendered to PaperViewport and displayed on 3D PaperScreen mesh
+## Input is raycasted from 3D camera to paper and forwarded to viewport
 
-# UI references
-@onready var background: ColorRect = $Background
-@onready var vbox: VBoxContainer = $VBox
-@onready var header: Label = $VBox/HeaderRow/Header
-@onready var rulebook_button: Button = $VBox/HeaderRow/RulebookButton
-@onready var ticket_panel: PanelContainer = $VBox/TicketPanel
-@onready var ticket_vbox: VBoxContainer = $VBox/TicketPanel/TicketVBox
-@onready var ticket_text: Label = $VBox/TicketPanel/TicketVBox/TicketText
-@onready var attachment: Label = $VBox/TicketPanel/TicketVBox/Attachment
-@onready var stamp_buttons: VBoxContainer = $VBox/StampButtons
-@onready var toast: Label = $VBox/ToastPanel/Toast
-@onready var mood_value: Label = $VBox/MetersBox/MoodValue
-@onready var contradiction_value: Label = $VBox/MetersBox/ContradictionValue
-@onready var progress: Label = $VBox/Progress
-@onready var back_button: Button = $VBox/BackButton
+# Paper viewport (contains the UI)
+@onready var paper_viewport: SubViewport = $PaperViewport
 
-# Workflow bar buttons
-@onready var open_folder_btn: Button = $VBox/WorkflowBar/OpenFolderBtn
-@onready var inspect_btn: Button = $VBox/WorkflowBar/InspectBtn
-@onready var check_rules_btn: Button = $VBox/WorkflowBar/CheckRulesBtn
-@onready var file_ticket_btn: Button = $VBox/WorkflowBar/FileTicketBtn
+# UI elements inside PaperViewport
+@onready var paper_ui: Control = $PaperViewport/PaperUI
+@onready var paper_background: ColorRect = $PaperViewport/PaperUI/Background
+@onready var vbox: VBoxContainer = $PaperViewport/PaperUI/VBox
+@onready var header: Label = $PaperViewport/PaperUI/VBox/HeaderRow/Header
+@onready var rulebook_button: Button = $PaperViewport/PaperUI/VBox/HeaderRow/RulebookButton
+@onready var ticket_panel: PanelContainer = $PaperViewport/PaperUI/VBox/TicketPanel
+@onready var ticket_vbox: VBoxContainer = $PaperViewport/PaperUI/VBox/TicketPanel/TicketVBox
+@onready var ticket_text: Label = $PaperViewport/PaperUI/VBox/TicketPanel/TicketVBox/TicketText
+@onready var attachment: Label = $PaperViewport/PaperUI/VBox/TicketPanel/TicketVBox/Attachment
+@onready var stamp_buttons: VBoxContainer = $PaperViewport/PaperUI/VBox/StampButtons
+@onready var mood_value: Label = $PaperViewport/PaperUI/VBox/MetersBox/MoodValue
+@onready var contradiction_value: Label = $PaperViewport/PaperUI/VBox/MetersBox/ContradictionValue
+@onready var back_button: Button = $PaperViewport/PaperUI/VBox/BackButton
 
-# Rulebook popup references
-@onready var rulebook_popup: PanelContainer = $RulebookPopup
-@onready var rules_text: Label = $RulebookPopup/VBox/Scroll/RulesText
-@onready var rulebook_close_button: Button = $RulebookPopup/VBox/RulebookCloseButton
+# Workflow buttons
+@onready var open_folder_btn: Button = $PaperViewport/PaperUI/VBox/WorkflowBar/OpenFolderBtn
+@onready var inspect_btn: Button = $PaperViewport/PaperUI/VBox/WorkflowBar/InspectBtn
+@onready var check_rules_btn: Button = $PaperViewport/PaperUI/VBox/WorkflowBar/CheckRulesBtn
+@onready var file_ticket_btn: Button = $PaperViewport/PaperUI/VBox/WorkflowBar/FileTicketBtn
 
-# Event overlay references
-@onready var event_overlay: PanelContainer = $EventOverlay
-@onready var event_title: Label = $EventOverlay/VBox/EventTitle
-@onready var event_body: Label = $EventOverlay/VBox/EventBody
-@onready var choice_a_btn: Button = $EventOverlay/VBox/ButtonBox/ChoiceA
-@onready var choice_b_btn: Button = $EventOverlay/VBox/ButtonBox/ChoiceB
+# Popups inside PaperViewport
+@onready var rulebook_popup: PanelContainer = $PaperViewport/PaperUI/RulebookPopup
+@onready var rules_text: Label = $PaperViewport/PaperUI/RulebookPopup/VBox/Scroll/RulesText
+@onready var rulebook_close_button: Button = $PaperViewport/PaperUI/RulebookPopup/VBox/RulebookCloseButton
+@onready var event_overlay: PanelContainer = $PaperViewport/PaperUI/EventOverlay
+@onready var event_title: Label = $PaperViewport/PaperUI/EventOverlay/VBox/EventTitle
+@onready var event_body: Label = $PaperViewport/PaperUI/EventOverlay/VBox/EventBody
+@onready var choice_a_btn: Button = $PaperViewport/PaperUI/EventOverlay/VBox/ButtonBox/ChoiceA
+@onready var choice_b_btn: Button = $PaperViewport/PaperUI/EventOverlay/VBox/ButtonBox/ChoiceB
+
+# Bottom HUD (2D overlay)
+@onready var toast: Label = $BottomHUD/VBox/Toast
+@onready var progress: Label = $BottomHUD/VBox/Progress
 
 # Visual effects
 @onready var scanline_overlay: ColorRect = $ScanlineOverlay
@@ -49,6 +53,9 @@ extends Control
 # 3D office reference
 @onready var office_viewport: SubViewport = $OfficeViewportContainer/OfficeViewport
 var office_3d: Node3D = null
+var paper_screen: MeshInstance3D = null
+var paper_area: Area3D = null
+var camera_3d: Camera3D = null
 
 # Game state
 var shift_number: int = 1
@@ -58,10 +65,9 @@ var mood: int = 0
 var contradiction: int = 0
 var busy: bool = false
 var event_active: bool = false
-var original_bg_color: Color
-var original_vbox_pos: Vector2
+var original_paper_color: Color = Color(0.95, 0.93, 0.88)
 
-# Settings-driven modifiers (defaults if Save not available)
+# Settings-driven modifiers
 var vfx_intensity: float = 1.0
 var reduce_motion: bool = false
 var events_enabled: bool = true
@@ -77,29 +83,30 @@ var requires_inspect: bool = false
 var requires_rules: bool = false
 
 func _ready() -> void:
-	# Store original values for effects
-	if background:
-		original_bg_color = background.color
-	if vbox:
-		original_vbox_pos = vbox.position
-	
-	# Get reference to Office3D scene (null-safe)
+	# Get 3D references (null-safe)
 	if office_viewport and office_viewport.get_child_count() > 0:
 		office_3d = office_viewport.get_child(0)
+		if office_3d:
+			camera_3d = office_3d.get_node_or_null("Camera3D")
+			var desk = office_3d.get_node_or_null("Desk")
+			if desk:
+				paper_screen = desk.get_node_or_null("PaperScreen")
+				if paper_screen:
+					paper_area = paper_screen.get_node_or_null("PaperArea")
+	
+	# Apply paper viewport texture to 3D paper screen
+	_setup_paper_texture()
 	
 	# Apply saved settings (null-safe)
 	_apply_settings()
 	
-	# Wire main buttons (null-safe)
+	# Wire buttons (null-safe)
 	if back_button:
 		back_button.pressed.connect(_back)
-		back_button.visible = false
 	if rulebook_button:
 		rulebook_button.pressed.connect(_open_rulebook)
 	if rulebook_close_button:
 		rulebook_close_button.pressed.connect(_close_rulebook)
-	
-	# Wire workflow buttons (null-safe)
 	if open_folder_btn:
 		open_folder_btn.pressed.connect(_on_open_folder)
 	if inspect_btn:
@@ -108,8 +115,6 @@ func _ready() -> void:
 		check_rules_btn.pressed.connect(_on_check_rules)
 	if file_ticket_btn:
 		file_ticket_btn.pressed.connect(_on_file_ticket)
-	
-	# Wire event buttons (null-safe)
 	if choice_a_btn:
 		choice_a_btn.pressed.connect(_on_event_choice_a)
 	if choice_b_btn:
@@ -140,15 +145,14 @@ func _ready() -> void:
 	if dataloader and dataloader.has_method("load_shift"):
 		tickets = dataloader.load_shift(shift_number)
 	
-	# Populate rulebook with this shift's rules
+	# Populate rulebook
 	_populate_rulebook()
 	
-	# Show rulebook automatically on shift start
+	# Show rulebook on start
 	_open_rulebook()
 	
 	if tickets.size() > 0:
 		_show(0)
-		# Start event system after first ticket (if enabled)
 		if shift_events and events_enabled and shift_events.has_method("start"):
 			shift_events.start()
 	else:
@@ -158,30 +162,110 @@ func _ready() -> void:
 			attachment.text = "Run: python tools/sync_game_data.py"
 		_update_workflow_ui()
 
-## Get Save autoload node (null-safe, multiple methods)
+## Setup paper viewport texture onto 3D paper mesh
+func _setup_paper_texture() -> void:
+	if not paper_viewport or not paper_screen:
+		return
+	
+	# Create material with viewport texture
+	var mat = StandardMaterial3D.new()
+	mat.albedo_texture = paper_viewport.get_texture()
+	mat.emission_enabled = true
+	mat.emission = Color(1, 1, 1, 1)
+	mat.emission_energy_multiplier = 0.3
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	paper_screen.material_override = mat
+
+## Handle input - raycast to paper and forward to viewport
+func _input(event: InputEvent) -> void:
+	if not camera_3d or not paper_area or not paper_viewport:
+		return
+	
+	if event is InputEventMouse:
+		var mouse_event = event as InputEventMouse
+		var mouse_pos = mouse_event.position
+		
+		# Convert screen position to ray
+		var from = camera_3d.project_ray_origin(mouse_pos)
+		var dir = camera_3d.project_ray_normal(mouse_pos)
+		var to = from + dir * 100.0
+		
+		# Raycast in physics space
+		var space_state = office_viewport.world_3d.direct_space_state
+		if not space_state:
+			return
+		
+		var query = PhysicsRayQueryParameters3D.create(from, to)
+		query.collide_with_areas = true
+		query.collide_with_bodies = false
+		var result = space_state.intersect_ray(query)
+		
+		if result.is_empty():
+			return
+		
+		# Check if we hit the paper area
+		var collider = result.get("collider")
+		if collider != paper_area:
+			return
+		
+		# Get hit position and convert to paper local coords
+		var hit_pos = result.get("position", Vector3.ZERO)
+		var local_pos = paper_screen.global_transform.affine_inverse() * hit_pos
+		
+		# Paper quad is 1.6 x 1.0 centered at origin, rotated to lie flat
+		# local_pos.x is along width, local_pos.y is along height (since quad is rotated)
+		var paper_size = Vector2(1.6, 1.0)
+		var uv = Vector2(
+			(local_pos.x / paper_size.x) + 0.5,
+			(-local_pos.y / paper_size.y) + 0.5
+		)
+		
+		# Clamp UV to valid range
+		uv = uv.clamp(Vector2.ZERO, Vector2.ONE)
+		
+		# Convert to viewport coords
+		var vp_size = paper_viewport.size
+		var vp_pos = Vector2(uv.x * vp_size.x, uv.y * vp_size.y)
+		
+		# Create new event with remapped position
+		var new_event: InputEventMouse
+		if event is InputEventMouseButton:
+			var btn_event = InputEventMouseButton.new()
+			btn_event.button_index = (event as InputEventMouseButton).button_index
+			btn_event.pressed = (event as InputEventMouseButton).pressed
+			btn_event.position = vp_pos
+			btn_event.global_position = vp_pos
+			new_event = btn_event
+		elif event is InputEventMouseMotion:
+			var motion_event = InputEventMouseMotion.new()
+			motion_event.position = vp_pos
+			motion_event.global_position = vp_pos
+			motion_event.relative = (event as InputEventMouseMotion).relative
+			new_event = motion_event
+		else:
+			return
+		
+		# Forward to viewport
+		paper_viewport.push_input(new_event)
+
+## Get Save autoload node (null-safe)
 func _get_save() -> Node:
-	# Try direct path first
 	var save_node = get_node_or_null("/root/Save")
 	if save_node:
 		return save_node
-	
-	# Try Engine singleton (Godot 4 method)
 	if Engine.has_singleton("Save"):
 		return Engine.get_singleton("Save")
-	
 	return null
 
-## Check if Save autoload exists
 func _has_save() -> bool:
 	return _get_save() != null
 
-## Apply settings from Save autoload (null-safe)
+## Apply settings from Save (null-safe)
 func _apply_settings() -> void:
 	var save_node = _get_save()
 	if not save_node:
 		return
 	
-	# Store settings locally with validation
 	if "vfx_intensity" in save_node:
 		vfx_intensity = clampf(float(save_node.vfx_intensity), 0.0, 1.0)
 	if "reduce_motion" in save_node:
@@ -189,66 +273,54 @@ func _apply_settings() -> void:
 	if "events_enabled" in save_node:
 		events_enabled = bool(save_node.events_enabled)
 	
-	# Apply to scene components
 	if save_node.has_method("apply_settings_to_scene"):
 		save_node.apply_settings_to_scene(self)
 	
-	# If events disabled, don't start them
 	if not events_enabled and shift_events and shift_events.has_method("stop"):
 		shift_events.stop()
 
-## Populate rulebook popup with rules for current shift
+## Populate rulebook popup
 func _populate_rulebook() -> void:
 	if not rules_text:
 		return
 	
 	var dataloader = get_node_or_null("/root/DataLoader")
 	if not dataloader or not dataloader.has_method("rules_for_shift"):
-		rules_text.text = "No rules loaded.\n\nPlease run:\npython tools/sync_game_data.py"
+		rules_text.text = "No rules loaded."
 		return
 	
 	var rules = dataloader.rules_for_shift(shift_number)
 	if rules.size() == 0:
-		rules_text.text = "No rules loaded.\n\nPlease run:\npython tools/sync_game_data.py"
+		rules_text.text = "No rules loaded."
 		return
 	
 	var text = ""
 	for rule in rules:
 		var id = rule.get("id", "???")
 		var rule_text = rule.get("text", "")
-		var contradicts = rule.get("contradicts", [])
-		
-		text += "%s — %s\n" % [id, rule_text]
-		
-		if contradicts.size() > 0:
-			text += "  ⚠ Contradicts: %s\n" % ", ".join(contradicts)
-		text += "\n"
+		text += "%s — %s\n\n" % [id, rule_text]
 	
 	rules_text.text = text.strip_edges()
 
-## Open rulebook popup (also counts as "Check Rules" step)
 func _open_rulebook() -> void:
 	if event_active:
-		return  # Can't open rulebook during event
+		return
 	if rulebook_popup:
 		rulebook_popup.visible = true
 	_play_click()
-	# Mark rules as checked for workflow
 	if not rules_checked:
 		rules_checked = true
 		_update_workflow_ui()
 
-## Close rulebook popup
 func _close_rulebook() -> void:
 	if rulebook_popup:
 		rulebook_popup.visible = false
 	_play_click()
 
-## Event started - show overlay
+## Event handlers
 func _on_event_started() -> void:
 	if not shift_events or busy or not events_enabled:
 		return
-	
 	if not shift_events.has_method("get_current_event"):
 		return
 	
@@ -259,7 +331,6 @@ func _on_event_started() -> void:
 	event_active = true
 	_play_glitch()
 	
-	# Populate event overlay (null-safe)
 	if event_title:
 		event_title.text = event.get("title", "EVENT")
 	if event_body:
@@ -269,14 +340,10 @@ func _on_event_started() -> void:
 	if choice_b_btn:
 		choice_b_btn.text = "B) " + event.get("choice_b", "Option B")
 	
-	# Show overlay
 	if event_overlay:
 		event_overlay.visible = true
-	
-	# Disable workflow buttons
 	_set_workflow_enabled(false)
 
-## Event choice A
 func _on_event_choice_a() -> void:
 	if not shift_events or not shift_events.has_method("choose"):
 		return
@@ -284,7 +351,6 @@ func _on_event_choice_a() -> void:
 	var result = shift_events.choose("A")
 	_apply_event_result(result)
 
-## Event choice B
 func _on_event_choice_b() -> void:
 	if not shift_events or not shift_events.has_method("choose"):
 		return
@@ -292,31 +358,24 @@ func _on_event_choice_b() -> void:
 	var result = shift_events.choose("B")
 	_apply_event_result(result)
 
-## Apply event result
 func _apply_event_result(result: Dictionary) -> void:
-	var mood_delta = result.get("mood", 0)
-	var contradiction_delta = result.get("contradiction", 0)
-	var result_toast = result.get("toast", "")
-	
-	mood += mood_delta
-	contradiction += contradiction_delta
+	mood += result.get("mood", 0)
+	contradiction += result.get("contradiction", 0)
 	_update_meters()
 	
+	var result_toast = result.get("toast", "")
 	if result_toast != "" and toast:
 		toast.text = "📢 " + result_toast
 	
-	# Tremor for high contradiction
-	if contradiction_delta >= 2:
+	if result.get("contradiction", 0) >= 2:
 		_play_tremor()
 
-## Event ended
 func _on_event_ended(_mood_delta: int, _contradiction_delta: int) -> void:
 	event_active = false
 	if event_overlay:
 		event_overlay.visible = false
 	_set_workflow_enabled(true)
 
-## Enable/disable workflow buttons
 func _set_workflow_enabled(enabled: bool) -> void:
 	if open_folder_btn:
 		open_folder_btn.disabled = not enabled or folder_opened
@@ -329,32 +388,26 @@ func _set_workflow_enabled(enabled: bool) -> void:
 	if rulebook_button:
 		rulebook_button.disabled = not enabled
 
-## Determine workflow requirements for a ticket
+## Workflow
 func _compute_requirements(t: Dictionary) -> void:
-	# Reset workflow state
 	folder_opened = false
 	attachment_inspected = false
 	rules_checked = false
 	ticket_filed = false
 	
-	# Check if attachment exists and is meaningful
 	var att = t.get("attachment", "")
 	requires_inspect = att != "" and att != "N/A" and att != "None"
 	
-	# Check if rules check is required
 	var ticket_type = t.get("type", "standard")
 	requires_rules = ticket_type in ["classified", "secret"]
 	
-	# Also require rules if any outcome has high contradiction
 	if not requires_rules:
 		var outcomes = t.get("outcomes", {})
 		for stamp_name in outcomes:
-			var o = outcomes[stamp_name]
-			if int(o.get("contradiction_delta", 0)) >= 2:
+			if int(outcomes[stamp_name].get("contradiction_delta", 0)) >= 2:
 				requires_rules = true
 				break
 
-## Show a ticket
 func _show(i: int) -> void:
 	if i >= tickets.size():
 		_complete()
@@ -362,11 +415,8 @@ func _show(i: int) -> void:
 	
 	index = i
 	var t = tickets[i]
-	
-	# Compute workflow requirements for this ticket
 	_compute_requirements(t)
 	
-	# Display ticket content (null-safe)
 	if ticket_text:
 		ticket_text.text = t.get("text", "")
 	if attachment:
@@ -375,46 +425,39 @@ func _show(i: int) -> void:
 	if progress:
 		progress.text = "Ticket %d / %d" % [i + 1, tickets.size()]
 	if toast:
-		toast.text = "📁 Please follow the workflow steps"
+		toast.text = "📁 Follow the workflow steps"
 	_update_meters()
 	_update_workflow_ui()
 	
-	# Clear old stamp buttons (will be created when workflow is complete)
 	if stamp_buttons:
 		for c in stamp_buttons.get_children():
 			c.queue_free()
 
-## Update workflow button states and create stamp buttons when ready
 func _update_workflow_ui() -> void:
-	# Don't update if event is active
 	if event_active:
 		return
 	
-	# Update button visual states (completed steps get a checkmark)
 	if open_folder_btn:
-		open_folder_btn.text = "✓ Folder Opened" if folder_opened else "📁 Open Folder"
+		open_folder_btn.text = "✓ Opened" if folder_opened else "📁 Open"
 		open_folder_btn.disabled = folder_opened
 	
-	# Inspect requires folder to be opened first
 	if inspect_btn:
 		if requires_inspect:
 			inspect_btn.visible = true
-			inspect_btn.text = "✓ Inspected" if attachment_inspected else "🔍 Inspect"
+			inspect_btn.text = "✓ Done" if attachment_inspected else "🔍 Inspect"
 			inspect_btn.disabled = attachment_inspected or not folder_opened
 		else:
 			inspect_btn.visible = false
-			attachment_inspected = true  # Auto-complete if not required
+			attachment_inspected = true
 	
-	# Check Rules requires folder opened
 	if check_rules_btn:
 		if requires_rules:
 			check_rules_btn.visible = true
-			check_rules_btn.text = "✓ Rules OK" if rules_checked else "📋 Check Rules"
+			check_rules_btn.text = "✓ OK" if rules_checked else "📋 Rules"
 			check_rules_btn.disabled = rules_checked or not folder_opened
 		else:
 			check_rules_btn.visible = false
 	
-	# File Ticket requires all previous steps
 	var can_file = folder_opened
 	if requires_inspect:
 		can_file = can_file and attachment_inspected
@@ -422,71 +465,63 @@ func _update_workflow_ui() -> void:
 		can_file = can_file and rules_checked
 	
 	if file_ticket_btn:
-		file_ticket_btn.text = "✓ Filed" if ticket_filed else "📤 File Ticket"
+		file_ticket_btn.text = "✓ Filed" if ticket_filed else "📤 File"
 		file_ticket_btn.disabled = ticket_filed or not can_file
 	
-	# Create stamp buttons only when ticket is filed
 	if ticket_filed:
 		_create_stamp_buttons()
 
-## Create stamp buttons after workflow is complete
 func _create_stamp_buttons() -> void:
 	if not stamp_buttons:
 		return
 	
-	# Clear existing
 	for c in stamp_buttons.get_children():
 		c.queue_free()
 	
 	var t = tickets[index]
 	var hbox = HBoxContainer.new()
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	hbox.add_theme_constant_override("separation", 15)
+	hbox.add_theme_constant_override("separation", 10)
 	stamp_buttons.add_child(hbox)
 	
 	for stamp in t.get("allowed_stamps", []):
 		var btn = Button.new()
 		btn.text = "🔴 " + stamp if stamp == "DENIED" else "🟢 " + stamp if stamp == "APPROVED" else "🟡 " + stamp
-		btn.custom_minimum_size = Vector2(130, 50)
+		btn.custom_minimum_size = Vector2(100, 35)
 		btn.pressed.connect(_stamp.bind(stamp))
 		hbox.add_child(btn)
 	
 	if toast:
 		toast.text = "🖋️ Ready to stamp!"
 
-## Workflow step: Open Folder
 func _on_open_folder() -> void:
 	if event_active:
 		return
 	if not folder_opened:
 		folder_opened = true
 		if toast:
-			toast.text = "📂 Folder opened. Review the ticket."
+			toast.text = "📂 Folder opened"
 		_play_click()
 		_update_workflow_ui()
 
-## Workflow step: Inspect Attachment
 func _on_inspect() -> void:
 	if event_active:
 		return
 	if folder_opened and not attachment_inspected:
 		attachment_inspected = true
 		if toast:
-			toast.text = "🔍 Attachment verified."
+			toast.text = "🔍 Attachment verified"
 		_play_click()
 		_update_workflow_ui()
 
-## Workflow step: Check Rules (opens rulebook)
 func _on_check_rules() -> void:
 	if event_active:
 		return
 	_open_rulebook()
 
-## Workflow step: File Ticket
 func _on_file_ticket() -> void:
 	if event_active:
 		return
-	# Check if all prerequisites are met
 	var can_file = folder_opened
 	if requires_inspect:
 		can_file = can_file and attachment_inspected
@@ -496,22 +531,19 @@ func _on_file_ticket() -> void:
 	if can_file and not ticket_filed:
 		ticket_filed = true
 		if toast:
-			toast.text = "📤 Ticket filed. Select your stamp."
+			toast.text = "📤 Ticket filed. Select stamp."
 		_play_click()
 		_update_workflow_ui()
 
-## Handle stamp click
 func _stamp(name: String) -> void:
 	if busy or event_active:
 		return
 	
-	# Check if workflow is complete
 	if not ticket_filed:
-		# Process violation!
 		contradiction += 1
 		_update_meters()
 		if toast:
-			toast.text = "⚠️ Process violation logged. Complete the workflow first!"
+			toast.text = "⚠️ Process violation! Complete workflow first."
 		_play_error()
 		_play_tremor()
 		return
@@ -523,36 +555,28 @@ func _stamp(name: String) -> void:
 	if outcomes.has(name):
 		var o = outcomes[name]
 		
-		# Get toast text (null-safe)
 		var toast_id = o.get("toast_id", "")
-		var toast_text_str = ""
 		var dataloader = get_node_or_null("/root/DataLoader")
-		if dataloader and dataloader.has_method("toast_text"):
-			toast_text_str = dataloader.toast_text(toast_id)
-		if toast:
-			toast.text = "💬 " + toast_text_str
+		if dataloader and dataloader.has_method("toast_text") and toast:
+			toast.text = "💬 " + dataloader.toast_text(toast_id)
 		
 		mood += int(o.get("mood_delta", 0))
 		var delta = int(o.get("contradiction_delta", 0))
 		contradiction += delta
 		_update_meters()
 		
-		# Play stamp sound
 		_play_stamp(name == "APPROVED")
 		
-		# Reality tremor effect for high contradiction
 		if delta >= 3:
 			_play_glitch()
 			_play_tremor()
 		
-		# Disable stamp buttons
 		if stamp_buttons:
 			for c in stamp_buttons.get_children():
 				for b in c.get_children():
 					if b is Button:
 						b.disabled = true
 		
-		# Animate ticket sliding out, then show next
 		await _animate_ticket_out()
 		busy = false
 		_show(index + 1)
@@ -562,7 +586,6 @@ func _stamp(name: String) -> void:
 		_play_error()
 		busy = false
 
-## Animate ticket sliding out
 func _animate_ticket_out() -> void:
 	if not ticket_vbox:
 		return
@@ -570,43 +593,30 @@ func _animate_ticket_out() -> void:
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_QUAD)
 	tween.set_ease(Tween.EASE_IN)
-	tween.tween_property(ticket_vbox, "position:x", -500, 0.25)
+	tween.tween_property(ticket_vbox, "position:x", -400, 0.2)
 	await tween.finished
 	
-	# Reset position for next ticket
-	ticket_vbox.position.x = 500
+	ticket_vbox.position.x = 400
 	
-	# Slide in
 	var tween_in = create_tween()
 	tween_in.set_trans(Tween.TRANS_QUAD)
 	tween_in.set_ease(Tween.EASE_OUT)
-	tween_in.tween_property(ticket_vbox, "position:x", 0, 0.25)
+	tween_in.tween_property(ticket_vbox, "position:x", 0, 0.2)
 	await tween_in.finished
 
-## Play "reality tremor" effect - UI + 3D scene + visual overlay (respects settings)
+## Visual effects
 func _play_tremor() -> void:
-	# Scale effects based on settings
 	var shake_scale = 1.0 if not reduce_motion else 0.3
 	var effect_scale = vfx_intensity
 	
-	# Flash background red briefly
-	if background:
+	# Flash paper background
+	if paper_background:
 		var tween = create_tween()
-		var flash_color = Color(0.4, 0.1, 0.1, 0.9).lerp(original_bg_color, 1.0 - effect_scale)
-		tween.tween_property(background, "color", flash_color, 0.1)
-		tween.tween_property(background, "color", original_bg_color, 0.15)
+		var flash_color = Color(1, 0.8, 0.7).lerp(original_paper_color, 1.0 - effect_scale)
+		tween.tween_property(paper_background, "color", flash_color, 0.1)
+		tween.tween_property(paper_background, "color", original_paper_color, 0.15)
 	
-	# Shake the VBox slightly (reduced if reduce_motion enabled)
-	if vbox:
-		var shake_amount = 5.0 * shake_scale
-		var shake_tween = create_tween()
-		shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(-shake_amount, 0), 0.03)
-		shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(shake_amount, 0), 0.03)
-		shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(-shake_amount * 0.6, 0), 0.03)
-		shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(shake_amount * 0.6, 0), 0.03)
-		shake_tween.tween_property(vbox, "position", original_vbox_pos, 0.03)
-	
-	# Intensify scanline overlay briefly (scaled by vfx_intensity)
+	# Scanline glitch
 	if scanline_overlay and scanline_overlay.material:
 		var mat = scanline_overlay.material as ShaderMaterial
 		if mat:
@@ -615,18 +625,17 @@ func _play_tremor() -> void:
 			overlay_tween.tween_method(_set_glitch_intensity, 0.0, max_glitch, 0.1)
 			overlay_tween.tween_method(_set_glitch_intensity, max_glitch, 0.0, 0.2)
 	
-	# Also trigger 3D tremor (null-safe, scaled)
+	# 3D tremor
 	if office_3d and office_3d.has_method("apply_tremor"):
 		office_3d.apply_tremor(0.6 * shake_scale, 0.3)
 
-## Set glitch intensity on shader
 func _set_glitch_intensity(value: float) -> void:
 	if scanline_overlay and scanline_overlay.material:
 		var mat = scanline_overlay.material as ShaderMaterial
 		if mat:
 			mat.set_shader_parameter("glitch_intensity", value)
 
-## Sound effect helpers (null-safe)
+## Sound effects (null-safe)
 func _play_click() -> void:
 	if sfx and sfx.has_method("play_click"):
 		sfx.play_click()
@@ -643,20 +652,17 @@ func _play_glitch() -> void:
 	if sfx and sfx.has_method("play_glitch"):
 		sfx.play_glitch()
 
-## Update meter display
 func _update_meters() -> void:
 	if mood_value:
 		mood_value.text = "Mood: %+d" % mood
 	if contradiction_value:
-		contradiction_value.text = "Contradiction: %d" % contradiction
+		contradiction_value.text = "Contra: %d" % contradiction
 
 ## Shift complete
 func _complete() -> void:
-	# Stop event system
 	if shift_events and shift_events.has_method("stop"):
 		shift_events.stop()
 	
-	# Unlock next shift (null-safe)
 	var save_node = _get_save()
 	if save_node and shift_number < 10:
 		if save_node.has_method("unlock_shift"):
@@ -664,7 +670,6 @@ func _complete() -> void:
 		if save_node.has_method("write_save"):
 			save_node.write_save()
 	
-	# Hide workflow bar (null-safe)
 	if open_folder_btn:
 		open_folder_btn.visible = false
 	if inspect_btn:
@@ -681,22 +686,18 @@ func _complete() -> void:
 	if toast:
 		toast.text = "🎉 All tickets processed!"
 	if progress:
-		progress.text = "Final — Mood: %+d | Contradiction: %d" % [mood, contradiction]
+		progress.text = "Mood: %+d | Contra: %d" % [mood, contradiction]
 	
 	if stamp_buttons:
 		for c in stamp_buttons.get_children():
 			c.queue_free()
 		
-		# Add next shift button if not at shift 10
 		if shift_number < 10:
 			var next_btn = Button.new()
-			next_btn.text = "▶ Next Shift (%02d)" % (shift_number + 1)
-			next_btn.custom_minimum_size = Vector2(200, 45)
+			next_btn.text = "▶ Next"
+			next_btn.custom_minimum_size = Vector2(100, 35)
 			next_btn.pressed.connect(_next_shift)
 			stamp_buttons.add_child(next_btn)
-	
-	if back_button:
-		back_button.visible = true
 
 func _next_shift() -> void:
 	var gamestate = get_node_or_null("/root/GameState")
