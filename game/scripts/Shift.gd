@@ -1,6 +1,6 @@
 extends Control
 ## Shift - Desk job workflow gameplay with 4-step ticket processing
-## Includes procedural SFX and visual effects
+## Includes procedural SFX, visual effects, and random interrupt events
 
 # UI references
 @onready var background: ColorRect = $Background
@@ -29,11 +29,21 @@ extends Control
 @onready var rules_text: Label = $RulebookPopup/VBox/Scroll/RulesText
 @onready var rulebook_close_button: Button = $RulebookPopup/VBox/RulebookCloseButton
 
+# Event overlay references
+@onready var event_overlay: PanelContainer = $EventOverlay
+@onready var event_title: Label = $EventOverlay/VBox/EventTitle
+@onready var event_body: Label = $EventOverlay/VBox/EventBody
+@onready var choice_a_btn: Button = $EventOverlay/VBox/ButtonBox/ChoiceA
+@onready var choice_b_btn: Button = $EventOverlay/VBox/ButtonBox/ChoiceB
+
 # Visual effects
 @onready var scanline_overlay: ColorRect = $ScanlineOverlay
 
 # Audio (null-safe)
 @onready var sfx: Node = $Sfx
+
+# Events system (null-safe)
+@onready var shift_events: Node = $ShiftEvents
 
 # 3D office reference
 @onready var office_viewport: SubViewport = $OfficeViewportContainer/OfficeViewport
@@ -46,6 +56,7 @@ var index: int = 0
 var mood: int = 0
 var contradiction: int = 0
 var busy: bool = false
+var event_active: bool = false
 var original_bg_color: Color
 var original_vbox_pos: Vector2
 
@@ -80,7 +91,17 @@ func _ready() -> void:
 	check_rules_btn.pressed.connect(_on_check_rules)
 	file_ticket_btn.pressed.connect(_on_file_ticket)
 	
+	# Wire event buttons
+	choice_a_btn.pressed.connect(_on_event_choice_a)
+	choice_b_btn.pressed.connect(_on_event_choice_b)
+	
+	# Wire event system
+	if shift_events:
+		shift_events.connect("event_started", _on_event_started)
+		shift_events.connect("event_ended", _on_event_ended)
+	
 	toast.text = ""
+	event_overlay.visible = false
 	
 	# Get selected shift from GameState
 	shift_number = GameState.selected_shift
@@ -97,6 +118,9 @@ func _ready() -> void:
 	
 	if tickets.size() > 0:
 		_show(0)
+		# Start event system after first ticket
+		if shift_events:
+			shift_events.start()
 	else:
 		ticket_text.text = "No tickets found"
 		attachment.text = "Run: python tools/sync_game_data.py"
@@ -125,6 +149,8 @@ func _populate_rulebook() -> void:
 
 ## Open rulebook popup (also counts as "Check Rules" step)
 func _open_rulebook() -> void:
+	if event_active:
+		return  # Can't open rulebook during event
 	rulebook_popup.visible = true
 	_play_click()
 	# Mark rules as checked for workflow
@@ -136,6 +162,77 @@ func _open_rulebook() -> void:
 func _close_rulebook() -> void:
 	rulebook_popup.visible = false
 	_play_click()
+
+## Event started - show overlay
+func _on_event_started() -> void:
+	if not shift_events or busy:
+		return
+	
+	var event = shift_events.get_current_event()
+	if event.is_empty():
+		return
+	
+	event_active = true
+	_play_glitch()
+	
+	# Populate event overlay
+	event_title.text = event.get("title", "EVENT")
+	event_body.text = event.get("body", "Something happened.")
+	choice_a_btn.text = "A) " + event.get("choice_a", "Option A")
+	choice_b_btn.text = "B) " + event.get("choice_b", "Option B")
+	
+	# Show overlay
+	event_overlay.visible = true
+	
+	# Disable workflow buttons
+	_set_workflow_enabled(false)
+
+## Event choice A
+func _on_event_choice_a() -> void:
+	if not shift_events:
+		return
+	_play_click()
+	var result = shift_events.choose("A")
+	_apply_event_result(result)
+
+## Event choice B
+func _on_event_choice_b() -> void:
+	if not shift_events:
+		return
+	_play_click()
+	var result = shift_events.choose("B")
+	_apply_event_result(result)
+
+## Apply event result
+func _apply_event_result(result: Dictionary) -> void:
+	var mood_delta = result.get("mood", 0)
+	var contradiction_delta = result.get("contradiction", 0)
+	var result_toast = result.get("toast", "")
+	
+	mood += mood_delta
+	contradiction += contradiction_delta
+	_update_meters()
+	
+	if result_toast != "":
+		toast.text = "📢 " + result_toast
+	
+	# Tremor for high contradiction
+	if contradiction_delta >= 2:
+		_play_tremor()
+
+## Event ended
+func _on_event_ended(_mood_delta: int, _contradiction_delta: int) -> void:
+	event_active = false
+	event_overlay.visible = false
+	_set_workflow_enabled(true)
+
+## Enable/disable workflow buttons
+func _set_workflow_enabled(enabled: bool) -> void:
+	open_folder_btn.disabled = not enabled or folder_opened
+	inspect_btn.disabled = not enabled or attachment_inspected or not folder_opened
+	check_rules_btn.disabled = not enabled or rules_checked or not folder_opened
+	file_ticket_btn.disabled = not enabled or ticket_filed
+	rulebook_button.disabled = not enabled
 
 ## Determine workflow requirements for a ticket
 func _compute_requirements(t: Dictionary) -> void:
@@ -189,6 +286,10 @@ func _show(i: int) -> void:
 
 ## Update workflow button states and create stamp buttons when ready
 func _update_workflow_ui() -> void:
+	# Don't update if event is active
+	if event_active:
+		return
+	
 	# Update button visual states (completed steps get a checkmark)
 	open_folder_btn.text = "✓ Folder Opened" if folder_opened else "📁 Open Folder"
 	open_folder_btn.disabled = folder_opened
@@ -248,6 +349,8 @@ func _create_stamp_buttons() -> void:
 
 ## Workflow step: Open Folder
 func _on_open_folder() -> void:
+	if event_active:
+		return
 	if not folder_opened:
 		folder_opened = true
 		toast.text = "📂 Folder opened. Review the ticket."
@@ -256,6 +359,8 @@ func _on_open_folder() -> void:
 
 ## Workflow step: Inspect Attachment
 func _on_inspect() -> void:
+	if event_active:
+		return
 	if folder_opened and not attachment_inspected:
 		attachment_inspected = true
 		toast.text = "🔍 Attachment verified."
@@ -264,10 +369,14 @@ func _on_inspect() -> void:
 
 ## Workflow step: Check Rules (opens rulebook)
 func _on_check_rules() -> void:
+	if event_active:
+		return
 	_open_rulebook()
 
 ## Workflow step: File Ticket
 func _on_file_ticket() -> void:
+	if event_active:
+		return
 	# Check if all prerequisites are met
 	var can_file = folder_opened
 	if requires_inspect:
@@ -283,7 +392,7 @@ func _on_file_ticket() -> void:
 
 ## Handle stamp click
 func _stamp(name: String) -> void:
-	if busy:
+	if busy or event_active:
 		return
 	
 	# Check if workflow is complete
@@ -407,6 +516,10 @@ func _update_meters() -> void:
 
 ## Shift complete
 func _complete() -> void:
+	# Stop event system
+	if shift_events:
+		shift_events.stop()
+	
 	# Hide workflow bar
 	open_folder_btn.visible = false
 	inspect_btn.visible = false
@@ -436,5 +549,7 @@ func _next_shift() -> void:
 	get_tree().reload_current_scene()
 
 func _back() -> void:
+	if shift_events:
+		shift_events.stop()
 	_play_click()
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")

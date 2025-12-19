@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cshiftscene001"]
+[gd_scene load_steps=6 format=3 uid="uid://cshiftscene001"]
 
 [ext_resource type="Script" path="res://scripts/Shift.gd" id="1_shift"]
 [ext_resource type="PackedScene" uid="uid://coffice3dscene" path="res://scenes/Office3D.tscn" id="2_office"]
 [ext_resource type="Script" path="res://scripts/Sfx.gd" id="3_sfx"]
+[ext_resource type="Script" path="res://scripts/ShiftEvents.gd" id="4_events"]
 
 [sub_resource type="Shader" id="Shader_scanline"]
 code = "shader_type canvas_item;
@@ -196,6 +197,54 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0)
 
+[node name="EventOverlay" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -120.0
+offset_right = 250.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="EventOverlay"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="EventTitle" type="Label" parent="EventOverlay/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+text = "⚠️ EVENT TITLE"
+horizontal_alignment = 1
+
+[node name="EventBody" type="Label" parent="EventOverlay/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Event description goes here.\nChoose wisely."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ButtonBox" type="HBoxContainer" parent="EventOverlay/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="ChoiceA" type="Button" parent="EventOverlay/VBox/ButtonBox"]
+custom_minimum_size = Vector2(150, 45)
+layout_mode = 2
+text = "A) Choice A"
+
+[node name="ChoiceB" type="Button" parent="EventOverlay/VBox/ButtonBox"]
+custom_minimum_size = Vector2(150, 45)
+layout_mode = 2
+text = "B) Choice B"
+
 [node name="RulebookPopup" type="PanelContainer" parent="."]
 visible = false
 layout_mode = 1
@@ -239,3 +288,6 @@ text = "✓ Acknowledge"
 
 [node name="Sfx" type="Node" parent="."]
 script = ExtResource("3_sfx")
+
+[node name="ShiftEvents" type="Node" parent="."]
+script = ExtResource("4_events")

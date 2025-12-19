@@ -119,6 +119,7 @@ the-stamp-office/
   - [x] 3D office backdrop + clerk silhouette (no external assets)
   - [x] Audio/visual polish
   - [x] 3D environment
+  - [x] Random interrupt events (absurd office situations)
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
 - [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
