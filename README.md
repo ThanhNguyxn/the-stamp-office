@@ -39,11 +39,11 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 | `W` / `A` / `S` / `D` | Walk around the office |
 | `Shift` | Sprint |
 | Mouse | Look around |
-| `Tab` | Toggle cursor mode (to click paper UI) |
-| `E` | Focus on desk / Unfocus desk |
-| `Esc` | Leave desk / Back to menu |
+| `Tab` | Toggle cursor mode |
+| `E` | Focus/unfocus desk |
+| `Esc` | Back to menu |
 
-### Desk Workflow (in Cursor Mode)
+### Desk Workflow (Cursor Mode)
 
 | Key | Action |
 |-----|--------|
@@ -54,15 +54,12 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 | `R` | Open rulebook |
 | `A` | Approve stamp |
 | `D` | Deny stamp |
-| `Space`/`Enter` | Close rulebook |
 
-### How It Works
+### Mode Switching
 
-1. **Walk around** the office using WASD + mouse look
-2. Press **E** or walk up to the desk to focus on it (enters cursor mode)
-3. In **cursor mode**, your mouse is visible and you can click the paper or use keyboard shortcuts
-4. Press **Tab** to toggle between look mode and cursor mode
-5. Press **Esc** to leave the desk and return to walking
+- **LOOK mode** (default): Mouse captured, WASD moves you
+- **CURSOR mode**: Mouse visible, click paper UI or use 1-4 shortcuts
+- Press **Tab** to toggle, or **E** to focus on desk
 
 ---
 
@@ -70,7 +67,7 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 
 > **Status: Prototype Complete**
 > 
-> All 10 shifts are playable via the shift selector! The project follows documentation-first development — explore the design docs in `docs/` to understand the full vision.
+> All 10 shifts are playable via the shift selector!
 
 ```bash
 # Clone the repository
@@ -135,102 +132,66 @@ the-stamp-office/
 
 - [x] **Phase 0: Meta** — Repository setup, OSS templates ✓
 - [x] **Phase 1: Foundation** — Core design documents, game bible ✓
-  - [x] Vision, style lock, meme safety, clip moments
-  - [x] SHIFT_01 through SHIFT_10 scripts
-  - [x] Endings document
-- [x] **Phase 2: Data Architecture** — Define ticket/rule systems, dialogue structures ✓
-  - [x] JSON schema definitions
-  - [x] Shift 01–10 ticket data (127 tickets total)
-  - [x] Rules data (40 rules across 10 shifts)
-  - [x] Global toast pool (119 toasts)
-  - [x] Data validator (multi-file, cross-ID)
+- [x] **Phase 2: Data Architecture** — Define ticket/rule systems ✓
 - [x] **Phase 3: Prototype** — Initial Godot project, basic mechanics ✓
-  - [x] Godot project scaffold
-  - [x] Shift 01–10 playable (loads JSON data)
-  - [x] Data sync tool
-  - [x] Shift selector
-- [x] **Phase 4: Vertical Slice** — Playable demo of one complete shift ✓
-  - [x] Rulebook popup + rule view
-  - [x] Micro feedback (tremor/flash) for contradictions
-  - [x] 3D office backdrop + clerk silhouette (no external assets)
-  - [x] Audio/visual polish
-  - [x] 3D environment
-  - [x] Random interrupt events (absurd office situations)
+- [x] **Phase 4: Vertical Slice** — Playable demo ✓
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
-  - [x] Persistent progression (unlock shifts)
-  - [x] Settings (SFX, VFX, events, reduce motion)
-  - [x] Save system (user://save.json)
-  - [x] Keyboard controls for workflow
-  - [x] First-person movement + desk focus
+  - [x] Persistent progression
+  - [x] Settings
+  - [x] Save system
+  - [x] First-person WASD movement
+  - [x] Cursor/look mode toggle
   - [ ] Story/lore integration
   - [ ] Ending variations
-- [ ] **Phase 6: Beta** — Polish, testing, community feedback
-- [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
-
-> **Next up:** Phase 5 — Alpha (story/lore integration, ending variations)
+- [ ] **Phase 6: Beta** — Polish, testing
+- [ ] **Phase 7: Release**
 
 ---
 
 ## 🔧 Troubleshooting
 
-### World-space UI raycast crash (fixed)
+### WASD doesn't work?
 
-If you previously saw this error when clicking/hovering in the Shift scene:
-
-```
-Invalid access to property or key 'direct_space_state' on base object of type 'null instance'
-```
-
-**This is now fixed.** The world-space UI uses raycasting to detect clicks on the 3D paper. The crash occurred because the physics World3D wasn't ready yet when input events arrived.
-
-### "godot" command not recognized (Windows)
-
-If the `godot` command isn't found:
-
-1. **Use full path:** `"C:\Program Files\Godot\Godot_v4.2-stable_win64.exe" --path game`
-2. **Add to PATH:** Add your Godot folder to system PATH, then restart terminal
-3. **Use editor:** Open `game/project.godot` in Godot Editor and press **F5**
+Make sure you're in **LOOK mode** (mouse captured). Press **Tab** to toggle. The debug HUD in the top-left shows your current mode.
 
 ### Can't click the paper UI?
 
-Make sure you're in **cursor mode**:
-- Press **Tab** to toggle cursor mode
-- Press **E** to focus on the desk (auto-enables cursor mode)
-- In cursor mode, your mouse is visible and can click buttons
+Switch to **CURSOR mode** by pressing **Tab**. Your mouse becomes visible and you can click.
+
+### "godot" command not recognized (Windows)
+
+1. Use full path: `"C:\Program Files\Godot\Godot_v4.2-stable_win64.exe" --path game`
+2. Or open `game/project.godot` in Godot Editor and press **F5**
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Whether it's writing lore, designing tickets, suggesting features, or eventually writing code — we'd love your help.
-
-Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a PR.
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a PR.
 
 ---
 
 ## 📜 Code of Conduct
 
-This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 
 ## 🔒 Security
 
-Found a vulnerability? Please review our [Security Policy](SECURITY.md) for responsible disclosure guidelines.
+Found a vulnerability? Please review our [Security Policy](SECURITY.md).
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file.
 
 ---
 
 ## ⚠️ Meme Safety Note
 
 > **All characters, organizations, brands, and bureaucratic entities in this project are entirely fictional.**
-> 
-> Any resemblance to real companies, government agencies, or soul-crushing workplaces is purely coincidental (and legally defensible). No real brands, teams, or people are referenced or parodied.
 
 ---
 

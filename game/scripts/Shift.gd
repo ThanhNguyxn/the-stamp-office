@@ -2,7 +2,8 @@ extends Control
 ## Shift - Desk job workflow gameplay with world-space UI on 3D paper
 ## UI rendered to PaperViewport and displayed on 3D PaperScreen mesh
 ## Input: mouse clicks on paper OR keyboard shortcuts
-## Supports first-person movement with cursor/look mode toggle
+## FIXED: Forwards mouse motion to PlayerController for SubViewport compatibility
+## FIXED: Starts in LOOK mode so WASD movement works immediately
 
 # Paper viewport (contains the UI)
 @onready var paper_viewport: SubViewport = $PaperViewport
@@ -142,8 +143,6 @@ func _ready() -> void:
 		if shift_events.has_signal("event_ended"):
 			shift_events.connect("event_ended", _on_event_ended)
 	
-	if toast:
-		toast.text = ""
 	if event_overlay:
 		event_overlay.visible = false
 	
@@ -163,8 +162,8 @@ func _ready() -> void:
 	# Populate rulebook
 	_populate_rulebook()
 	
-	# Show rulebook on start
-	_open_rulebook()
+	# DON'T show rulebook on start - let player explore first
+	# _open_rulebook()
 	
 	if tickets.size() > 0:
 		_show(0)
@@ -177,26 +176,23 @@ func _ready() -> void:
 			attachment.text = "Run: python tools/sync_game_data.py"
 		_update_workflow_ui()
 	
-	# Start with player focused on desk (cursor mode for UI interaction)
-	_focus_player_on_desk(true)
+	# Show controls hint
+	if toast:
+		toast.text = "🎮 WASD move • Mouse look • Tab cursor • E desk • Esc leave"
+	
+	# DO NOT start in cursor mode - start in LOOK mode so WASD works!
+	# Player starts in LOOK mode by default in PlayerController._ready()
 	
 	# Wait for viewport to fully initialize before enabling raycast
 	await get_tree().process_frame
 	await get_tree().process_frame  # Extra frame for physics
 	raycast_ready = true
 
-## Focus player on desk (cursor mode + camera snap)
-func _focus_player_on_desk(enabled: bool) -> void:
-	if player_controller and player_controller.has_method("focus_desk"):
-		player_controller.focus_desk(enabled)
-	elif player_controller and player_controller.has_method("set_cursor_mode"):
-		player_controller.set_cursor_mode(enabled)
-
 ## Check if player is in cursor mode (can click UI)
 func _is_cursor_mode() -> bool:
 	if player_controller and player_controller.has_method("is_cursor_mode"):
 		return player_controller.is_cursor_mode()
-	return true  # Default to cursor mode if no player
+	return false  # Default to LOOK mode if no player
 
 ## Ensure SubViewport is 3D-capable for physics raycasting
 func _ensure_viewport_3d_capable() -> void:
@@ -259,91 +255,27 @@ func _setup_paper_texture() -> void:
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	paper_screen.material_override = mat
 
-## Process keyboard input for workflow shortcuts
-func _unhandled_key_input(event: InputEvent) -> void:
-	if not event is InputEventKey:
-		return
-	
-	var key_event = event as InputEventKey
-	if not key_event.pressed:
-		return
-	
-	# Handle Escape to close rulebook or unfocus desk
-	if key_event.keycode == KEY_ESCAPE:
-		if rulebook_popup and rulebook_popup.visible:
-			_close_rulebook()
-		elif not busy:
-			# Unfocus desk and return to look mode
-			_focus_player_on_desk(false)
-			_back()
-		return
-	
-	# Handle Space/Enter to close rulebook
-	if key_event.keycode == KEY_SPACE or key_event.keycode == KEY_ENTER:
-		if rulebook_popup and rulebook_popup.visible:
-			_close_rulebook()
-		return
-	
-	# Handle event choices if event overlay is visible
-	if event_active and event_overlay and event_overlay.visible:
-		if key_event.keycode == KEY_A or key_event.keycode == KEY_1:
-			_on_event_choice_a()
-			return
-		elif key_event.keycode == KEY_B or key_event.keycode == KEY_2:
-			_on_event_choice_b()
-			return
-		return  # Don't process other keys during events
-	
-	# Ignore workflow keys if rulebook is open
-	if rulebook_popup and rulebook_popup.visible:
-		return
-	
-	# Don't process workflow keys when busy
-	if busy:
-		return
-	
-	# Workflow shortcuts (1-4) - only in cursor mode
-	if not _is_cursor_mode():
-		return
-	
-	match key_event.keycode:
-		KEY_1:
-			_on_open_folder()
-		KEY_2:
-			_on_inspect()
-		KEY_3:
-			_on_check_rules()
-		KEY_4:
-			_on_file_ticket()
-		KEY_R:
-			_open_rulebook()
-		# Stamp shortcuts when ticket is filed
-		KEY_A:
-			if ticket_filed and "APPROVED" in current_allowed_stamps:
-				_stamp("APPROVED")
-		KEY_D:
-			if ticket_filed and "DENIED" in current_allowed_stamps:
-				_stamp("DENIED")
-		KEY_H:
-			if ticket_filed and "HOLD" in current_allowed_stamps:
-				_stamp("HOLD")
-		KEY_F:
-			if ticket_filed and "FORWARD" in current_allowed_stamps:
-				_stamp("FORWARD")
-		# Number keys 5-9 for stamps by index
-		KEY_5, KEY_6, KEY_7, KEY_8, KEY_9:
-			var stamp_index = key_event.keycode - KEY_5
-			if ticket_filed and stamp_index < current_allowed_stamps.size():
-				_stamp(current_allowed_stamps[stamp_index])
-
-## Handle mouse input - raycast to paper and forward to viewport
+## Handle ALL input - forward mouse motion to PlayerController
 func _input(event: InputEvent) -> void:
-	# Only handle mouse events here; keyboard handled by _unhandled_key_input
-	if not event is InputEventMouse:
+	# Forward mouse motion to PlayerController (needed because it's in SubViewport)
+	if event is InputEventMouseMotion:
+		if player_controller and player_controller.has_method("handle_mouse_motion"):
+			var motion = event as InputEventMouseMotion
+			player_controller.handle_mouse_motion(motion.relative)
+		# In cursor mode, also handle paper raycast
+		if _is_cursor_mode():
+			_handle_paper_mouse(event)
 		return
 	
-	# Only forward mouse clicks in cursor mode (so mouse-look doesn't click buttons)
-	if not _is_cursor_mode():
+	# Handle mouse clicks only in cursor mode
+	if event is InputEventMouseButton:
+		if _is_cursor_mode():
+			_handle_paper_mouse(event)
+		return
+
+## Handle mouse input on paper (raycast to paper and forward to viewport)
+func _handle_paper_mouse(event: InputEvent) -> void:
+	if not event is InputEventMouse:
 		return
 	
 	# Early exit if raycast not ready
@@ -425,6 +357,81 @@ func _input(event: InputEvent) -> void:
 	
 	# Forward to viewport
 	paper_viewport.push_input(new_event)
+
+## Process keyboard input for workflow shortcuts
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not event is InputEventKey:
+		return
+	
+	var key_event = event as InputEventKey
+	if not key_event.pressed:
+		return
+	
+	# Handle Escape to close rulebook or go back
+	if key_event.keycode == KEY_ESCAPE:
+		if rulebook_popup and rulebook_popup.visible:
+			_close_rulebook()
+		elif not busy:
+			_back()
+		return
+	
+	# Handle Space/Enter to close rulebook
+	if key_event.keycode == KEY_SPACE or key_event.keycode == KEY_ENTER:
+		if rulebook_popup and rulebook_popup.visible:
+			_close_rulebook()
+		return
+	
+	# Handle event choices if event overlay is visible
+	if event_active and event_overlay and event_overlay.visible:
+		if key_event.keycode == KEY_A or key_event.keycode == KEY_1:
+			_on_event_choice_a()
+			return
+		elif key_event.keycode == KEY_B or key_event.keycode == KEY_2:
+			_on_event_choice_b()
+			return
+		return  # Don't process other keys during events
+	
+	# Ignore workflow keys if rulebook is open
+	if rulebook_popup and rulebook_popup.visible:
+		return
+	
+	# Don't process workflow keys when busy
+	if busy:
+		return
+	
+	# Workflow shortcuts (1-4) - only in cursor mode
+	if not _is_cursor_mode():
+		return
+	
+	match key_event.keycode:
+		KEY_1:
+			_on_open_folder()
+		KEY_2:
+			_on_inspect()
+		KEY_3:
+			_on_check_rules()
+		KEY_4:
+			_on_file_ticket()
+		KEY_R:
+			_open_rulebook()
+		# Stamp shortcuts when ticket is filed
+		KEY_A:
+			if ticket_filed and "APPROVED" in current_allowed_stamps:
+				_stamp("APPROVED")
+		KEY_D:
+			if ticket_filed and "DENIED" in current_allowed_stamps:
+				_stamp("DENIED")
+		KEY_H:
+			if ticket_filed and "HOLD" in current_allowed_stamps:
+				_stamp("HOLD")
+		KEY_F:
+			if ticket_filed and "FORWARD" in current_allowed_stamps:
+				_stamp("FORWARD")
+		# Number keys 5-9 for stamps by index
+		KEY_5, KEY_6, KEY_7, KEY_8, KEY_9:
+			var stamp_index = key_event.keycode - KEY_5
+			if ticket_filed and stamp_index < current_allowed_stamps.size():
+				_stamp(current_allowed_stamps[stamp_index])
 
 ## Get Save autoload node (null-safe)
 func _get_save() -> Node:
@@ -624,7 +631,7 @@ func _show(i: int) -> void:
 ## Show keyboard controls hint in toast
 func _show_controls_hint() -> void:
 	if toast:
-		toast.text = "🎮 WASD=Walk Tab=Cursor E=Desk | 1-4=Workflow A/D=Stamp"
+		toast.text = "🎮 WASD move • Mouse look • Tab cursor • E desk • Esc leave"
 
 func _update_workflow_ui() -> void:
 	if event_active:
