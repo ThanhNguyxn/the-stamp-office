@@ -42,7 +42,7 @@ offset_left = 50.0
 offset_top = 40.0
 offset_right = -50.0
 offset_bottom = -40.0
-theme_override_constants/separation = 20
+theme_override_constants/separation = 12
 
 [node name="HeaderRow" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
@@ -74,7 +74,33 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Contradiction: 0"
 
+[node name="WorkflowBar" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="OpenFolderBtn" type="Button" parent="VBox/WorkflowBar"]
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+text = "📁 Open Folder"
+
+[node name="InspectBtn" type="Button" parent="VBox/WorkflowBar"]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+text = "🔍 Inspect"
+
+[node name="CheckRulesBtn" type="Button" parent="VBox/WorkflowBar"]
+custom_minimum_size = Vector2(140, 40)
+layout_mode = 2
+text = "📋 Check Rules"
+
+[node name="FileTicketBtn" type="Button" parent="VBox/WorkflowBar"]
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+text = "📤 File Ticket"
+
 [node name="TicketPanel" type="PanelContainer" parent="VBox"]
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 
