@@ -41,12 +41,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -150.0
+offset_top = -180.0
 offset_right = 200.0
-offset_bottom = 150.0
+offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Title" type="Label" parent="VBox"]
@@ -62,8 +62,15 @@ theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 text = "Horror look. Comedy feel. Paperwork runs reality."
 horizontal_alignment = 1
 
+[node name="ProgressLabel" type="Label" parent="VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.5, 0.8, 0.5, 1)
+text = "📊 Unlocked: Shift 01 → Shift 01"
+horizontal_alignment = 1
+
 [node name="Spacer" type="Control" parent="VBox"]
-custom_minimum_size = Vector2(0, 15)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
 [node name="ShiftBox" type="HBoxContainer" parent="VBox"]
@@ -86,11 +93,27 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "▶ Start"
 
-[node name="QuitButton" type="Button" parent="VBox"]
-custom_minimum_size = Vector2(250, 50)
+[node name="ButtonRow" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="SettingsButton" type="Button" parent="VBox/ButtonRow"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "⚙ Settings"
+
+[node name="QuitButton" type="Button" parent="VBox/ButtonRow"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "✕ Quit"
+
+[node name="ResetButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(200, 35)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "✕ Quit"
+theme_override_colors/font_color = Color(0.8, 0.4, 0.4, 1)
+text = "🔄 Reset Progress"
 
 [node name="Version" type="Label" parent="."]
 layout_mode = 1
@@ -106,5 +129,124 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
-text = "v0.3.0 — Phase 4"
+text = "v0.4.0 — Phase 5 Alpha"
 horizontal_alignment = 1
+
+[node name="SettingsPopup" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="SettingsPopup"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="SettingsPopup/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "⚙ SETTINGS"
+horizontal_alignment = 1
+
+[node name="SfxCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+layout_mode = 2
+button_pressed = true
+text = "🔊 Sound Effects"
+
+[node name="EventsCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+layout_mode = 2
+button_pressed = true
+text = "🎲 Random Events"
+
+[node name="MotionCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+layout_mode = 2
+text = "🎯 Reduce Motion"
+
+[node name="VfxBox" type="HBoxContainer" parent="SettingsPopup/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="VfxLabel" type="Label" parent="SettingsPopup/VBox/VfxBox"]
+layout_mode = 2
+text = "📺 VFX Intensity:"
+
+[node name="VfxSlider" type="HSlider" parent="SettingsPopup/VBox/VfxBox"]
+custom_minimum_size = Vector2(150, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="ButtonRow" type="HBoxContainer" parent="SettingsPopup/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 15
+
+[node name="SaveButton" type="Button" parent="SettingsPopup/VBox/ButtonRow"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "✓ Save"
+
+[node name="CloseButton" type="Button" parent="SettingsPopup/VBox/ButtonRow"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "✕ Close"
+
+[node name="ConfirmDialog" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -80.0
+offset_right = 180.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="ConfirmDialog"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="ConfirmDialog/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.7, 0.3, 1)
+text = "⚠ Reset Progress?"
+horizontal_alignment = 1
+
+[node name="Body" type="Label" parent="ConfirmDialog/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "This will lock all shifts except Shift 01.
+Your settings will be preserved."
+horizontal_alignment = 1
+
+[node name="ButtonRow" type="HBoxContainer" parent="ConfirmDialog/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="ConfirmYes" type="Button" parent="ConfirmDialog/VBox/ButtonRow"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
+text = "Reset"
+
+[node name="ConfirmNo" type="Button" parent="ConfirmDialog/VBox/ButtonRow"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Cancel"

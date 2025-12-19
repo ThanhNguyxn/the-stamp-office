@@ -45,13 +45,30 @@ godot --path game
 ## Features
 
 - **Shift Selector** — Play any shift 01–10
+- **Persistent Progression** — Unlock shifts by completing them
+- **Settings** — Configure SFX, VFX intensity, events, reduce motion
 - **Data-Driven** — All tickets load from JSON
 - **Toast System** — Shows feedback messages
 - **Meters** — Mood and Contradiction tracking
 - **Rulebook Popup** — Auto-shows at shift start
 - **Reality Tremor** — Visual feedback for high contradictions
 - **3D Office Backdrop** — Rendered via SubViewport behind UI
+- **Random Events** — Absurd office interruptions during shifts
 - **Next Shift** — Continue to next shift after completion
+
+---
+
+## Save File
+
+The game stores progress and settings in:
+
+```
+user://save.json
+```
+
+**Windows location:** `%APPDATA%\Godot\app_userdata\The Stamp Office\save.json`
+
+To reset progress, click "Reset Progress" in the main menu, or delete the save file.
 
 ---
 
@@ -62,10 +79,13 @@ godot --path game
 | `project.godot` | Config + autoloads |
 | `scripts/DataLoader.gd` | JSON loader (tickets, toasts, rules) |
 | `scripts/GameState.gd` | Stores selected shift |
-| `scripts/Main.gd` | Menu + shift selector |
+| `scripts/Save.gd` | Persistent save + settings |
+| `scripts/Main.gd` | Menu + shift selector + settings UI |
 | `scripts/Shift.gd` | Gameplay logic + tremor effects |
+| `scripts/Sfx.gd` | Procedural audio synthesis |
+| `scripts/ShiftEvents.gd` | Random interrupt events |
 | `scripts/Office3D.gd` | 3D backdrop idle + tremor |
-| `scenes/Main.tscn` | Main menu UI |
+| `scenes/Main.tscn` | Main menu UI + settings popup |
 | `scenes/Shift.tscn` | Shift gameplay UI + SubViewport |
 | `scenes/Office3D.tscn` | 3D office scene (primitives) |
 | `data/` | Synced JSON data |
@@ -76,3 +96,4 @@ godot --path game
 
 - **3D backdrop**: The Shift screen renders a 3D office backdrop via SubViewport. Uses only built-in primitives (no external assets).
 - **Tremor effect**: Also triggers camera shake and light flicker in the 3D scene.
+- **Save system**: Automatically saves when completing a shift or changing settings.

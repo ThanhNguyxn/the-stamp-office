@@ -1,6 +1,6 @@
 extends Control
 ## Shift - Desk job workflow gameplay with 4-step ticket processing
-## Includes procedural SFX, visual effects, and random interrupt events
+## Includes procedural SFX, visual effects, random interrupt events, and save integration
 
 # UI references
 @onready var background: ColorRect = $Background
@@ -60,6 +60,11 @@ var event_active: bool = false
 var original_bg_color: Color
 var original_vbox_pos: Vector2
 
+# Settings-driven modifiers
+var vfx_intensity: float = 1.0
+var reduce_motion: bool = false
+var events_enabled: bool = true
+
 # Workflow state per ticket
 var folder_opened: bool = false
 var attachment_inspected: bool = false
@@ -78,6 +83,9 @@ func _ready() -> void:
 	# Get reference to Office3D scene (null-safe)
 	if office_viewport and office_viewport.get_child_count() > 0:
 		office_3d = office_viewport.get_child(0)
+	
+	# Apply saved settings (null-safe)
+	_apply_settings()
 	
 	# Wire main buttons
 	back_button.pressed.connect(_back)
@@ -118,13 +126,34 @@ func _ready() -> void:
 	
 	if tickets.size() > 0:
 		_show(0)
-		# Start event system after first ticket
-		if shift_events:
+		# Start event system after first ticket (if enabled)
+		if shift_events and events_enabled:
 			shift_events.start()
 	else:
 		ticket_text.text = "No tickets found"
 		attachment.text = "Run: python tools/sync_game_data.py"
 		_update_workflow_ui()
+
+## Apply settings from Save autoload (null-safe)
+func _apply_settings() -> void:
+	if not _has_save():
+		return
+	
+	# Store settings locally
+	vfx_intensity = Save.vfx_intensity
+	reduce_motion = Save.reduce_motion
+	events_enabled = Save.events_enabled
+	
+	# Apply to scene components
+	Save.apply_settings_to_scene(self)
+	
+	# If events disabled, don't start them
+	if not events_enabled and shift_events and shift_events.has_method("stop"):
+		shift_events.stop()
+
+## Check if Save autoload exists
+func _has_save() -> bool:
+	return Engine.has_singleton("Save") or has_node("/root/Save")
 
 ## Populate rulebook popup with rules for current shift
 func _populate_rulebook() -> void:
@@ -165,7 +194,7 @@ func _close_rulebook() -> void:
 
 ## Event started - show overlay
 func _on_event_started() -> void:
-	if not shift_events or busy:
+	if not shift_events or busy or not events_enabled:
 		return
 	
 	var event = shift_events.get_current_event()
@@ -458,32 +487,39 @@ func _animate_ticket_out() -> void:
 	tween_in.tween_property(ticket_vbox, "position:x", 0, 0.25)
 	await tween_in.finished
 
-## Play "reality tremor" effect - UI + 3D scene + visual overlay
+## Play "reality tremor" effect - UI + 3D scene + visual overlay (respects settings)
 func _play_tremor() -> void:
+	# Scale effects based on settings
+	var shake_scale = 1.0 if not reduce_motion else 0.3
+	var effect_scale = vfx_intensity
+	
 	# Flash background red briefly
 	var tween = create_tween()
-	tween.tween_property(background, "color", Color(0.4, 0.1, 0.1, 0.9), 0.1)
+	var flash_color = Color(0.4, 0.1, 0.1, 0.9).lerp(original_bg_color, 1.0 - effect_scale)
+	tween.tween_property(background, "color", flash_color, 0.1)
 	tween.tween_property(background, "color", original_bg_color, 0.15)
 	
-	# Shake the VBox slightly
+	# Shake the VBox slightly (reduced if reduce_motion enabled)
+	var shake_amount = 5.0 * shake_scale
 	var shake_tween = create_tween()
-	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(-5, 0), 0.03)
-	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(5, 0), 0.03)
-	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(-3, 0), 0.03)
-	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(3, 0), 0.03)
+	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(-shake_amount, 0), 0.03)
+	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(shake_amount, 0), 0.03)
+	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(-shake_amount * 0.6, 0), 0.03)
+	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(shake_amount * 0.6, 0), 0.03)
 	shake_tween.tween_property(vbox, "position", original_vbox_pos, 0.03)
 	
-	# Intensify scanline overlay briefly
+	# Intensify scanline overlay briefly (scaled by vfx_intensity)
 	if scanline_overlay and scanline_overlay.material:
 		var mat = scanline_overlay.material as ShaderMaterial
 		if mat:
+			var max_glitch = 0.5 * effect_scale
 			var overlay_tween = create_tween()
-			overlay_tween.tween_method(_set_glitch_intensity, 0.0, 0.5, 0.1)
-			overlay_tween.tween_method(_set_glitch_intensity, 0.5, 0.0, 0.2)
+			overlay_tween.tween_method(_set_glitch_intensity, 0.0, max_glitch, 0.1)
+			overlay_tween.tween_method(_set_glitch_intensity, max_glitch, 0.0, 0.2)
 	
-	# Also trigger 3D tremor (null-safe)
+	# Also trigger 3D tremor (null-safe, scaled)
 	if office_3d and office_3d.has_method("apply_tremor"):
-		office_3d.apply_tremor(0.6, 0.3)
+		office_3d.apply_tremor(0.6 * shake_scale, 0.3)
 
 ## Set glitch intensity on shader
 func _set_glitch_intensity(value: float) -> void:
@@ -519,6 +555,11 @@ func _complete() -> void:
 	# Stop event system
 	if shift_events:
 		shift_events.stop()
+	
+	# Unlock next shift (null-safe)
+	if _has_save() and shift_number < 10:
+		Save.unlock_shift(shift_number + 1)
+		Save.write_save()
 	
 	# Hide workflow bar
 	open_folder_btn.visible = false
