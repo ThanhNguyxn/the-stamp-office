@@ -1,7 +1,7 @@
 extends Control
 ## Shift - Desk job workflow gameplay with world-space UI on 3D paper
 ## UI rendered to PaperViewport and displayed on 3D PaperScreen mesh
-## Input is raycasted from 3D camera to paper and forwarded to viewport
+## Input: mouse clicks on paper OR keyboard shortcuts
 ## FIXED: Safe World3D access with is_instance_valid checks to prevent null crashes
 
 # Paper viewport (contains the UI)
@@ -85,6 +85,9 @@ var ticket_filed: bool = false
 # Requirements for current ticket
 var requires_inspect: bool = false
 var requires_rules: bool = false
+
+# Current allowed stamps (for keyboard selection)
+var current_allowed_stamps: Array = []
 
 func _ready() -> void:
 	# Get 3D references (null-safe)
@@ -226,17 +229,93 @@ func _setup_paper_texture() -> void:
 	if not is_instance_valid(paper_viewport) or not is_instance_valid(paper_screen):
 		return
 	
-	# Create material with viewport texture
+	# Create material with viewport texture - brighter emission for readability
 	var mat = StandardMaterial3D.new()
 	mat.albedo_texture = paper_viewport.get_texture()
 	mat.emission_enabled = true
 	mat.emission = Color(1, 1, 1, 1)
-	mat.emission_energy_multiplier = 0.3
+	mat.emission_energy_multiplier = 0.6  # Increased for better visibility
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	paper_screen.material_override = mat
 
-## Handle input - raycast to paper and forward to viewport
+## Process keyboard input for workflow shortcuts
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not event is InputEventKey:
+		return
+	
+	var key_event = event as InputEventKey
+	if not key_event.pressed:
+		return
+	
+	# Handle Escape to close rulebook or go back
+	if key_event.keycode == KEY_ESCAPE:
+		if rulebook_popup and rulebook_popup.visible:
+			_close_rulebook()
+		elif not busy:
+			_back()
+		return
+	
+	# Handle Space/Enter to close rulebook
+	if key_event.keycode == KEY_SPACE or key_event.keycode == KEY_ENTER:
+		if rulebook_popup and rulebook_popup.visible:
+			_close_rulebook()
+		return
+	
+	# Handle event choices if event overlay is visible
+	if event_active and event_overlay and event_overlay.visible:
+		if key_event.keycode == KEY_A or key_event.keycode == KEY_1:
+			_on_event_choice_a()
+			return
+		elif key_event.keycode == KEY_B or key_event.keycode == KEY_2:
+			_on_event_choice_b()
+			return
+		return  # Don't process other keys during events
+	
+	# Ignore workflow keys if rulebook is open
+	if rulebook_popup and rulebook_popup.visible:
+		return
+	
+	# Don't process workflow keys when busy
+	if busy:
+		return
+	
+	# Workflow shortcuts (1-4)
+	match key_event.keycode:
+		KEY_1:
+			_on_open_folder()
+		KEY_2:
+			_on_inspect()
+		KEY_3:
+			_on_check_rules()
+		KEY_4:
+			_on_file_ticket()
+		KEY_R:
+			_open_rulebook()
+		# Stamp shortcuts when ticket is filed
+		KEY_A:
+			if ticket_filed and "APPROVED" in current_allowed_stamps:
+				_stamp("APPROVED")
+		KEY_D:
+			if ticket_filed and "DENIED" in current_allowed_stamps:
+				_stamp("DENIED")
+		KEY_H:
+			if ticket_filed and "HOLD" in current_allowed_stamps:
+				_stamp("HOLD")
+		KEY_F:
+			if ticket_filed and "FORWARD" in current_allowed_stamps:
+				_stamp("FORWARD")
+		# Number keys 5-9 for stamps by index
+		KEY_5, KEY_6, KEY_7, KEY_8, KEY_9:
+			var stamp_index = key_event.keycode - KEY_5
+			if ticket_filed and stamp_index < current_allowed_stamps.size():
+				_stamp(current_allowed_stamps[stamp_index])
+
+## Handle mouse input - raycast to paper and forward to viewport
 func _input(event: InputEvent) -> void:
+	# Only handle mouse events here; keyboard handled by _unhandled_key_input
+	if not event is InputEventMouse:
+		return
+	
 	# Early exit if raycast not ready
 	if not raycast_ready:
 		return
@@ -249,9 +328,6 @@ func _input(event: InputEvent) -> void:
 	if not is_instance_valid(paper_viewport):
 		return
 	if not is_instance_valid(paper_screen):
-		return
-	
-	if not event is InputEventMouse:
 		return
 	
 	var mouse_event = event as InputEventMouse
@@ -414,6 +490,11 @@ func _on_event_started() -> void:
 	
 	if event_overlay:
 		event_overlay.visible = true
+	
+	# Update toast with event controls
+	if toast:
+		toast.text = "⚠️ EVENT! Press A or B to choose"
+	
 	_set_workflow_enabled(false)
 
 func _on_event_choice_a() -> void:
@@ -489,6 +570,9 @@ func _show(i: int) -> void:
 	var t = tickets[i]
 	_compute_requirements(t)
 	
+	# Store allowed stamps for keyboard selection
+	current_allowed_stamps = t.get("allowed_stamps", [])
+	
 	if ticket_text:
 		ticket_text.text = t.get("text", "")
 	if attachment:
@@ -496,8 +580,10 @@ func _show(i: int) -> void:
 		attachment.text = "📎 " + att if att != "" else "📎 N/A"
 	if progress:
 		progress.text = "Ticket %d / %d" % [i + 1, tickets.size()]
-	if toast:
-		toast.text = "📁 Follow the workflow steps"
+	
+	# Show controls hint in toast
+	_show_controls_hint()
+	
 	_update_meters()
 	_update_workflow_ui()
 	
@@ -505,18 +591,23 @@ func _show(i: int) -> void:
 		for c in stamp_buttons.get_children():
 			c.queue_free()
 
+## Show keyboard controls hint in toast
+func _show_controls_hint() -> void:
+	if toast:
+		toast.text = "🎮 1=Open 2=Inspect 3=Rules 4=File | A/D=Stamp | Esc=Back"
+
 func _update_workflow_ui() -> void:
 	if event_active:
 		return
 	
 	if open_folder_btn:
-		open_folder_btn.text = "✓ Opened" if folder_opened else "📁 Open"
+		open_folder_btn.text = "[1] ✓ Opened" if folder_opened else "[1] 📁 Open"
 		open_folder_btn.disabled = folder_opened
 	
 	if inspect_btn:
 		if requires_inspect:
 			inspect_btn.visible = true
-			inspect_btn.text = "✓ Done" if attachment_inspected else "🔍 Inspect"
+			inspect_btn.text = "[2] ✓ Done" if attachment_inspected else "[2] 🔍 Inspect"
 			inspect_btn.disabled = attachment_inspected or not folder_opened
 		else:
 			inspect_btn.visible = false
@@ -525,7 +616,7 @@ func _update_workflow_ui() -> void:
 	if check_rules_btn:
 		if requires_rules:
 			check_rules_btn.visible = true
-			check_rules_btn.text = "✓ OK" if rules_checked else "📋 Rules"
+			check_rules_btn.text = "[3] ✓ OK" if rules_checked else "[3] 📋 Rules"
 			check_rules_btn.disabled = rules_checked or not folder_opened
 		else:
 			check_rules_btn.visible = false
@@ -537,7 +628,7 @@ func _update_workflow_ui() -> void:
 		can_file = can_file and rules_checked
 	
 	if file_ticket_btn:
-		file_ticket_btn.text = "✓ Filed" if ticket_filed else "📤 File"
+		file_ticket_btn.text = "[4] ✓ Filed" if ticket_filed else "[4] 📤 File"
 		file_ticket_btn.disabled = ticket_filed or not can_file
 	
 	if ticket_filed:
@@ -558,13 +649,22 @@ func _create_stamp_buttons() -> void:
 	
 	for stamp in t.get("allowed_stamps", []):
 		var btn = Button.new()
-		btn.text = "🔴 " + stamp if stamp == "DENIED" else "🟢 " + stamp if stamp == "APPROVED" else "🟡 " + stamp
-		btn.custom_minimum_size = Vector2(100, 35)
+		# Add keyboard hint to button text
+		var key_hint = ""
+		match stamp:
+			"APPROVED": key_hint = "[A] "
+			"DENIED": key_hint = "[D] "
+			"HOLD": key_hint = "[H] "
+			"FORWARD": key_hint = "[F] "
+		
+		var emoji = "🔴 " if stamp == "DENIED" else "🟢 " if stamp == "APPROVED" else "🟡 "
+		btn.text = key_hint + emoji + stamp
+		btn.custom_minimum_size = Vector2(120, 35)
 		btn.pressed.connect(_stamp.bind(stamp))
 		hbox.add_child(btn)
 	
 	if toast:
-		toast.text = "🖋️ Ready to stamp!"
+		toast.text = "🖋️ Ready! Press A=Approve D=Deny (or click)"
 
 func _on_open_folder() -> void:
 	if event_active:
@@ -572,7 +672,7 @@ func _on_open_folder() -> void:
 	if not folder_opened:
 		folder_opened = true
 		if toast:
-			toast.text = "📂 Folder opened"
+			toast.text = "📂 Folder opened — next: [2] Inspect or [4] File"
 		_play_click()
 		_update_workflow_ui()
 
@@ -582,7 +682,7 @@ func _on_inspect() -> void:
 	if folder_opened and not attachment_inspected:
 		attachment_inspected = true
 		if toast:
-			toast.text = "🔍 Attachment verified"
+			toast.text = "🔍 Attachment verified — next: [3] Rules or [4] File"
 		_play_click()
 		_update_workflow_ui()
 
@@ -603,7 +703,7 @@ func _on_file_ticket() -> void:
 	if can_file and not ticket_filed:
 		ticket_filed = true
 		if toast:
-			toast.text = "📤 Ticket filed. Select stamp."
+			toast.text = "📤 Ticket filed — choose stamp: [A] Approve [D] Deny"
 		_play_click()
 		_update_workflow_ui()
 
@@ -615,9 +715,16 @@ func _stamp(name: String) -> void:
 		contradiction += 1
 		_update_meters()
 		if toast:
-			toast.text = "⚠️ Process violation! Complete workflow first."
+			toast.text = "⚠️ Process violation! Complete workflow [1-4] first."
 		_play_error()
 		_play_tremor()
+		return
+	
+	# Validate stamp is allowed
+	if name not in current_allowed_stamps:
+		if toast:
+			toast.text = "⚠️ Stamp not available for this ticket"
+		_play_error()
 		return
 	
 	busy = true
@@ -756,7 +863,7 @@ func _complete() -> void:
 	if attachment:
 		attachment.text = "Thank you for your service."
 	if toast:
-		toast.text = "🎉 All tickets processed!"
+		toast.text = "🎉 All tickets processed! Press Esc to return."
 	if progress:
 		progress.text = "Mood: %+d | Contra: %d" % [mood, contradiction]
 	
@@ -766,8 +873,8 @@ func _complete() -> void:
 		
 		if shift_number < 10:
 			var next_btn = Button.new()
-			next_btn.text = "▶ Next"
-			next_btn.custom_minimum_size = Vector2(100, 35)
+			next_btn.text = "▶ Next Shift"
+			next_btn.custom_minimum_size = Vector2(120, 35)
 			next_btn.pressed.connect(_next_shift)
 			stamp_buttons.add_child(next_btn)
 
