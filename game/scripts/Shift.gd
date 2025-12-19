@@ -2,6 +2,7 @@ extends Control
 ## Shift - Desk job workflow gameplay with world-space UI on 3D paper
 ## UI rendered to PaperViewport and displayed on 3D PaperScreen mesh
 ## Input is raycasted from 3D camera to paper and forwarded to viewport
+## FIXED: Safe World3D access to prevent null crashes
 
 # Paper viewport (contains the UI)
 @onready var paper_viewport: SubViewport = $PaperViewport
@@ -57,6 +58,9 @@ var paper_screen: MeshInstance3D = null
 var paper_area: Area3D = null
 var camera_3d: Camera3D = null
 
+# Raycast ready flag (wait for viewport initialization)
+var raycast_ready: bool = false
+
 # Game state
 var shift_number: int = 1
 var tickets: Array = []
@@ -93,6 +97,9 @@ func _ready() -> void:
 				paper_screen = desk.get_node_or_null("PaperScreen")
 				if paper_screen:
 					paper_area = paper_screen.get_node_or_null("PaperArea")
+	
+	# Ensure SubViewport is 3D-capable (defensive property setting)
+	_ensure_viewport_3d_capable()
 	
 	# Apply paper viewport texture to 3D paper screen
 	_setup_paper_texture()
@@ -161,6 +168,62 @@ func _ready() -> void:
 		if attachment:
 			attachment.text = "Run: python tools/sync_game_data.py"
 		_update_workflow_ui()
+	
+	# Wait one frame before enabling raycast (let viewport initialize)
+	await get_tree().process_frame
+	raycast_ready = true
+
+## Ensure SubViewport has a World3D for physics raycasting
+func _ensure_viewport_3d_capable() -> void:
+	if not office_viewport:
+		return
+	
+	# Try to set own_world_3d = true so viewport has its own World3D
+	if "own_world_3d" in office_viewport:
+		office_viewport.set("own_world_3d", true)
+	
+	# Try to ensure 3D is not disabled
+	if "disable_3d" in office_viewport:
+		office_viewport.set("disable_3d", false)
+
+## Get physics space state from World3D (safe, tries multiple sources)
+func _get_space_state_3d() -> PhysicsDirectSpaceState3D:
+	var world_3d: World3D = null
+	
+	# Try 1: office_viewport.world_3d
+	if office_viewport:
+		if office_viewport.has_method("get_world_3d"):
+			world_3d = office_viewport.get_world_3d()
+		elif "world_3d" in office_viewport and office_viewport.world_3d != null:
+			world_3d = office_viewport.world_3d
+	
+	# Try 2: camera_3d.get_world_3d()
+	if world_3d == null and camera_3d:
+		if camera_3d.has_method("get_world_3d"):
+			world_3d = camera_3d.get_world_3d()
+	
+	# Try 3: office_3d.get_world_3d()
+	if world_3d == null and office_3d:
+		if office_3d.has_method("get_world_3d"):
+			world_3d = office_3d.get_world_3d()
+	
+	# Try 4: main viewport's World3D
+	if world_3d == null:
+		var main_vp = get_viewport()
+		if main_vp:
+			if main_vp.has_method("get_world_3d"):
+				world_3d = main_vp.get_world_3d()
+			elif "world_3d" in main_vp and main_vp.world_3d != null:
+				world_3d = main_vp.world_3d
+	
+	# Get space_state from World3D
+	if world_3d == null:
+		return null
+	
+	if "direct_space_state" in world_3d and world_3d.direct_space_state != null:
+		return world_3d.direct_space_state
+	
+	return null
 
 ## Setup paper viewport texture onto 3D paper mesh
 func _setup_paper_texture() -> void:
@@ -178,75 +241,81 @@ func _setup_paper_texture() -> void:
 
 ## Handle input - raycast to paper and forward to viewport
 func _input(event: InputEvent) -> void:
-	if not camera_3d or not paper_area or not paper_viewport:
+	# Early exit if raycast not ready or missing required nodes
+	if not raycast_ready:
+		return
+	if not camera_3d or not paper_area or not paper_viewport or not paper_screen:
 		return
 	
-	if event is InputEventMouse:
-		var mouse_event = event as InputEventMouse
-		var mouse_pos = mouse_event.position
-		
-		# Convert screen position to ray
-		var from = camera_3d.project_ray_origin(mouse_pos)
-		var dir = camera_3d.project_ray_normal(mouse_pos)
-		var to = from + dir * 100.0
-		
-		# Raycast in physics space
-		var space_state = office_viewport.world_3d.direct_space_state
-		if not space_state:
-			return
-		
-		var query = PhysicsRayQueryParameters3D.create(from, to)
-		query.collide_with_areas = true
-		query.collide_with_bodies = false
-		var result = space_state.intersect_ray(query)
-		
-		if result.is_empty():
-			return
-		
-		# Check if we hit the paper area
-		var collider = result.get("collider")
-		if collider != paper_area:
-			return
-		
-		# Get hit position and convert to paper local coords
-		var hit_pos = result.get("position", Vector3.ZERO)
-		var local_pos = paper_screen.global_transform.affine_inverse() * hit_pos
-		
-		# Paper quad is 1.6 x 1.0 centered at origin, rotated to lie flat
-		# local_pos.x is along width, local_pos.y is along height (since quad is rotated)
-		var paper_size = Vector2(1.6, 1.0)
-		var uv = Vector2(
-			(local_pos.x / paper_size.x) + 0.5,
-			(-local_pos.y / paper_size.y) + 0.5
-		)
-		
-		# Clamp UV to valid range
-		uv = uv.clamp(Vector2.ZERO, Vector2.ONE)
-		
-		# Convert to viewport coords
-		var vp_size = paper_viewport.size
-		var vp_pos = Vector2(uv.x * vp_size.x, uv.y * vp_size.y)
-		
-		# Create new event with remapped position
-		var new_event: InputEventMouse
-		if event is InputEventMouseButton:
-			var btn_event = InputEventMouseButton.new()
-			btn_event.button_index = (event as InputEventMouseButton).button_index
-			btn_event.pressed = (event as InputEventMouseButton).pressed
-			btn_event.position = vp_pos
-			btn_event.global_position = vp_pos
-			new_event = btn_event
-		elif event is InputEventMouseMotion:
-			var motion_event = InputEventMouseMotion.new()
-			motion_event.position = vp_pos
-			motion_event.global_position = vp_pos
-			motion_event.relative = (event as InputEventMouseMotion).relative
-			new_event = motion_event
-		else:
-			return
-		
-		# Forward to viewport
-		paper_viewport.push_input(new_event)
+	if not event is InputEventMouse:
+		return
+	
+	var mouse_event = event as InputEventMouse
+	var mouse_pos = mouse_event.position
+	
+	# Get space state safely
+	var space_state = _get_space_state_3d()
+	if not space_state:
+		return  # No crash - just skip raycast
+	
+	# Convert screen position to ray
+	var from = camera_3d.project_ray_origin(mouse_pos)
+	var dir = camera_3d.project_ray_normal(mouse_pos)
+	var to = from + dir * 100.0
+	
+	# Raycast in physics space
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	var result = space_state.intersect_ray(query)
+	
+	if result.is_empty():
+		return
+	
+	# Check if we hit the paper area
+	var collider = result.get("collider")
+	if collider != paper_area:
+		return
+	
+	# Get hit position and convert to paper local coords
+	var hit_pos = result.get("position", Vector3.ZERO)
+	var local_pos = paper_screen.global_transform.affine_inverse() * hit_pos
+	
+	# Paper quad is 1.6 x 1.0 centered at origin, rotated to lie flat
+	# local_pos.x is along width, local_pos.y is along height (since quad is rotated)
+	var paper_size = Vector2(1.6, 1.0)
+	var uv = Vector2(
+		(local_pos.x / paper_size.x) + 0.5,
+		(-local_pos.y / paper_size.y) + 0.5
+	)
+	
+	# Clamp UV to valid range
+	uv = uv.clamp(Vector2.ZERO, Vector2.ONE)
+	
+	# Convert to viewport coords
+	var vp_size = paper_viewport.size
+	var vp_pos = Vector2(uv.x * vp_size.x, uv.y * vp_size.y)
+	
+	# Create new event with remapped position
+	var new_event: InputEventMouse
+	if event is InputEventMouseButton:
+		var btn_event = InputEventMouseButton.new()
+		btn_event.button_index = (event as InputEventMouseButton).button_index
+		btn_event.pressed = (event as InputEventMouseButton).pressed
+		btn_event.position = vp_pos
+		btn_event.global_position = vp_pos
+		new_event = btn_event
+	elif event is InputEventMouseMotion:
+		var motion_event = InputEventMouseMotion.new()
+		motion_event.position = vp_pos
+		motion_event.global_position = vp_pos
+		motion_event.relative = (event as InputEventMouseMotion).relative
+		new_event = motion_event
+	else:
+		return
+	
+	# Forward to viewport
+	paper_viewport.push_input(new_event)
 
 ## Get Save autoload node (null-safe)
 func _get_save() -> Node:

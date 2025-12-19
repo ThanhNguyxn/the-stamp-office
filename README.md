@@ -133,6 +133,38 @@ the-stamp-office/
 
 ---
 
+## 🔧 Troubleshooting
+
+### "null World3D" or "direct_space_state" crash
+
+If you see an error like:
+```
+Invalid access to property 'direct_space_state' on base object of type 'null instance'
+```
+
+This has been **fixed** in the latest code. The raycast system now safely checks for World3D availability before attempting physics queries. If you're on an older version, pull the latest changes.
+
+### "godot" command not recognized (Windows)
+
+The `godot` command may not be in your PATH. Solutions:
+
+1. **Use the full path:**
+   ```
+   "C:\Program Files\Godot\Godot_v4.2-stable_win64.exe" --path game
+   ```
+
+2. **Add Godot to PATH:**
+   - Find your Godot installation folder
+   - Add it to your system PATH environment variable
+   - Restart your terminal
+
+3. **Use the editor directly:**
+   - Open Godot Editor
+   - Import → select `game/project.godot`
+   - Press **F5** to run
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! Whether it's writing lore, designing tickets, suggesting features, or eventually writing code — we'd love your help.
