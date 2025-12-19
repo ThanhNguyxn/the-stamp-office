@@ -248,37 +248,69 @@ func _input(event: InputEvent) -> void:
 		return
 
 func _handle_paper_mouse(event: InputEvent) -> void:
-	if not event is InputEventMouse or not raycast_ready:
+	if not event is InputEventMouse:
 		return
-	if not is_instance_valid(camera_3d) or not is_instance_valid(paper_area):
-		return
-	if not is_instance_valid(paper_viewport) or not is_instance_valid(paper_screen):
+	if not is_instance_valid(paper_viewport):
 		return
 	
 	var mouse_event = event as InputEventMouse
-	var space_state = _get_space_state_3d()
-	if not is_instance_valid(space_state):
-		return
+	var vp_pos: Vector2
 	
-	var from = camera_3d.project_ray_origin(mouse_event.position)
-	var dir = camera_3d.project_ray_normal(mouse_event.position)
-	var to = from + dir * 100.0
+	# Check if player is at desk (top-down view) - use simple screen mapping
+	var is_at_desk = player and player.has_method("is_desk_focused") and player.is_desk_focused()
 	
-	var query = PhysicsRayQueryParameters3D.create(from, to)
-	query.collide_with_areas = true
-	query.collide_with_bodies = false
-	var result = space_state.intersect_ray(query)
+	if is_at_desk:
+		# Direct screen-to-viewport mapping for desk mode
+		# Paper takes center portion of screen
+		var screen_size = get_viewport().get_visible_rect().size
+		var paper_rect = Rect2(
+			screen_size.x * 0.2,  # left margin 20%
+			screen_size.y * 0.15,  # top margin 15%
+			screen_size.x * 0.6,  # width 60%
+			screen_size.y * 0.7   # height 70%
+		)
+		
+		# Check if mouse is within paper area
+		if paper_rect.has_point(mouse_event.position):
+			# Map to viewport coordinates
+			var rel_x = (mouse_event.position.x - paper_rect.position.x) / paper_rect.size.x
+			var rel_y = (mouse_event.position.y - paper_rect.position.y) / paper_rect.size.y
+			vp_pos = Vector2(rel_x * paper_viewport.size.x, rel_y * paper_viewport.size.y)
+		else:
+			return  # Outside paper area
+	else:
+		# 3D raycast for free-look cursor mode
+		if not raycast_ready:
+			return
+		if not is_instance_valid(camera_3d) or not is_instance_valid(paper_area):
+			return
+		if not is_instance_valid(paper_screen):
+			return
+		
+		var space_state = _get_space_state_3d()
+		if not is_instance_valid(space_state):
+			return
+		
+		var from = camera_3d.project_ray_origin(mouse_event.position)
+		var dir = camera_3d.project_ray_normal(mouse_event.position)
+		var to = from + dir * 100.0
+		
+		var query = PhysicsRayQueryParameters3D.create(from, to)
+		query.collide_with_areas = true
+		query.collide_with_bodies = false
+		var result = space_state.intersect_ray(query)
+		
+		if result.is_empty() or result.get("collider") != paper_area:
+			return
+		
+		var hit_pos = result.get("position", Vector3.ZERO)
+		var local_pos = paper_screen.global_transform.affine_inverse() * hit_pos
+		var paper_size = Vector2(1.6, 1.0)
+		var uv = Vector2((local_pos.x / paper_size.x) + 0.5, (-local_pos.y / paper_size.y) + 0.5)
+		uv = uv.clamp(Vector2.ZERO, Vector2.ONE)
+		vp_pos = Vector2(uv.x * paper_viewport.size.x, uv.y * paper_viewport.size.y)
 	
-	if result.is_empty() or result.get("collider") != paper_area:
-		return
-	
-	var hit_pos = result.get("position", Vector3.ZERO)
-	var local_pos = paper_screen.global_transform.affine_inverse() * hit_pos
-	var paper_size = Vector2(1.6, 1.0)
-	var uv = Vector2((local_pos.x / paper_size.x) + 0.5, (-local_pos.y / paper_size.y) + 0.5)
-	uv = uv.clamp(Vector2.ZERO, Vector2.ONE)
-	var vp_pos = Vector2(uv.x * paper_viewport.size.x, uv.y * paper_viewport.size.y)
-	
+	# Create and push event to paper viewport
 	var new_event: InputEventMouse
 	if event is InputEventMouseButton:
 		var btn = InputEventMouseButton.new()
@@ -323,7 +355,15 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			_on_event_choice_b()
 		return
 	
+	# Pressing 3 or R toggles rulebook
+	if key.keycode == KEY_3 or key.keycode == KEY_R:
+		if rulebook_popup and rulebook_popup.visible:
+			_close_rulebook()
+			return
+	
 	if rulebook_popup and rulebook_popup.visible:
+		# Any other key closes rulebook
+		_close_rulebook()
 		return
 	if busy or not _is_cursor_mode():
 		return

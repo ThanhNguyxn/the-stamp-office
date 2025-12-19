@@ -1,6 +1,6 @@
 extends CharacterBody3D
 ## Player - First-person controller with WASD movement and mouse look
-## Works inside SubViewport via forwarded mouse motion from Shift.gd
+## E = toggle desk focus, Tab = toggle cursor, Esc = leave desk
 
 @export var walk_speed: float = 4.0
 @export var sprint_speed: float = 6.0
@@ -16,6 +16,7 @@ var cursor_mode: bool = false
 var desk_focused: bool = false
 var saved_position: Vector3
 var saved_rotation: float
+var saved_head_pitch: float
 var spawn_point: Vector3 = Vector3(0, 1.0, 5)
 
 const PITCH_MIN: float = -1.4
@@ -36,7 +37,7 @@ func _ready() -> void:
 	# Start in LOOK mode
 	cursor_mode = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	print("[Player] Ready - LOOK mode")
+	print("[Player] Ready - LOOK mode | E=desk Tab=cursor")
 
 func _create_debug_hud() -> void:
 	var canvas = CanvasLayer.new()
@@ -60,14 +61,19 @@ func _physics_process(delta: float) -> void:
 	
 	_update_debug()
 	
-	# Mode toggles
-	if Input.is_action_just_pressed("toggle_cursor"):
-		set_cursor_mode(not cursor_mode)
-	
+	# E toggles desk focus
 	if Input.is_action_just_pressed("interact_desk"):
 		focus_desk(not desk_focused)
 	
-	# Movement only in LOOK mode
+	# Tab toggles cursor mode (only when NOT at desk)
+	if Input.is_action_just_pressed("toggle_cursor") and not desk_focused:
+		set_cursor_mode(not cursor_mode)
+	
+	# Esc leaves desk
+	if Input.is_action_just_pressed("ui_cancel") and desk_focused:
+		focus_desk(false)
+	
+	# Movement only in LOOK mode (not cursor, not desk)
 	if cursor_mode or desk_focused:
 		if not is_on_floor():
 			velocity.y -= gravity * delta
@@ -118,15 +124,16 @@ func _update_debug() -> void:
 		return
 	var mode_str = "CURSOR" if cursor_mode else "LOOK"
 	var desk_str = " [DESK]" if desk_focused else ""
-	debug_label.text = "Mode: %s%s\nPos: (%.1f, %.1f, %.1f)\nVel: (%.1f, %.1f, %.1f)\nWASD: %s | Sprint: %s" % [
+	var hint = "E/Esc=leave" if desk_focused else "E=desk"
+	debug_label.text = "Mode: %s%s\nPos: (%.1f, %.1f, %.1f)\nVel: (%.1f, %.1f, %.1f)\nWASD: %s | %s" % [
 		mode_str, desk_str,
 		global_position.x, global_position.y, global_position.z,
 		velocity.x, velocity.y, velocity.z,
-		last_input,
-		"ON" if Input.is_action_pressed("move_sprint") else "OFF"
+		last_input, hint
 	]
 
 func handle_mouse_motion(relative: Vector2) -> void:
+	# Don't rotate camera when in cursor mode or at desk
 	if cursor_mode or desk_focused:
 		return
 	rotate_y(-relative.x * mouse_sensitivity)
@@ -138,40 +145,45 @@ func set_cursor_mode(enabled: bool) -> void:
 	cursor_mode = enabled
 	if enabled:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		print("[Player] CURSOR mode")
+		print("[Player] CURSOR mode - click paper UI")
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		print("[Player] LOOK mode")
+		print("[Player] LOOK mode - WASD to move")
 
 func is_cursor_mode() -> bool:
 	return cursor_mode
 
+func is_desk_focused() -> bool:
+	return desk_focused
+
 func focus_desk(enabled: bool) -> void:
 	if enabled and not desk_focused:
+		# Save current state
 		saved_position = global_position
 		saved_rotation = rotation.y
-		var desk_focus = get_parent().find_child("DeskFocus", true, false) as Node3D
-		if desk_focus:
-			global_position = desk_focus.global_position
-			rotation.y = 0
-			if head:
-				head.rotation.x = -0.25
-		else:
-			global_position = Vector3(0, 1.5, 2.8)
-			rotation.y = 0
-			if head:
-				head.rotation.x = -0.2
+		if head:
+			saved_head_pitch = head.rotation.x
+		
+		# Move to TOP-DOWN view of paper
+		# Position: directly ABOVE the desk looking straight DOWN
+		global_position = Vector3(0, 2.5, 1.2)  # High above desk
+		rotation.y = 0  # Face forward
+		if head:
+			head.rotation.x = -1.4  # Look straight down (~80 degrees)
+		
 		desk_focused = true
-		set_cursor_mode(true)
-		print("[Player] Desk focused")
+		set_cursor_mode(true)  # Auto-enable cursor for clicking
+		print("[Player] Desk focused - E or Esc to leave")
+		
 	elif not enabled and desk_focused:
+		# Restore saved state
 		global_position = saved_position
 		rotation.y = saved_rotation
 		if head:
-			head.rotation.x = 0
+			head.rotation.x = saved_head_pitch
 		desk_focused = false
-		set_cursor_mode(false)
-		print("[Player] Left desk")
+		set_cursor_mode(false)  # Return to LOOK mode
+		print("[Player] Left desk - WASD to move")
 
 func get_camera() -> Camera3D:
 	return camera
