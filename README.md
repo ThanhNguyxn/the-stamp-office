@@ -59,23 +59,91 @@ godot --path game
 
 ## 🗺️ Roadmap
 
-- [x] **Phase 0-1:** Repository + design docs
-- [x] **Phase 2:** Data architecture (127 tickets, 40 rules, 119 toasts)
-- [x] **Phase 3:** Godot prototype scaffold
-- [x] **Phase 4:** Vertical slice
-  - [x] Rulebook, tremor VFX, 3D office
-  - [x] Random interrupt events
-- [x] **Phase 5:** Alpha ✅
-  - [x] Persistent progression + save system
-  - [x] First-person WASD movement
-  - [x] Expanded 3D office map (corridors, rooms)
-  - [x] Cursor/look mode toggle
-  - [x] Story/lore integration (intercom messages)
-  - [x] Ending variations (3 endings)
-- [ ] **Phase 6:** Beta
-  - [ ] Polish and bug fixes
-  - [ ] Additional content
-- [ ] **Phase 7:** Release
+### Phase 0: Meta ✅
+- [x] Repository setup (GitHub)
+- [x] OSS templates (LICENSE, CODE_OF_CONDUCT, CONTRIBUTING, SECURITY)
+- [x] Issue and PR templates
+- [x] Project structure planning
+
+### Phase 1: Foundation ✅
+- [x] Core design documents (`docs/vision.md`)
+- [x] Style lock (`docs/style_lock.md`)
+- [x] Meme safety guidelines (`docs/meme_safety.md`)
+- [x] Clip moment board (`docs/clip_moment_board.md`)
+- [x] Shift scripts (`docs/script/SHIFT_01.md` – `SHIFT_10.md`)
+- [x] Endings design (`docs/script/ENDINGS.md`)
+
+### Phase 2: Data Architecture ✅
+- [x] JSON schema definitions (`data/schema.json`)
+- [x] 127 tickets across 10 shifts (`data/tickets/`)
+- [x] 40 rules (4 per shift) (`data/rules/rules.json`)
+- [x] 119 toast messages (`data/toasts/toasts.json`)
+- [x] Data validation tool (`tools/validate_data.py`)
+- [x] Data sync tool (`tools/sync_game_data.py`)
+
+### Phase 3: Prototype Scaffold ✅
+- [x] Godot 4.x project setup (`game/project.godot`)
+- [x] Main menu scene (`game/scenes/Main.tscn`)
+- [x] Shift gameplay scene (`game/scenes/Shift.tscn`)
+- [x] DataLoader autoload (`game/scripts/DataLoader.gd`)
+- [x] GameState autoload (`game/scripts/GameState.gd`)
+- [x] Basic UI layout (paper, buttons, toast)
+
+### Phase 4: Vertical Slice ✅
+- [x] 3D office backdrop (`game/scenes/Office3D.tscn`)
+- [x] Clerk silhouette with idle animation
+- [x] World-space paper UI (viewport texture on 3D mesh)
+- [x] Raycast mouse-to-paper input forwarding
+- [x] Workflow system (Open → Inspect → Rules → File → Stamp)
+- [x] Rulebook popup with per-shift rules
+- [x] Mood and Contradiction meters
+- [x] Toast system for feedback messages
+- [x] Procedural SFX (`game/scripts/Sfx.gd`)
+- [x] Reality tremor VFX (camera shake + light flicker)
+- [x] Random interrupt events (`game/scripts/ShiftEvents.gd`)
+- [x] Shift selector (play any shift 01–10)
+
+### Phase 5: Alpha ✅
+- [x] Persistent progression (`game/scripts/Save.gd`)
+- [x] Settings system (SFX, VFX intensity, events, reduce motion)
+- [x] First-person WASD movement (`game/scripts/Player.gd`)
+- [x] Mouse look with pitch/yaw
+- [x] Sprint and jump
+- [x] Cursor/look mode toggle (Tab/E)
+- [x] Expanded 3D office map:
+  - [x] Main desk room
+  - [x] Corridors
+  - [x] Break Room B
+  - [x] Archive room
+  - [x] Stairwell (DO NOT ENTER)
+  - [x] Label3D signs
+  - [x] Trigger zones
+  - [x] Volumetric fog
+  - [x] Ambient light flicker
+- [x] Story/lore integration (`game/scripts/StoryDirector.gd`):
+  - [x] Intercom messages per shift (start/mid/end)
+  - [x] Hints for secret ending
+- [x] Ending variations (`game/scenes/Ending.tscn`):
+  - [x] Clock Out (compliance ending)
+  - [x] Official (dissolution ending)
+  - [x] Not A Thing (secret/transcendence ending)
+  - [x] Secret stamp mechanic (NOT_A_THING)
+  - [x] Level 7 deny tracking
+  - [x] Ending determination logic
+
+### Phase 6: Beta 🔄
+- [ ] Polish and bug fixes
+- [ ] Performance optimization
+- [ ] Accessibility improvements
+- [ ] Additional ambient details
+- [ ] Sound design improvements
+
+### Phase 7: Release 📦
+- [ ] Final testing
+- [ ] Build exports (Windows, Linux, Mac, Web)
+- [ ] itch.io / Steam page
+- [ ] Launch trailer
+- [ ] Post-launch support
 
 ---
 
@@ -83,10 +151,24 @@ godot --path game
 
 ```
 the-stamp-office/
-├── docs/           # Design documents
-├── data/           # Game data (JSON)
-├── tools/          # Dev utilities
-├── game/           # Godot 4 project
+├── docs/                      # Design documents
+│   ├── vision.md              # Core pitch and pillars
+│   ├── style_lock.md          # Visual/audio rules
+│   ├── meme_safety.md         # Humor guidelines
+│   ├── clip_moment_board.md   # Shareable moments
+│   └── script/                # Per-shift scripts + endings
+├── data/                      # Game data (JSON)
+│   ├── schema.json            # Data schemas
+│   ├── tickets/               # 127 tickets
+│   ├── rules/                 # 40 rules
+│   └── toasts/                # 119 toasts
+├── tools/                     # Dev utilities
+│   ├── validate_data.py       # Validation
+│   └── sync_game_data.py      # Copy to game/data/
+├── game/                      # Godot 4 project
+│   ├── scenes/                # .tscn files
+│   ├── scripts/               # .gd scripts
+│   └── data/                  # Synced JSON
 └── README.md
 ```
 
