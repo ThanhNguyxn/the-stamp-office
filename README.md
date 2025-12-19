@@ -51,6 +51,12 @@ godot --path game
 cd docs
 ```
 
+> **Windows note:** If `godot` isn't in your PATH, use the full path:
+> ```
+> "C:\Program Files\Godot\Godot_v4.2-stable_win64.exe" --path game
+> ```
+> Or open `game/project.godot` directly in the Godot editor and press **F5**.
+
 ---
 
 ## 📁 Repository Structure
