@@ -4,9 +4,13 @@ Godot 4.x prototype for **The Stamp Office**.
 
 ---
 
-## Status: Shifts 01–10 Playable ✅
+## Status: Alpha Complete ✅
 
-All 10 shifts are playable with first-person exploration!
+All 10 shifts playable with:
+- First-person exploration
+- Story/intercom messages
+- Three endings
+- Secret stamp mechanic
 
 ---
 
@@ -17,18 +21,25 @@ All 10 shifts are playable with first-person exploration!
 | Mode | Mouse | Movement | Paper UI |
 |------|-------|----------|----------|
 | **LOOK** (default) | Captured | WASD works | Cannot click |
-| **CURSOR** | Visible | Disabled | Click or use 1-4 keys |
-
-Press **Tab** to toggle modes. Press **E** to focus on desk (enters cursor mode).
+| **CURSOR** | Visible | Disabled | Click or use shortcuts |
 
 ### Movement (LOOK Mode)
 
 | Key | Action |
 |-----|--------|
-| `W`/`A`/`S`/`D` or Arrows | Walk |
+| `W`/`A`/`S`/`D` | Walk |
 | `Shift` | Sprint |
-| `Space` | Jump (optional) |
+| `Space` | Jump |
 | Mouse | Look around |
+| Arrow keys | Walk (alternate) |
+
+### Mode Switching
+
+| Key | Action |
+|-----|--------|
+| `Tab` | Toggle LOOK/CURSOR mode |
+| `E` | Focus on desk (enters cursor mode) |
+| `Esc` | Back to menu |
 
 ### Desk Workflow (CURSOR Mode)
 
@@ -41,74 +52,63 @@ Press **Tab** to toggle modes. Press **E** to focus on desk (enters cursor mode)
 | `R` | Open rulebook |
 | `A` | Approve stamp |
 | `D` | Deny stamp |
-
-### Other
-
-| Key | Action |
-|-----|--------|
-| `Tab` | Toggle LOOK/CURSOR mode |
-| `E` | Focus on desk (work mode) |
-| `Esc` | Back to menu |
+| `N` | Secret stamp (if unlocked) |
 
 ---
 
 ## The Office
 
-Explore the 3D office space:
-- Walk around using WASD
-- Look around with the mouse
-- Press E near the desk to start working
-- Press Tab to toggle between exploring and clicking
+Explore the expanded 3D office:
+- **Processing Desk** - Where you work
+- **Break Room B** - Closed for maintenance
+- **Archive** - Files and cabinets
+- **Stairwell** - DO NOT ENTER
 
-The desk has a paper UI where you process tickets using the workflow buttons or keyboard shortcuts.
+Walk around using WASD, press E to work at the desk.
+
+---
+
+## Story
+
+Intercom messages play at shift start, mid-shift, and end. Pay attention to hints about the secret ending.
+
+---
+
+## Endings
+
+Three endings based on your choices:
+
+1. **Clock Out** - Follow the rules, be a good employee
+2. **Official** - Break protocol, become The Office
+3. **Not A Thing** - Use the secret stamp on specific tickets
 
 ---
 
 ## Run the Prototype
 
-### Step 1: Sync Data
-
 ```bash
+# Sync data
 python tools/sync_game_data.py
-```
 
-### Step 2: Run Godot
-
-```bash
+# Run Godot
 godot --path game
 ```
 
-Or open `game/project.godot` in Godot Editor and press **F5**.
+Or open `game/project.godot` and press **F5**.
+
+---
+
+## Save File
+
+Progress saved to: `user://save.json`
+
+**Windows:** `%APPDATA%\Godot\app_userdata\The Stamp Office\save.json`
 
 ---
 
 ## Debug HUD
 
-A small green debug overlay shows:
-- Current mode (LOOK or CURSOR)
+Green overlay shows:
+- Current mode (LOOK/CURSOR)
 - Position and velocity
-- WASD input state
-
----
-
-## Files
-
-| File | Purpose |
-|------|---------|
-| `scripts/Player.gd` | First-person movement controller |
-| `scripts/Shift.gd` | Gameplay + mouse forwarding |
-| `scripts/Office3D.gd` | 3D backdrop + tremor effects |
-| `scenes/Office3D.tscn` | Expanded 3D office scene |
-| `project.godot` | Input mappings |
-
----
-
-## Troubleshooting
-
-**WASD doesn't move?**
-- Check debug HUD shows "Mode: LOOK"
-- Press **Tab** if stuck in CURSOR mode
-
-**Can't click paper?**
-- Press **Tab** to enter CURSOR mode
-- Or press **E** to focus on desk
+- Input state

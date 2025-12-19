@@ -13,63 +13,69 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 
 ## ✨ Features
 
-- 🎫 **Diegetic UI Comedy** — Humor through in-world tickets and passive-aggressive system notifications
-- 🏢 **Absurdist Bureaucracy** — Process paperwork that alters reality itself
-- 🎨 **Low-Poly Aesthetic** — Uncanny 3D visuals between cozy and unsettling
-- 🚶 **First-Person Exploration** — Walk around the office with WASD
-- 📋 **Narrative Job Sim** — Your choices matter (if you filled out Form 27-B/6)
+- 🎫 **Diegetic UI Comedy** — In-world tickets and passive-aggressive notifications
+- 🏢 **Absurdist Bureaucracy** — Paperwork that alters reality
+- 🎨 **Low-Poly Aesthetic** — Uncanny 3D visuals
+- 🚶 **First-Person Exploration** — Walk around an expanded office
+- 📖 **Story Integration** — Intercom messages and lore per shift
+- 🎬 **Multiple Endings** — Three endings based on your choices
 
 ---
 
 ## 🎮 Controls
 
-### Movement (First-Person)
+### Movement
 
 | Key | Action |
 |-----|--------|
-| `W`/`A`/`S`/`D` | Walk around |
+| `W`/`A`/`S`/`D` | Walk |
 | `Shift` | Sprint |
 | `Space` | Jump |
-| Mouse | Look around |
+| Mouse | Look |
 | `Tab` | Toggle cursor mode |
-| `E` | Focus on desk |
-| `Esc` | Back to menu |
+| `E` | Focus desk |
+| `Esc` | Menu |
 
-### Desk Workflow (Cursor Mode)
+### Workflow (Cursor Mode)
 
 | Key | Action |
 |-----|--------|
-| `1` | Open folder |
-| `2` | Inspect |
-| `3` | Check rules |
-| `4` | File ticket |
+| `1-4` | Workflow steps |
 | `A`/`D` | Approve/Deny |
-
-### How It Works
-
-1. **Walk around** the office using WASD + mouse look
-2. Press **E** to focus on the desk and work
-3. In **cursor mode**, click the paper or use keyboard shortcuts
-4. Press **Tab** to toggle between modes
-5. Press **Esc** to return to menu
+| `R` | Rulebook |
 
 ---
 
 ## 🚀 Quickstart
 
 ```bash
-# Clone and enter
 git clone https://github.com/ThanhNguyxn/the-stamp-office.git
 cd the-stamp-office
-
-# Sync data
 python tools/sync_game_data.py
-
-# Run (Godot 4.2+)
 godot --path game
 ```
 
-Or open `game/project.godot` in Godot Editor and press **F5**.
+---
+
+## 🗺️ Roadmap
+
+- [x] **Phase 0-1:** Repository + design docs
+- [x] **Phase 2:** Data architecture (127 tickets, 40 rules, 119 toasts)
+- [x] **Phase 3:** Godot prototype scaffold
+- [x] **Phase 4:** Vertical slice
+  - [x] Rulebook, tremor VFX, 3D office
+  - [x] Random interrupt events
+- [x] **Phase 5:** Alpha ✅
+  - [x] Persistent progression + save system
+  - [x] First-person WASD movement
+  - [x] Expanded 3D office map (corridors, rooms)
+  - [x] Cursor/look mode toggle
+  - [x] Story/lore integration (intercom messages)
+  - [x] Ending variations (3 endings)
+- [ ] **Phase 6:** Beta
+  - [ ] Polish and bug fixes
+  - [ ] Additional content
+- [ ] **Phase 7:** Release
 
 ---
 
@@ -86,43 +92,15 @@ the-stamp-office/
 
 ---
 
-## 🗺️ Roadmap
-
-- [x] **Phase 0-1:** Repository + design docs
-- [x] **Phase 2:** Data architecture (127 tickets, 40 rules, 119 toasts)
-- [x] **Phase 3:** Godot prototype scaffold
-- [x] **Phase 4:** Vertical slice complete
-  - [x] Rulebook, tremor VFX, 3D office, SFX
-  - [x] Random interrupt events
-- [x] **Phase 5:** Alpha features
-  - [x] Persistent progression + save system
-  - [x] First-person WASD movement
-  - [x] Expanded 3D office map
-  - [x] Cursor/look mode toggle
-  - [ ] Story/lore integration
-  - [ ] Ending variations
-- [ ] **Phase 6:** Beta
-- [ ] **Phase 7:** Release
-
----
-
-## 🔧 Troubleshooting
-
-**WASD doesn't work?** → Press **Tab** to enter LOOK mode
-
-**Can't click paper?** → Press **Tab** or **E** to enter CURSOR mode
-
----
-
 ## 🤝 Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting PRs.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
 ## 📄 License
 
-MIT License — see [LICENSE](LICENSE)
+MIT — see [LICENSE](LICENSE)
 
 ---
 
