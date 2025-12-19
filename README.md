@@ -113,7 +113,7 @@ the-stamp-office/
   - [x] Shift 01–10 playable (loads JSON data)
   - [x] Data sync tool
   - [x] Shift selector
-- [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
+- [x] **Phase 4: Vertical Slice** — Playable demo of one complete shift ✓
   - [x] Rulebook popup + rule view
   - [x] Micro feedback (tremor/flash) for contradictions
   - [x] 3D office backdrop + clerk silhouette (no external assets)
@@ -121,10 +121,15 @@ the-stamp-office/
   - [x] 3D environment
   - [x] Random interrupt events (absurd office situations)
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
+  - [x] Persistent progression (unlock shifts)
+  - [x] Settings (SFX, VFX, events, reduce motion)
+  - [x] Save system (user://save.json)
+  - [ ] Story/lore integration
+  - [ ] Ending variations
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
 - [ ] **Phase 7: Release** — Launch the bureaucratic nightmare
 
-> **Next up:** Phase 4 — Vertical Slice (audio/visual polish, 3D environment)
+> **Next up:** Phase 5 — Alpha (story/lore integration, ending variations)
 
 ---
 
