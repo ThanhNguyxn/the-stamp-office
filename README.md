@@ -110,6 +110,7 @@ the-stamp-office/
 - [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
   - [ ] Rulebook popup + rule view
   - [ ] Micro feedback (tremor/flash) for contradictions
+  - [ ] 3D office backdrop + clerk silhouette (no external assets)
   - [ ] Audio/visual polish
   - [ ] 3D environment
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
