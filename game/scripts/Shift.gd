@@ -1,12 +1,11 @@
 extends Control
-## Shift - Desk job workflow gameplay with world-space UI on 3D paper
-## UI rendered to PaperViewport and displayed on 3D PaperScreen mesh
-## Supports first-person movement with cursor/look mode toggle
+## Shift - Desk job workflow with story integration and endings
+## World-space paper UI, first-person movement, secret stamp logic
 
-# Paper viewport (contains the UI)
+# Paper viewport
 @onready var paper_viewport: SubViewport = $PaperViewport
 
-# UI elements inside PaperViewport
+# UI elements
 @onready var paper_ui: Control = $PaperViewport/PaperUI
 @onready var paper_background: ColorRect = $PaperViewport/PaperUI/Background
 @onready var vbox: VBoxContainer = $PaperViewport/PaperUI/VBox
@@ -27,7 +26,7 @@ extends Control
 @onready var check_rules_btn: Button = $PaperViewport/PaperUI/VBox/WorkflowBar/CheckRulesBtn
 @onready var file_ticket_btn: Button = $PaperViewport/PaperUI/VBox/WorkflowBar/FileTicketBtn
 
-# Popups inside PaperViewport
+# Popups
 @onready var rulebook_popup: PanelContainer = $PaperViewport/PaperUI/RulebookPopup
 @onready var rules_text: Label = $PaperViewport/PaperUI/RulebookPopup/VBox/Scroll/RulesText
 @onready var rulebook_close_button: Button = $PaperViewport/PaperUI/RulebookPopup/VBox/RulebookCloseButton
@@ -37,20 +36,14 @@ extends Control
 @onready var choice_a_btn: Button = $PaperViewport/PaperUI/EventOverlay/VBox/ButtonBox/ChoiceA
 @onready var choice_b_btn: Button = $PaperViewport/PaperUI/EventOverlay/VBox/ButtonBox/ChoiceB
 
-# Bottom HUD (2D overlay)
+# HUD
 @onready var toast: Label = $BottomHUD/VBox/Toast
 @onready var progress: Label = $BottomHUD/VBox/Progress
-
-# Visual effects
 @onready var scanline_overlay: ColorRect = $ScanlineOverlay
-
-# Audio (null-safe)
 @onready var sfx: Node = $Sfx
-
-# Events system (null-safe)
 @onready var shift_events: Node = $ShiftEvents
 
-# 3D office reference
+# 3D office
 @onready var office_viewport: SubViewport = $OfficeViewportContainer/OfficeViewport
 var office_3d: Node3D = null
 var paper_screen: MeshInstance3D = null
@@ -58,10 +51,11 @@ var paper_area: Area3D = null
 var camera_3d: Camera3D = null
 var player: CharacterBody3D = null
 
-# Raycast ready flag
-var raycast_ready: bool = false
+# Story
+var story_director: Node = null
 
-# Game state
+# State
+var raycast_ready: bool = false
 var shift_number: int = 1
 var tickets: Array = []
 var index: int = 0
@@ -76,7 +70,7 @@ var vfx_intensity: float = 1.0
 var reduce_motion: bool = false
 var events_enabled: bool = true
 
-# Workflow state
+# Workflow
 var folder_opened: bool = false
 var attachment_inspected: bool = false
 var rules_checked: bool = false
@@ -84,21 +78,35 @@ var ticket_filed: bool = false
 var requires_inspect: bool = false
 var requires_rules: bool = false
 var current_allowed_stamps: Array = []
+var current_ticket_text: String = ""
+
+# Secret stamp targets
+const SECRET_TARGETS = [
+	"Requesting proof The Office exists.",
+	"Requesting acknowledgment of the void.",
+	"Requesting exit. Any exit."
+]
 
 func _ready() -> void:
 	# Get 3D references
 	if is_instance_valid(office_viewport) and office_viewport.get_child_count() > 0:
 		office_3d = office_viewport.get_child(0) as Node3D
 		if is_instance_valid(office_3d):
-			# Find player and camera
 			player = office_3d.find_child("Player", true, false) as CharacterBody3D
 			camera_3d = office_3d.find_child("Camera3D", true, false) as Camera3D
-			# Find desk and paper
 			var desk = office_3d.get_node_or_null("Desk")
 			if is_instance_valid(desk):
 				paper_screen = desk.get_node_or_null("PaperScreen") as MeshInstance3D
 				if is_instance_valid(paper_screen):
 					paper_area = paper_screen.get_node_or_null("PaperArea") as Area3D
+	
+	# Create story director
+	story_director = Node.new()
+	story_director.set_script(load("res://scripts/StoryDirector.gd"))
+	story_director.name = "StoryDirector"
+	add_child(story_director)
+	if story_director.has_signal("story_message"):
+		story_director.connect("story_message", _on_story_message)
 	
 	_ensure_viewport_3d_capable()
 	_setup_paper_texture()
@@ -142,6 +150,16 @@ func _ready() -> void:
 	if header:
 		header.text = "SHIFT %02d" % shift_number
 	
+	# Set story shift
+	if story_director and story_director.has_method("set_shift"):
+		story_director.set_shift(shift_number)
+	
+	# Unlock secret stamp in shift 8
+	if shift_number >= 8:
+		var save_node = _get_save()
+		if save_node and save_node.has_method("unlock_secret_stamp"):
+			save_node.unlock_secret_stamp()
+	
 	# Load tickets
 	var dataloader = get_node_or_null("/root/DataLoader")
 	if dataloader and dataloader.has_method("load_shift"):
@@ -160,17 +178,23 @@ func _ready() -> void:
 			attachment.text = "Run: python tools/sync_game_data.py"
 		_update_workflow_ui()
 	
-	# Show controls hint
+	# Show story start message
+	if story_director and story_director.has_method("on_shift_start"):
+		story_director.on_shift_start()
+	
+	# Show controls
+	await get_tree().create_timer(3.0).timeout
 	if toast:
 		toast.text = "🎮 WASD move • Mouse look • Tab cursor • E desk • Esc menu"
-	
-	# Start in LOOK mode - player is in LOOK mode by default
-	# DO NOT call focus_desk(true) here
 	
 	# Wait for viewport
 	await get_tree().process_frame
 	await get_tree().process_frame
 	raycast_ready = true
+
+func _on_story_message(text: String, _is_intercom: bool) -> void:
+	if toast:
+		toast.text = text
 
 func _is_cursor_mode() -> bool:
 	if player and player.has_method("is_cursor_mode"):
@@ -209,28 +233,22 @@ func _setup_paper_texture() -> void:
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	paper_screen.material_override = mat
 
-## Forward mouse motion to Player for look, and handle paper UI clicks
 func _input(event: InputEvent) -> void:
-	# Forward mouse motion to Player
 	if event is InputEventMouseMotion:
 		if player and player.has_method("handle_mouse_motion"):
 			var motion = event as InputEventMouseMotion
 			player.handle_mouse_motion(motion.relative)
-		# Only forward to paper in cursor mode
 		if _is_cursor_mode():
 			_handle_paper_mouse(event)
 		return
 	
-	# Mouse clicks only in cursor mode
 	if event is InputEventMouseButton:
 		if _is_cursor_mode():
 			_handle_paper_mouse(event)
 		return
 
 func _handle_paper_mouse(event: InputEvent) -> void:
-	if not event is InputEventMouse:
-		return
-	if not raycast_ready:
+	if not event is InputEventMouse or not raycast_ready:
 		return
 	if not is_instance_valid(camera_3d) or not is_instance_valid(paper_area):
 		return
@@ -238,14 +256,12 @@ func _handle_paper_mouse(event: InputEvent) -> void:
 		return
 	
 	var mouse_event = event as InputEventMouse
-	var mouse_pos = mouse_event.position
-	
 	var space_state = _get_space_state_3d()
 	if not is_instance_valid(space_state):
 		return
 	
-	var from = camera_3d.project_ray_origin(mouse_pos)
-	var dir = camera_3d.project_ray_normal(mouse_pos)
+	var from = camera_3d.project_ray_origin(mouse_event.position)
+	var dir = camera_3d.project_ray_normal(mouse_event.position)
 	var to = from + dir * 100.0
 	
 	var query = PhysicsRayQueryParameters3D.create(from, to)
@@ -253,96 +269,71 @@ func _handle_paper_mouse(event: InputEvent) -> void:
 	query.collide_with_bodies = false
 	var result = space_state.intersect_ray(query)
 	
-	if result.is_empty():
-		return
-	
-	var collider = result.get("collider")
-	if collider != paper_area:
+	if result.is_empty() or result.get("collider") != paper_area:
 		return
 	
 	var hit_pos = result.get("position", Vector3.ZERO)
 	var local_pos = paper_screen.global_transform.affine_inverse() * hit_pos
-	
 	var paper_size = Vector2(1.6, 1.0)
-	var uv = Vector2(
-		(local_pos.x / paper_size.x) + 0.5,
-		(-local_pos.y / paper_size.y) + 0.5
-	)
+	var uv = Vector2((local_pos.x / paper_size.x) + 0.5, (-local_pos.y / paper_size.y) + 0.5)
 	uv = uv.clamp(Vector2.ZERO, Vector2.ONE)
-	
-	var vp_size = paper_viewport.size
-	var vp_pos = Vector2(uv.x * vp_size.x, uv.y * vp_size.y)
+	var vp_pos = Vector2(uv.x * paper_viewport.size.x, uv.y * paper_viewport.size.y)
 	
 	var new_event: InputEventMouse
 	if event is InputEventMouseButton:
-		var btn_event = InputEventMouseButton.new()
-		btn_event.button_index = (event as InputEventMouseButton).button_index
-		btn_event.pressed = (event as InputEventMouseButton).pressed
-		btn_event.position = vp_pos
-		btn_event.global_position = vp_pos
-		new_event = btn_event
+		var btn = InputEventMouseButton.new()
+		btn.button_index = (event as InputEventMouseButton).button_index
+		btn.pressed = (event as InputEventMouseButton).pressed
+		btn.position = vp_pos
+		btn.global_position = vp_pos
+		new_event = btn
 	elif event is InputEventMouseMotion:
-		var motion_event = InputEventMouseMotion.new()
-		motion_event.position = vp_pos
-		motion_event.global_position = vp_pos
-		motion_event.relative = (event as InputEventMouseMotion).relative
-		new_event = motion_event
+		var mot = InputEventMouseMotion.new()
+		mot.position = vp_pos
+		mot.global_position = vp_pos
+		mot.relative = (event as InputEventMouseMotion).relative
+		new_event = mot
 	else:
 		return
-	
 	paper_viewport.push_input(new_event)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey:
 		return
-	var key_event = event as InputEventKey
-	if not key_event.pressed:
+	var key = event as InputEventKey
+	if not key.pressed:
 		return
 	
-	# Escape closes rulebook or goes back
-	if key_event.keycode == KEY_ESCAPE:
+	if key.keycode == KEY_ESCAPE:
 		if rulebook_popup and rulebook_popup.visible:
 			_close_rulebook()
 		elif not busy:
 			_back()
 		return
 	
-	# Space/Enter closes rulebook
-	if key_event.keycode == KEY_SPACE or key_event.keycode == KEY_ENTER:
+	if key.keycode == KEY_SPACE or key.keycode == KEY_ENTER:
 		if rulebook_popup and rulebook_popup.visible:
 			_close_rulebook()
 		return
 	
-	# Event choices
 	if event_active and event_overlay and event_overlay.visible:
-		if key_event.keycode == KEY_A or key_event.keycode == KEY_1:
+		if key.keycode == KEY_A or key.keycode == KEY_1:
 			_on_event_choice_a()
-			return
-		elif key_event.keycode == KEY_B or key_event.keycode == KEY_2:
+		elif key.keycode == KEY_B or key.keycode == KEY_2:
 			_on_event_choice_b()
-			return
 		return
 	
 	if rulebook_popup and rulebook_popup.visible:
 		return
-	if busy:
+	if busy or not _is_cursor_mode():
 		return
 	
-	# Workflow shortcuts only in cursor mode
-	if not _is_cursor_mode():
-		return
-	
-	match key_event.keycode:
-		KEY_1:
-			_on_open_folder()
-		KEY_2:
-			_on_inspect()
-		KEY_3:
-			_on_check_rules()
-		KEY_4:
-			_on_file_ticket()
-		KEY_R:
-			_open_rulebook()
+	match key.keycode:
+		KEY_1: _on_open_folder()
+		KEY_2: _on_inspect()
+		KEY_3: _on_check_rules()
+		KEY_4: _on_file_ticket()
+		KEY_R: _open_rulebook()
 		KEY_A:
 			if ticket_filed and "APPROVED" in current_allowed_stamps:
 				_stamp("APPROVED")
@@ -355,27 +346,36 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_F:
 			if ticket_filed and "FORWARD" in current_allowed_stamps:
 				_stamp("FORWARD")
-		KEY_5, KEY_6, KEY_7, KEY_8, KEY_9:
-			var stamp_index = key_event.keycode - KEY_5
-			if ticket_filed and stamp_index < current_allowed_stamps.size():
-				_stamp(current_allowed_stamps[stamp_index])
+		KEY_N:
+			# Secret stamp
+			if ticket_filed and _is_secret_target() and _has_secret_stamp():
+				_stamp("NOT_A_THING")
 
 func _get_save() -> Node:
-	var save_node = get_node_or_null("/root/Save")
-	if save_node:
-		return save_node
-	return null
+	return get_node_or_null("/root/Save")
+
+func _has_secret_stamp() -> bool:
+	var save = _get_save()
+	if save and "secret_stamp_unlocked" in save:
+		return save.secret_stamp_unlocked
+	return false
+
+func _is_secret_target() -> bool:
+	for target in SECRET_TARGETS:
+		if current_ticket_text.contains(target) or target in current_ticket_text:
+			return true
+	return false
 
 func _apply_settings() -> void:
-	var save_node = _get_save()
-	if not save_node:
+	var save = _get_save()
+	if not save:
 		return
-	if "vfx_intensity" in save_node:
-		vfx_intensity = clampf(float(save_node.vfx_intensity), 0.0, 1.0)
-	if "reduce_motion" in save_node:
-		reduce_motion = bool(save_node.reduce_motion)
-	if "events_enabled" in save_node:
-		events_enabled = bool(save_node.events_enabled)
+	if "vfx_intensity" in save:
+		vfx_intensity = clampf(float(save.vfx_intensity), 0.0, 1.0)
+	if "reduce_motion" in save:
+		reduce_motion = bool(save.reduce_motion)
+	if "events_enabled" in save:
+		events_enabled = bool(save.events_enabled)
 
 func _populate_rulebook() -> void:
 	if not rules_text:
@@ -390,9 +390,7 @@ func _populate_rulebook() -> void:
 		return
 	var text = ""
 	for rule in rules:
-		var id = rule.get("id", "???")
-		var rule_text = rule.get("text", "")
-		text += "%s — %s\n\n" % [id, rule_text]
+		text += "%s — %s\n\n" % [rule.get("id", "???"), rule.get("text", "")]
 	rules_text.text = text.strip_edges()
 
 func _open_rulebook() -> void:
@@ -438,27 +436,25 @@ func _on_event_choice_a() -> void:
 	if not shift_events or not shift_events.has_method("choose"):
 		return
 	_play_click()
-	var result = shift_events.choose("A")
-	_apply_event_result(result)
+	_apply_event_result(shift_events.choose("A"))
 
 func _on_event_choice_b() -> void:
 	if not shift_events or not shift_events.has_method("choose"):
 		return
 	_play_click()
-	var result = shift_events.choose("B")
-	_apply_event_result(result)
+	_apply_event_result(shift_events.choose("B"))
 
 func _apply_event_result(result: Dictionary) -> void:
 	mood += result.get("mood", 0)
 	contradiction += result.get("contradiction", 0)
 	_update_meters()
-	var result_toast = result.get("toast", "")
-	if result_toast != "" and toast:
-		toast.text = "📢 " + result_toast
+	var r_toast = result.get("toast", "")
+	if r_toast != "" and toast:
+		toast.text = "📢 " + r_toast
 	if result.get("contradiction", 0) >= 2:
 		_play_tremor()
 
-func _on_event_ended(_mood_delta: int, _contradiction_delta: int) -> void:
+func _on_event_ended(_m: int, _c: int) -> void:
 	event_active = false
 	if event_overlay:
 		event_overlay.visible = false
@@ -496,27 +492,31 @@ func _show(i: int) -> void:
 	if i >= tickets.size():
 		_complete()
 		return
+	
+	# Mid-shift story message
+	if i == 4 or i == 6:
+		if story_director and story_director.has_method("on_mid_shift"):
+			story_director.on_mid_shift()
+	
 	index = i
 	var t = tickets[i]
 	_compute_requirements(t)
 	current_allowed_stamps = t.get("allowed_stamps", [])
+	current_ticket_text = t.get("text", "")
+	
 	if ticket_text:
-		ticket_text.text = t.get("text", "")
+		ticket_text.text = current_ticket_text
 	if attachment:
 		var att = t.get("attachment", "N/A")
 		attachment.text = "📎 " + att if att != "" else "📎 N/A"
 	if progress:
 		progress.text = "Ticket %d / %d" % [i + 1, tickets.size()]
-	_show_controls_hint()
+	
 	_update_meters()
 	_update_workflow_ui()
 	if stamp_buttons:
 		for c in stamp_buttons.get_children():
 			c.queue_free()
-
-func _show_controls_hint() -> void:
-	if toast:
-		toast.text = "🎮 WASD move • Mouse look • Tab cursor • E desk • Esc menu"
 
 func _update_workflow_ui() -> void:
 	if event_active:
@@ -560,6 +560,7 @@ func _create_stamp_buttons() -> void:
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	hbox.add_theme_constant_override("separation", 10)
 	stamp_buttons.add_child(hbox)
+	
 	for stamp in t.get("allowed_stamps", []):
 		var btn = Button.new()
 		var key_hint = ""
@@ -573,16 +574,25 @@ func _create_stamp_buttons() -> void:
 		btn.custom_minimum_size = Vector2(120, 35)
 		btn.pressed.connect(_stamp.bind(stamp))
 		hbox.add_child(btn)
+	
+	# Add secret stamp if available
+	if _is_secret_target() and _has_secret_stamp():
+		var secret_btn = Button.new()
+		secret_btn.text = "[N] ⬛ NOT_A_THING"
+		secret_btn.custom_minimum_size = Vector2(150, 35)
+		secret_btn.modulate = Color(0.5, 0.5, 0.6)
+		secret_btn.pressed.connect(_stamp.bind("NOT_A_THING"))
+		hbox.add_child(secret_btn)
+	
 	if toast:
-		toast.text = "🖋️ Stamp! A=Approve D=Deny"
+		toast.text = "🖋️ Choose stamp!"
 
 func _on_open_folder() -> void:
 	if event_active:
 		return
 	if not folder_opened:
 		folder_opened = true
-		if toast:
-			toast.text = "📂 Folder opened"
+		toast.text = "📂 Folder opened" if toast else ""
 		_play_click()
 		_update_workflow_ui()
 
@@ -591,8 +601,7 @@ func _on_inspect() -> void:
 		return
 	if folder_opened and not attachment_inspected:
 		attachment_inspected = true
-		if toast:
-			toast.text = "🔍 Attachment checked"
+		toast.text = "🔍 Attachment checked" if toast else ""
 		_play_click()
 		_update_workflow_ui()
 
@@ -611,8 +620,7 @@ func _on_file_ticket() -> void:
 		can_file = can_file and rules_checked
 	if can_file and not ticket_filed:
 		ticket_filed = true
-		if toast:
-			toast.text = "📤 Filed! Choose stamp"
+		toast.text = "📤 Filed! Choose stamp" if toast else ""
 		_play_click()
 		_update_workflow_ui()
 
@@ -622,18 +630,43 @@ func _stamp(name: String) -> void:
 	if not ticket_filed:
 		contradiction += 1
 		_update_meters()
-		if toast:
-			toast.text = "⚠️ Complete workflow first!"
+		toast.text = "⚠️ Complete workflow first!" if toast else ""
 		_play_error()
 		_play_tremor()
 		return
+	
+	# Handle secret stamp
+	if name == "NOT_A_THING":
+		if not _is_secret_target() or not _has_secret_stamp():
+			toast.text = "⚠️ Invalid stamp" if toast else ""
+			_play_error()
+			return
+		var save = _get_save()
+		if save and save.has_method("track_secret_stamp_use"):
+			save.track_secret_stamp_use(current_ticket_text)
+		toast.text = "⬛ NOT_A_THING applied..." if toast else ""
+		_play_glitch()
+		_play_tremor()
+		busy = true
+		await _animate_ticket_out()
+		busy = false
+		_show(index + 1)
+		return
+	
 	if name not in current_allowed_stamps:
-		if toast:
-			toast.text = "⚠️ Stamp unavailable"
+		toast.text = "⚠️ Stamp unavailable" if toast else ""
 		_play_error()
 		return
-	busy = true
+	
+	# Track Level 7 denies
 	var t = tickets[index]
+	var ticket_type = t.get("type", "standard")
+	if name == "DENIED" and ticket_type == "level7":
+		var save = _get_save()
+		if save and save.has_method("track_level7_deny"):
+			save.track_level7_deny()
+	
+	busy = true
 	var outcomes = t.get("outcomes", {})
 	if outcomes.has(name):
 		var o = outcomes[name]
@@ -658,8 +691,7 @@ func _stamp(name: String) -> void:
 		busy = false
 		_show(index + 1)
 	else:
-		if toast:
-			toast.text = "⚠️ Invalid stamp"
+		toast.text = "⚠️ Invalid stamp" if toast else ""
 		_play_error()
 		busy = false
 
@@ -683,24 +715,24 @@ func _play_tremor() -> void:
 	var effect_scale = vfx_intensity
 	if paper_background:
 		var tween = create_tween()
-		var flash_color = Color(1, 0.8, 0.7).lerp(original_paper_color, 1.0 - effect_scale)
-		tween.tween_property(paper_background, "color", flash_color, 0.1)
+		var flash = Color(1, 0.8, 0.7).lerp(original_paper_color, 1.0 - effect_scale)
+		tween.tween_property(paper_background, "color", flash, 0.1)
 		tween.tween_property(paper_background, "color", original_paper_color, 0.15)
 	if scanline_overlay and scanline_overlay.material:
 		var mat = scanline_overlay.material as ShaderMaterial
 		if mat:
 			var max_glitch = 0.5 * effect_scale
-			var overlay_tween = create_tween()
-			overlay_tween.tween_method(_set_glitch_intensity, 0.0, max_glitch, 0.1)
-			overlay_tween.tween_method(_set_glitch_intensity, max_glitch, 0.0, 0.2)
+			var tween2 = create_tween()
+			tween2.tween_method(_set_glitch, 0.0, max_glitch, 0.1)
+			tween2.tween_method(_set_glitch, max_glitch, 0.0, 0.2)
 	if is_instance_valid(office_3d) and office_3d.has_method("apply_tremor"):
 		office_3d.apply_tremor(0.6 * shake_scale, 0.3)
 
-func _set_glitch_intensity(value: float) -> void:
+func _set_glitch(v: float) -> void:
 	if scanline_overlay and scanline_overlay.material:
 		var mat = scanline_overlay.material as ShaderMaterial
 		if mat:
-			mat.set_shader_parameter("glitch_intensity", value)
+			mat.set_shader_parameter("glitch_intensity", v)
 
 func _play_click() -> void:
 	if sfx and sfx.has_method("play_click"):
@@ -727,12 +759,21 @@ func _update_meters() -> void:
 func _complete() -> void:
 	if shift_events and shift_events.has_method("stop"):
 		shift_events.stop()
-	var save_node = _get_save()
-	if save_node and shift_number < 10:
-		if save_node.has_method("unlock_shift"):
-			save_node.unlock_shift(shift_number + 1)
-		if save_node.has_method("write_save"):
-			save_node.write_save()
+	
+	# Story end message
+	if story_director and story_director.has_method("on_shift_end"):
+		story_director.on_shift_end()
+	
+	var save = _get_save()
+	if save:
+		if save.has_method("update_totals"):
+			save.update_totals(mood, contradiction)
+		if shift_number < 10:
+			if save.has_method("unlock_shift"):
+				save.unlock_shift(shift_number + 1)
+			if save.has_method("write_save"):
+				save.write_save()
+	
 	if open_folder_btn:
 		open_folder_btn.visible = false
 	if inspect_btn:
@@ -741,23 +782,54 @@ func _complete() -> void:
 		check_rules_btn.visible = false
 	if file_ticket_btn:
 		file_ticket_btn.visible = false
+	
 	if ticket_text:
 		ticket_text.text = "SHIFT %02d COMPLETE" % shift_number
 	if attachment:
 		attachment.text = "Thank you for your service."
-	if toast:
-		toast.text = "🎉 Complete! Esc to exit"
 	if progress:
 		progress.text = "Mood: %+d | Contra: %d" % [mood, contradiction]
+	
 	if stamp_buttons:
 		for c in stamp_buttons.get_children():
 			c.queue_free()
-		if shift_number < 10:
+	
+	# Check for endings (Shift 10 only)
+	if shift_number >= 10:
+		_determine_ending()
+	else:
+		toast.text = "🎉 Complete! Esc to exit" if toast else ""
+		if stamp_buttons:
 			var next_btn = Button.new()
 			next_btn.text = "▶ Next Shift"
 			next_btn.custom_minimum_size = Vector2(120, 35)
 			next_btn.pressed.connect(_next_shift)
 			stamp_buttons.add_child(next_btn)
+
+func _determine_ending() -> void:
+	var save = _get_save()
+	var ending_type = "compliance"
+	
+	# Check for Transcendence (secret ending)
+	if save and save.has_method("has_all_secret_targets") and save.has_all_secret_targets():
+		ending_type = "transcendence"
+	# Check for Dissolution
+	elif save and "denied_level7_count" in save and save.denied_level7_count >= 3:
+		ending_type = "dissolution"
+	elif save and "total_contradiction" in save and save.total_contradiction >= 75:
+		ending_type = "dissolution"
+	# Default: Compliance
+	else:
+		ending_type = "compliance"
+	
+	# Set ending in gamestate and go to ending scene
+	var gamestate = get_node_or_null("/root/GameState")
+	if gamestate:
+		gamestate.set("ending_type", ending_type)
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	await get_tree().create_timer(2.0).timeout
+	get_tree().change_scene_to_file("res://scenes/Ending.tscn")
 
 func _next_shift() -> void:
 	var gamestate = get_node_or_null("/root/GameState")
