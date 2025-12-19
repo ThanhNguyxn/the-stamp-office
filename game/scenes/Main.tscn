@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cmainscene001"]
 
-[ext_resource type="Script" path="res://scripts/Main.gd" id="1_main"]
-[ext_resource type="PackedScene" uid="uid://coffice3dscene" path="res://scenes/Office3D.tscn" id="2_office"]
+[ext_resource type="Script" uid="uid://c2j5t52hud4eg" path="res://scripts/Main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://8t7w7r2w20qc" path="res://scenes/Office3D.tscn" id="2_office"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -17,6 +17,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 stretch = true
 
 [node name="OfficeViewport" type="SubViewport" parent="OfficeViewportContainer"]
@@ -25,12 +27,15 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="Office3D" parent="OfficeViewportContainer/OfficeViewport" instance=ExtResource("2_office")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013563633, -1.1920929e-07, 0.0074095726)
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.08, 0.08, 0.1, 0.75)
 
 [node name="VBox" type="VBoxContainer" parent="."]
@@ -57,15 +62,15 @@ horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
 text = "Horror look. Comedy feel. Paperwork runs reality."
 horizontal_alignment = 1
 
 [node name="ProgressLabel" type="Label" parent="VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.5, 0.8, 0.5, 1)
+theme_override_font_sizes/font_size = 12
 text = "📊 Unlocked: Shift 01 → Shift 01"
 horizontal_alignment = 1
 
@@ -75,8 +80,8 @@ layout_mode = 2
 
 [node name="ShiftBox" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 10
+alignment = 1
 
 [node name="ShiftLabel" type="Label" parent="VBox/ShiftBox"]
 layout_mode = 2
@@ -95,8 +100,8 @@ text = "▶ Start"
 
 [node name="ButtonRow" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 10
+alignment = 1
 
 [node name="SettingsButton" type="Button" parent="VBox/ButtonRow"]
 custom_minimum_size = Vector2(120, 40)
@@ -127,8 +132,8 @@ offset_top = -30.0
 offset_right = 100.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 12
 text = "v0.4.0 — Phase 5 Alpha"
 horizontal_alignment = 1
 
@@ -189,8 +194,8 @@ value = 1.0
 
 [node name="ButtonRow" type="HBoxContainer" parent="SettingsPopup/VBox"]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 15
+alignment = 1
 
 [node name="SaveButton" type="Button" parent="SettingsPopup/VBox/ButtonRow"]
 custom_minimum_size = Vector2(100, 40)
@@ -223,8 +228,8 @@ theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="ConfirmDialog/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(1, 0.7, 0.3, 1)
+theme_override_font_sizes/font_size = 18
 text = "⚠ Reset Progress?"
 horizontal_alignment = 1
 
@@ -237,8 +242,8 @@ horizontal_alignment = 1
 
 [node name="ButtonRow" type="HBoxContainer" parent="ConfirmDialog/VBox"]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 20
+alignment = 1
 
 [node name="ConfirmYes" type="Button" parent="ConfirmDialog/VBox/ButtonRow"]
 custom_minimum_size = Vector2(100, 40)
