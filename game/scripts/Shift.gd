@@ -2,7 +2,7 @@ extends Control
 ## Shift - Desk job workflow gameplay with world-space UI on 3D paper
 ## UI rendered to PaperViewport and displayed on 3D PaperScreen mesh
 ## Input: mouse clicks on paper OR keyboard shortcuts
-## FIXED: Safe World3D access with is_instance_valid checks to prevent null crashes
+## Supports first-person movement with cursor/look mode toggle
 
 # Paper viewport (contains the UI)
 @onready var paper_viewport: SubViewport = $PaperViewport
@@ -57,6 +57,7 @@ var office_3d: Node3D = null
 var paper_screen: MeshInstance3D = null
 var paper_area: Area3D = null
 var camera_3d: Camera3D = null
+var player_controller: CharacterBody3D = null
 
 # Raycast ready flag (wait for viewport initialization)
 var raycast_ready: bool = false
@@ -90,11 +91,15 @@ var requires_rules: bool = false
 var current_allowed_stamps: Array = []
 
 func _ready() -> void:
-	# Get 3D references (null-safe)
+	# Get 3D references (null-safe, supports nested Player/Head/Camera3D)
 	if is_instance_valid(office_viewport) and office_viewport.get_child_count() > 0:
 		office_3d = office_viewport.get_child(0) as Node3D
 		if is_instance_valid(office_3d):
-			camera_3d = office_3d.get_node_or_null("Camera3D") as Camera3D
+			# Find camera using find_child to support nested Player rig
+			camera_3d = office_3d.find_child("Camera3D", true, false) as Camera3D
+			# Find player controller
+			player_controller = office_3d.find_child("Player", true, false) as CharacterBody3D
+			# Find desk and paper
 			var desk = office_3d.get_node_or_null("Desk")
 			if is_instance_valid(desk):
 				paper_screen = desk.get_node_or_null("PaperScreen") as MeshInstance3D
@@ -172,10 +177,26 @@ func _ready() -> void:
 			attachment.text = "Run: python tools/sync_game_data.py"
 		_update_workflow_ui()
 	
+	# Start with player focused on desk (cursor mode for UI interaction)
+	_focus_player_on_desk(true)
+	
 	# Wait for viewport to fully initialize before enabling raycast
 	await get_tree().process_frame
 	await get_tree().process_frame  # Extra frame for physics
 	raycast_ready = true
+
+## Focus player on desk (cursor mode + camera snap)
+func _focus_player_on_desk(enabled: bool) -> void:
+	if player_controller and player_controller.has_method("focus_desk"):
+		player_controller.focus_desk(enabled)
+	elif player_controller and player_controller.has_method("set_cursor_mode"):
+		player_controller.set_cursor_mode(enabled)
+
+## Check if player is in cursor mode (can click UI)
+func _is_cursor_mode() -> bool:
+	if player_controller and player_controller.has_method("is_cursor_mode"):
+		return player_controller.is_cursor_mode()
+	return true  # Default to cursor mode if no player
 
 ## Ensure SubViewport is 3D-capable for physics raycasting
 func _ensure_viewport_3d_capable() -> void:
@@ -247,11 +268,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if not key_event.pressed:
 		return
 	
-	# Handle Escape to close rulebook or go back
+	# Handle Escape to close rulebook or unfocus desk
 	if key_event.keycode == KEY_ESCAPE:
 		if rulebook_popup and rulebook_popup.visible:
 			_close_rulebook()
 		elif not busy:
+			# Unfocus desk and return to look mode
+			_focus_player_on_desk(false)
 			_back()
 		return
 	
@@ -279,7 +302,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if busy:
 		return
 	
-	# Workflow shortcuts (1-4)
+	# Workflow shortcuts (1-4) - only in cursor mode
+	if not _is_cursor_mode():
+		return
+	
 	match key_event.keycode:
 		KEY_1:
 			_on_open_folder()
@@ -314,6 +340,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _input(event: InputEvent) -> void:
 	# Only handle mouse events here; keyboard handled by _unhandled_key_input
 	if not event is InputEventMouse:
+		return
+	
+	# Only forward mouse clicks in cursor mode (so mouse-look doesn't click buttons)
+	if not _is_cursor_mode():
 		return
 	
 	# Early exit if raycast not ready
@@ -594,7 +624,7 @@ func _show(i: int) -> void:
 ## Show keyboard controls hint in toast
 func _show_controls_hint() -> void:
 	if toast:
-		toast.text = "🎮 1=Open 2=Inspect 3=Rules 4=File | A/D=Stamp | Esc=Back"
+		toast.text = "🎮 WASD=Walk Tab=Cursor E=Desk | 1-4=Workflow A/D=Stamp"
 
 func _update_workflow_ui() -> void:
 	if event_active:
@@ -887,5 +917,7 @@ func _next_shift() -> void:
 func _back() -> void:
 	if shift_events and shift_events.has_method("stop"):
 		shift_events.stop()
+	# Restore normal mouse mode before leaving
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	_play_click()
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")

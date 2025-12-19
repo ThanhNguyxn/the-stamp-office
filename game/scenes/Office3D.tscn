@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://coffice3dscene"]
+[gd_scene load_steps=31 format=3 uid="uid://coffice3dscene"]
 
 [ext_resource type="Script" path="res://scripts/Office3D.gd" id="1_office"]
+[ext_resource type="Script" path="res://scripts/PlayerController.gd" id="2_player"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 sky_top_color = Color(0.08, 0.08, 0.12, 1)
@@ -91,6 +92,22 @@ size = Vector2(1.6, 1.0)
 [sub_resource type="BoxShape3D" id="BoxShape_paper"]
 size = Vector3(1.6, 0.02, 1.0)
 
+[sub_resource type="BoxShape3D" id="BoxShape_floor"]
+size = Vector3(10, 0.1, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_back"]
+size = Vector3(12, 5, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_side"]
+size = Vector3(0.15, 5, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape_desk_body"]
+size = Vector3(2.5, 0.8, 1.2)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
+radius = 0.3
+height = 1.8
+
 [sub_resource type="Animation" id="Animation_idle"]
 resource_name = "idle"
 length = 4.0
@@ -137,29 +154,65 @@ light_color = Color(0.95, 0.9, 0.8, 1)
 light_energy = 1.2
 shadow_enabled = true
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.95, 0.31, 0, -0.31, 0.95, 0, 1.6, 3.5)
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 3)
+script = ExtResource("2_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape_player")
+
+[node name="Head" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/Head"]
 current = true
-fov = 55.0
+fov = 70.0
+
+[node name="DeskFocus" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.98, 0.2, 0, -0.2, 0.98, 0, 1.4, 2.2)
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_floor")
 surface_material_override/0 = SubResource("Material_floor")
+
+[node name="FloorCollision" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorCollision"]
+shape = SubResource("BoxShape_floor")
 
 [node name="BackWall" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -3.5)
 mesh = SubResource("BoxMesh_wall")
 surface_material_override/0 = SubResource("Material_wall")
 
+[node name="BackWallCollision" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -3.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BackWallCollision"]
+shape = SubResource("BoxShape_wall_back")
+
 [node name="LeftWall" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2.5, 0)
 mesh = SubResource("BoxMesh_sidewall")
 surface_material_override/0 = SubResource("Material_wall")
 
+[node name="LeftWallCollision" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftWallCollision"]
+shape = SubResource("BoxShape_wall_side")
+
 [node name="RightWall" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.5, 0)
 mesh = SubResource("BoxMesh_sidewall")
 surface_material_override/0 = SubResource("Material_wall")
+
+[node name="RightWallCollision" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightWallCollision"]
+shape = SubResource("BoxShape_wall_side")
 
 [node name="Desk" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8)
@@ -168,6 +221,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 mesh = SubResource("BoxMesh_desk")
 surface_material_override/0 = SubResource("Material_desk")
+
+[node name="DeskCollision" type="StaticBody3D" parent="Desk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Desk/DeskCollision"]
+shape = SubResource("BoxShape_desk_body")
 
 [node name="LegFL" type="MeshInstance3D" parent="Desk"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.35, 0.5)
