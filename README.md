@@ -30,6 +30,27 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 
 ---
 
+## 🎮 Controls
+
+This is a **desk workflow simulation** — there is no WASD movement. You sit at your desk and process paperwork through keyboard shortcuts or by clicking the 3D paper on the desk.
+
+| Key | Action |
+|-----|--------|
+| `1` | Open folder |
+| `2` | Inspect attachment |
+| `3` | Check rules |
+| `4` | File ticket |
+| `A` | Approve stamp |
+| `D` | Deny stamp |
+| `R` | Open rulebook |
+| `Esc` | Back / Close popup |
+
+**Events:** When interrupts appear, press `A` or `B` to choose.
+
+**Mouse:** Click directly on the paper to use buttons.
+
+---
+
 ## 🚀 Quickstart
 
 > **Status: Prototype Complete**
@@ -124,6 +145,7 @@ the-stamp-office/
   - [x] Persistent progression (unlock shifts)
   - [x] Settings (SFX, VFX, events, reduce motion)
   - [x] Save system (user://save.json)
+  - [x] Keyboard controls for workflow
   - [ ] Story/lore integration
   - [ ] Ending variations
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
@@ -159,6 +181,10 @@ If the `godot` command isn't found:
 1. **Use full path:** `"C:\Program Files\Godot\Godot_v4.2-stable_win64.exe" --path game`
 2. **Add to PATH:** Add your Godot folder to system PATH, then restart terminal
 3. **Use editor:** Open `game/project.godot` in Godot Editor and press **F5**
+
+### No movement controls?
+
+This is intentional! The Stamp Office is a **desk workflow game** — you sit at your desk and process paperwork. There is no walking around. Use the keyboard shortcuts (1-4, A, D) or click the paper to interact.
 
 ---
 
