@@ -12,33 +12,42 @@ All 10 shifts are playable via the shift selector!
 
 ## 🎮 Controls
 
-This is a **desk workflow game** — there is no WASD movement by design. You sit at your desk and process paperwork.
+This is a **first-person desk workflow game**. Walk around the office and interact with the desk to process paperwork.
 
-### Keyboard Shortcuts
+### Movement
+
+| Key | Action |
+|-----|--------|
+| `W`/`A`/`S`/`D` | Walk |
+| `Shift` | Sprint |
+| Mouse | Look around |
+| `Tab` | Toggle cursor mode |
+| `E` | Focus/unfocus desk |
+| `Esc` | Leave desk / Back |
+
+### Cursor Mode vs Look Mode
+
+- **Look Mode** (default): Mouse is captured, you can walk and look around
+- **Cursor Mode**: Mouse is visible, you can click the paper UI on the desk
+
+Press **Tab** to switch modes, or **E** to focus on the desk (auto-enables cursor mode).
+
+### Desk Workflow (in Cursor Mode)
 
 | Key | Action |
 |-----|--------|
 | `1` | Open folder |
 | `2` | Inspect attachment |
-| `3` | Check rules (opens rulebook) |
+| `3` | Check rules |
 | `4` | File ticket |
 | `R` | Open rulebook |
-| `A` | Approve (when stamps visible) |
-| `D` | Deny (when stamps visible) |
-| `H` | Hold (when available) |
-| `F` | Forward (when available) |
+| `A` | Approve stamp |
+| `D` | Deny stamp |
 | `Space`/`Enter` | Close rulebook |
-| `Esc` | Close popup / Back to menu |
 
 ### Interrupt Events
 
-When an event popup appears:
-- Press `A` or `1` for first choice
-- Press `B` or `2` for second choice
-
-### Mouse Controls
-
-Click directly on the 3D paper to interact with buttons. The paper displays the workflow UI.
+When an event popup appears, press `A` or `B` to choose.
 
 ---
 
@@ -67,15 +76,18 @@ godot --path game
 
 ### Step 3: Play
 
-1. Select a shift (01–10) from the dropdown
-2. Click **Start**
-3. Process tickets using keyboard shortcuts or by clicking the paper
-4. After completing a shift, click **Next Shift** or press **Esc** to return
+1. Walk around using WASD + mouse
+2. Press **E** near the desk to focus on paperwork
+3. Use keyboard shortcuts (1-4, A/D) or click the paper to work
+4. Press **Esc** to leave or **Tab** to toggle cursor
 
 ---
 
 ## Features
 
+- **First-Person Movement** — Walk around the office with WASD + mouse look
+- **Cursor/Look Mode Toggle** — Tab switches between walking and clicking
+- **Desk Focus** — E key snaps camera to desk for paperwork
 - **Shift Selector** — Play any shift 01–10
 - **Persistent Progression** — Unlock shifts by completing them
 - **Settings** — Configure SFX, VFX intensity, events, reduce motion
@@ -85,9 +97,8 @@ godot --path game
 - **Meters** — Mood and Contradiction tracking
 - **Rulebook Popup** — Auto-shows at shift start
 - **Reality Tremor** — Visual feedback for high contradictions
-- **3D Office Backdrop** — World-space UI rendered on paper on desk
+- **3D Office** — Walk around the office environment
 - **Random Events** — Absurd office interruptions during shifts
-- **Next Shift** — Continue to next shift after completion
 
 ---
 
@@ -109,25 +120,26 @@ To reset progress, click "Reset Progress" in the main menu, or delete the save f
 
 | File | Purpose |
 |------|---------|
-| `project.godot` | Config + autoloads |
+| `project.godot` | Config + autoloads + input actions |
 | `scripts/DataLoader.gd` | JSON loader (tickets, toasts, rules) |
 | `scripts/GameState.gd` | Stores selected shift |
 | `scripts/Save.gd` | Persistent save + settings |
 | `scripts/Main.gd` | Menu + shift selector + settings UI |
-| `scripts/Shift.gd` | Gameplay logic + keyboard + tremor effects |
+| `scripts/Shift.gd` | Gameplay logic + cursor mode + raycast |
+| `scripts/PlayerController.gd` | First-person movement + desk focus |
 | `scripts/Sfx.gd` | Procedural audio synthesis |
 | `scripts/ShiftEvents.gd` | Random interrupt events |
 | `scripts/Office3D.gd` | 3D backdrop idle + tremor |
 | `scenes/Main.tscn` | Main menu UI + settings popup |
 | `scenes/Shift.tscn` | Shift gameplay UI + SubViewport |
-| `scenes/Office3D.tscn` | 3D office scene (primitives) |
+| `scenes/Office3D.tscn` | 3D office scene + Player rig |
 | `data/` | Synced JSON data |
 
 ---
 
 ## Notes
 
-- **World-space UI**: The shift UI is rendered on a 3D paper on the desk. Use keyboard shortcuts or click the paper.
-- **No movement controls**: This is intentional — you're a clerk at a desk, not exploring an office.
-- **Tremor effect**: Also triggers camera shake and light flicker in the 3D scene.
+- **First-person movement**: WASD to walk, mouse to look. Press Tab or E to toggle between walking and clicking the desk.
+- **Cursor mode**: Required to click the paper UI. Mouse must be visible.
+- **Tremor effect**: Triggers camera shake and light flicker in the 3D scene.
 - **Save system**: Automatically saves when completing a shift or changing settings.

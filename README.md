@@ -32,7 +32,18 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 
 ## 🎮 Controls
 
-This is a **desk workflow simulation** — there is no WASD movement. You sit at your desk and process paperwork through keyboard shortcuts or by clicking the 3D paper on the desk.
+### Movement (First-Person)
+
+| Key | Action |
+|-----|--------|
+| `W` / `A` / `S` / `D` | Walk around the office |
+| `Shift` | Sprint |
+| Mouse | Look around |
+| `Tab` | Toggle cursor mode (to click paper UI) |
+| `E` | Focus on desk / Unfocus desk |
+| `Esc` | Leave desk / Back to menu |
+
+### Desk Workflow (in Cursor Mode)
 
 | Key | Action |
 |-----|--------|
@@ -40,14 +51,18 @@ This is a **desk workflow simulation** — there is no WASD movement. You sit at
 | `2` | Inspect attachment |
 | `3` | Check rules |
 | `4` | File ticket |
+| `R` | Open rulebook |
 | `A` | Approve stamp |
 | `D` | Deny stamp |
-| `R` | Open rulebook |
-| `Esc` | Back / Close popup |
+| `Space`/`Enter` | Close rulebook |
 
-**Events:** When interrupts appear, press `A` or `B` to choose.
+### How It Works
 
-**Mouse:** Click directly on the paper to use buttons.
+1. **Walk around** the office using WASD + mouse look
+2. Press **E** or walk up to the desk to focus on it (enters cursor mode)
+3. In **cursor mode**, your mouse is visible and you can click the paper or use keyboard shortcuts
+4. Press **Tab** to toggle between look mode and cursor mode
+5. Press **Esc** to leave the desk and return to walking
 
 ---
 
@@ -146,6 +161,7 @@ the-stamp-office/
   - [x] Settings (SFX, VFX, events, reduce motion)
   - [x] Save system (user://save.json)
   - [x] Keyboard controls for workflow
+  - [x] First-person movement + desk focus
   - [ ] Story/lore integration
   - [ ] Ending variations
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback
@@ -167,13 +183,6 @@ Invalid access to property or key 'direct_space_state' on base object of type 'n
 
 **This is now fixed.** The world-space UI uses raycasting to detect clicks on the 3D paper. The crash occurred because the physics World3D wasn't ready yet when input events arrived.
 
-The fix adds:
-- `is_instance_valid()` checks before accessing any World3D or PhysicsDirectSpaceState3D
-- A 2-frame wait after scene load before enabling raycasting
-- Setting `own_world_3d = true` on the SubViewport to ensure it has its own physics world
-
-If you're on an older version, pull the latest changes.
-
 ### "godot" command not recognized (Windows)
 
 If the `godot` command isn't found:
@@ -182,9 +191,12 @@ If the `godot` command isn't found:
 2. **Add to PATH:** Add your Godot folder to system PATH, then restart terminal
 3. **Use editor:** Open `game/project.godot` in Godot Editor and press **F5**
 
-### No movement controls?
+### Can't click the paper UI?
 
-This is intentional! The Stamp Office is a **desk workflow game** — you sit at your desk and process paperwork. There is no walking around. Use the keyboard shortcuts (1-4, A, D) or click the paper to interact.
+Make sure you're in **cursor mode**:
+- Press **Tab** to toggle cursor mode
+- Press **E** to focus on the desk (auto-enables cursor mode)
+- In cursor mode, your mouse is visible and can click buttons
 
 ---
 
