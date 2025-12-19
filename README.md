@@ -135,33 +135,30 @@ the-stamp-office/
 
 ## 🔧 Troubleshooting
 
-### "null World3D" or "direct_space_state" crash
+### World-space UI raycast crash (fixed)
 
-If you see an error like:
+If you previously saw this error when clicking/hovering in the Shift scene:
+
 ```
-Invalid access to property 'direct_space_state' on base object of type 'null instance'
+Invalid access to property or key 'direct_space_state' on base object of type 'null instance'
 ```
 
-This has been **fixed** in the latest code. The raycast system now safely checks for World3D availability before attempting physics queries. If you're on an older version, pull the latest changes.
+**This is now fixed.** The world-space UI uses raycasting to detect clicks on the 3D paper. The crash occurred because the physics World3D wasn't ready yet when input events arrived.
+
+The fix adds:
+- `is_instance_valid()` checks before accessing any World3D or PhysicsDirectSpaceState3D
+- A 2-frame wait after scene load before enabling raycasting
+- Setting `own_world_3d = true` on the SubViewport to ensure it has its own physics world
+
+If you're on an older version, pull the latest changes.
 
 ### "godot" command not recognized (Windows)
 
-The `godot` command may not be in your PATH. Solutions:
+If the `godot` command isn't found:
 
-1. **Use the full path:**
-   ```
-   "C:\Program Files\Godot\Godot_v4.2-stable_win64.exe" --path game
-   ```
-
-2. **Add Godot to PATH:**
-   - Find your Godot installation folder
-   - Add it to your system PATH environment variable
-   - Restart your terminal
-
-3. **Use the editor directly:**
-   - Open Godot Editor
-   - Import → select `game/project.godot`
-   - Press **F5** to run
+1. **Use full path:** `"C:\Program Files\Godot\Godot_v4.2-stable_win64.exe" --path game`
+2. **Add to PATH:** Add your Godot folder to system PATH, then restart terminal
+3. **Use editor:** Open `game/project.godot` in Godot Editor and press **F5**
 
 ---
 

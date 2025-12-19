@@ -2,7 +2,7 @@ extends Control
 ## Shift - Desk job workflow gameplay with world-space UI on 3D paper
 ## UI rendered to PaperViewport and displayed on 3D PaperScreen mesh
 ## Input is raycasted from 3D camera to paper and forwarded to viewport
-## FIXED: Safe World3D access to prevent null crashes
+## FIXED: Safe World3D access with is_instance_valid checks to prevent null crashes
 
 # Paper viewport (contains the UI)
 @onready var paper_viewport: SubViewport = $PaperViewport
@@ -88,17 +88,17 @@ var requires_rules: bool = false
 
 func _ready() -> void:
 	# Get 3D references (null-safe)
-	if office_viewport and office_viewport.get_child_count() > 0:
-		office_3d = office_viewport.get_child(0)
-		if office_3d:
-			camera_3d = office_3d.get_node_or_null("Camera3D")
+	if is_instance_valid(office_viewport) and office_viewport.get_child_count() > 0:
+		office_3d = office_viewport.get_child(0) as Node3D
+		if is_instance_valid(office_3d):
+			camera_3d = office_3d.get_node_or_null("Camera3D") as Camera3D
 			var desk = office_3d.get_node_or_null("Desk")
-			if desk:
-				paper_screen = desk.get_node_or_null("PaperScreen")
-				if paper_screen:
-					paper_area = paper_screen.get_node_or_null("PaperArea")
+			if is_instance_valid(desk):
+				paper_screen = desk.get_node_or_null("PaperScreen") as MeshInstance3D
+				if is_instance_valid(paper_screen):
+					paper_area = paper_screen.get_node_or_null("PaperArea") as Area3D
 	
-	# Ensure SubViewport is 3D-capable (defensive property setting)
+	# Ensure SubViewport is 3D-capable
 	_ensure_viewport_3d_capable()
 	
 	# Apply paper viewport texture to 3D paper screen
@@ -169,65 +169,61 @@ func _ready() -> void:
 			attachment.text = "Run: python tools/sync_game_data.py"
 		_update_workflow_ui()
 	
-	# Wait one frame before enabling raycast (let viewport initialize)
+	# Wait for viewport to fully initialize before enabling raycast
 	await get_tree().process_frame
+	await get_tree().process_frame  # Extra frame for physics
 	raycast_ready = true
 
-## Ensure SubViewport has a World3D for physics raycasting
+## Ensure SubViewport is 3D-capable for physics raycasting
 func _ensure_viewport_3d_capable() -> void:
-	if not office_viewport:
+	if not is_instance_valid(office_viewport):
 		return
 	
-	# Try to set own_world_3d = true so viewport has its own World3D
-	if "own_world_3d" in office_viewport:
-		office_viewport.set("own_world_3d", true)
-	
-	# Try to ensure 3D is not disabled
-	if "disable_3d" in office_viewport:
-		office_viewport.set("disable_3d", false)
+	# Force own_world_3d so viewport has its own World3D for physics
+	office_viewport.own_world_3d = true
 
-## Get physics space state from World3D (safe, tries multiple sources)
+## Get physics space state from World3D (safe, with is_instance_valid checks)
 func _get_space_state_3d() -> PhysicsDirectSpaceState3D:
-	var world_3d: World3D = null
+	# Try to get World3D from office_viewport first
+	if is_instance_valid(office_viewport):
+		var world: World3D = office_viewport.get_world_3d()
+		if is_instance_valid(world):
+			var space = world.direct_space_state
+			if is_instance_valid(space):
+				return space
 	
-	# Try 1: office_viewport.world_3d
-	if office_viewport:
-		if office_viewport.has_method("get_world_3d"):
-			world_3d = office_viewport.get_world_3d()
-		elif "world_3d" in office_viewport and office_viewport.world_3d != null:
-			world_3d = office_viewport.world_3d
+	# Fallback: try camera's viewport
+	if is_instance_valid(camera_3d):
+		var cam_viewport = camera_3d.get_viewport()
+		if is_instance_valid(cam_viewport):
+			var world: World3D = cam_viewport.get_world_3d()
+			if is_instance_valid(world):
+				var space = world.direct_space_state
+				if is_instance_valid(space):
+					return space
 	
-	# Try 2: camera_3d.get_world_3d()
-	if world_3d == null and camera_3d:
-		if camera_3d.has_method("get_world_3d"):
-			world_3d = camera_3d.get_world_3d()
+	# Fallback: try office_3d's world
+	if is_instance_valid(office_3d):
+		var world: World3D = office_3d.get_world_3d()
+		if is_instance_valid(world):
+			var space = world.direct_space_state
+			if is_instance_valid(space):
+				return space
 	
-	# Try 3: office_3d.get_world_3d()
-	if world_3d == null and office_3d:
-		if office_3d.has_method("get_world_3d"):
-			world_3d = office_3d.get_world_3d()
-	
-	# Try 4: main viewport's World3D
-	if world_3d == null:
-		var main_vp = get_viewport()
-		if main_vp:
-			if main_vp.has_method("get_world_3d"):
-				world_3d = main_vp.get_world_3d()
-			elif "world_3d" in main_vp and main_vp.world_3d != null:
-				world_3d = main_vp.world_3d
-	
-	# Get space_state from World3D
-	if world_3d == null:
-		return null
-	
-	if "direct_space_state" in world_3d and world_3d.direct_space_state != null:
-		return world_3d.direct_space_state
+	# Last resort: main viewport
+	var main_vp = get_viewport()
+	if is_instance_valid(main_vp):
+		var world: World3D = main_vp.get_world_3d()
+		if is_instance_valid(world):
+			var space = world.direct_space_state
+			if is_instance_valid(space):
+				return space
 	
 	return null
 
 ## Setup paper viewport texture onto 3D paper mesh
 func _setup_paper_texture() -> void:
-	if not paper_viewport or not paper_screen:
+	if not is_instance_valid(paper_viewport) or not is_instance_valid(paper_screen):
 		return
 	
 	# Create material with viewport texture
@@ -241,10 +237,18 @@ func _setup_paper_texture() -> void:
 
 ## Handle input - raycast to paper and forward to viewport
 func _input(event: InputEvent) -> void:
-	# Early exit if raycast not ready or missing required nodes
+	# Early exit if raycast not ready
 	if not raycast_ready:
 		return
-	if not camera_3d or not paper_area or not paper_viewport or not paper_screen:
+	
+	# Check all required nodes are valid
+	if not is_instance_valid(camera_3d):
+		return
+	if not is_instance_valid(paper_area):
+		return
+	if not is_instance_valid(paper_viewport):
+		return
+	if not is_instance_valid(paper_screen):
 		return
 	
 	if not event is InputEventMouse:
@@ -253,10 +257,10 @@ func _input(event: InputEvent) -> void:
 	var mouse_event = event as InputEventMouse
 	var mouse_pos = mouse_event.position
 	
-	# Get space state safely
+	# Get space state safely - returns null if World3D not ready
 	var space_state = _get_space_state_3d()
-	if not space_state:
-		return  # No crash - just skip raycast
+	if not is_instance_valid(space_state):
+		return  # Safely skip - no crash
 	
 	# Convert screen position to ray
 	var from = camera_3d.project_ray_origin(mouse_pos)
@@ -282,7 +286,6 @@ func _input(event: InputEvent) -> void:
 	var local_pos = paper_screen.global_transform.affine_inverse() * hit_pos
 	
 	# Paper quad is 1.6 x 1.0 centered at origin, rotated to lie flat
-	# local_pos.x is along width, local_pos.y is along height (since quad is rotated)
 	var paper_size = Vector2(1.6, 1.0)
 	var uv = Vector2(
 		(local_pos.x / paper_size.x) + 0.5,
@@ -695,7 +698,7 @@ func _play_tremor() -> void:
 			overlay_tween.tween_method(_set_glitch_intensity, max_glitch, 0.0, 0.2)
 	
 	# 3D tremor
-	if office_3d and office_3d.has_method("apply_tremor"):
+	if is_instance_valid(office_3d) and office_3d.has_method("apply_tremor"):
 		office_3d.apply_tremor(0.6 * shake_scale, 0.3)
 
 func _set_glitch_intensity(value: float) -> void:
