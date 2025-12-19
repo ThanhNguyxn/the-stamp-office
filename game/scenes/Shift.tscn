@@ -1,7 +1,43 @@
-[gd_scene load_steps=3 format=3 uid="uid://cshiftscene001"]
+[gd_scene load_steps=5 format=3 uid="uid://cshiftscene001"]
 
 [ext_resource type="Script" path="res://scripts/Shift.gd" id="1_shift"]
 [ext_resource type="PackedScene" uid="uid://coffice3dscene" path="res://scenes/Office3D.tscn" id="2_office"]
+[ext_resource type="Script" path="res://scripts/Sfx.gd" id="3_sfx"]
+
+[sub_resource type="Shader" id="Shader_scanline"]
+code = "shader_type canvas_item;
+
+uniform float scanline_intensity : hint_range(0.0, 1.0) = 0.08;
+uniform float vignette_intensity : hint_range(0.0, 1.0) = 0.15;
+uniform float glitch_intensity : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+    vec2 uv = SCREEN_UV;
+    
+    // Scanlines (subtle horizontal lines)
+    float scanline = sin(uv.y * 800.0) * 0.5 + 0.5;
+    scanline = mix(1.0, scanline, scanline_intensity);
+    
+    // Vignette (darken edges)
+    vec2 center = uv - 0.5;
+    float vignette = 1.0 - dot(center, center) * vignette_intensity * 2.0;
+    vignette = clamp(vignette, 0.0, 1.0);
+    
+    // Glitch offset (when triggered)
+    float glitch_offset = sin(TIME * 50.0 + uv.y * 20.0) * glitch_intensity * 0.01;
+    
+    // Combine effects
+    float alpha = (1.0 - scanline * 0.15) * (1.0 - vignette * 0.1);
+    alpha = clamp(alpha, 0.0, 0.3) * (scanline_intensity + vignette_intensity + glitch_intensity);
+    
+    COLOR = vec4(0.0, 0.0, 0.0, alpha);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_scanline"]
+shader = SubResource("Shader_scanline")
+shader_parameter/scanline_intensity = 0.08
+shader_parameter/vignette_intensity = 0.15
+shader_parameter/glitch_intensity = 0.0
 
 [node name="Shift" type="Control"]
 layout_mode = 3
@@ -151,6 +187,15 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "← Back to Menu"
 
+[node name="ScanlineOverlay" type="ColorRect" parent="."]
+mouse_filter = 2
+material = SubResource("ShaderMaterial_scanline")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0)
+
 [node name="RulebookPopup" type="PanelContainer" parent="."]
 visible = false
 layout_mode = 1
@@ -191,3 +236,6 @@ autowrap_mode = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "✓ Acknowledge"
+
+[node name="Sfx" type="Node" parent="."]
+script = ExtResource("3_sfx")

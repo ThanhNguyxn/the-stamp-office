@@ -114,10 +114,10 @@ the-stamp-office/
   - [x] Data sync tool
   - [x] Shift selector
 - [ ] **Phase 4: Vertical Slice** — Playable demo of one complete shift
-  - [ ] Rulebook popup + rule view
-  - [ ] Micro feedback (tremor/flash) for contradictions
+  - [x] Rulebook popup + rule view
+  - [x] Micro feedback (tremor/flash) for contradictions
   - [x] 3D office backdrop + clerk silhouette (no external assets)
-  - [ ] Audio/visual polish
+  - [x] Audio/visual polish
   - [x] 3D environment
 - [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
 - [ ] **Phase 6: Beta** — Polish, testing, community feedback

@@ -1,5 +1,6 @@
 extends Control
 ## Shift - Desk job workflow gameplay with 4-step ticket processing
+## Includes procedural SFX and visual effects
 
 # UI references
 @onready var background: ColorRect = $Background
@@ -27,6 +28,12 @@ extends Control
 @onready var rulebook_popup: PanelContainer = $RulebookPopup
 @onready var rules_text: Label = $RulebookPopup/VBox/Scroll/RulesText
 @onready var rulebook_close_button: Button = $RulebookPopup/VBox/RulebookCloseButton
+
+# Visual effects
+@onready var scanline_overlay: ColorRect = $ScanlineOverlay
+
+# Audio (null-safe)
+@onready var sfx: Node = $Sfx
 
 # 3D office reference
 @onready var office_viewport: SubViewport = $OfficeViewportContainer/OfficeViewport
@@ -119,6 +126,7 @@ func _populate_rulebook() -> void:
 ## Open rulebook popup (also counts as "Check Rules" step)
 func _open_rulebook() -> void:
 	rulebook_popup.visible = true
+	_play_click()
 	# Mark rules as checked for workflow
 	if not rules_checked:
 		rules_checked = true
@@ -127,6 +135,7 @@ func _open_rulebook() -> void:
 ## Close rulebook popup
 func _close_rulebook() -> void:
 	rulebook_popup.visible = false
+	_play_click()
 
 ## Determine workflow requirements for a ticket
 func _compute_requirements(t: Dictionary) -> void:
@@ -242,6 +251,7 @@ func _on_open_folder() -> void:
 	if not folder_opened:
 		folder_opened = true
 		toast.text = "📂 Folder opened. Review the ticket."
+		_play_click()
 		_update_workflow_ui()
 
 ## Workflow step: Inspect Attachment
@@ -249,6 +259,7 @@ func _on_inspect() -> void:
 	if folder_opened and not attachment_inspected:
 		attachment_inspected = true
 		toast.text = "🔍 Attachment verified."
+		_play_click()
 		_update_workflow_ui()
 
 ## Workflow step: Check Rules (opens rulebook)
@@ -267,6 +278,7 @@ func _on_file_ticket() -> void:
 	if can_file and not ticket_filed:
 		ticket_filed = true
 		toast.text = "📤 Ticket filed. Select your stamp."
+		_play_click()
 		_update_workflow_ui()
 
 ## Handle stamp click
@@ -280,6 +292,7 @@ func _stamp(name: String) -> void:
 		contradiction += 1
 		_update_meters()
 		toast.text = "⚠️ Process violation logged. Complete the workflow first!"
+		_play_error()
 		_play_tremor()
 		return
 	
@@ -295,8 +308,12 @@ func _stamp(name: String) -> void:
 		contradiction += delta
 		_update_meters()
 		
+		# Play stamp sound
+		_play_stamp(name == "APPROVED")
+		
 		# Reality tremor effect for high contradiction
 		if delta >= 3:
+			_play_glitch()
 			_play_tremor()
 		
 		# Disable stamp buttons
@@ -311,6 +328,7 @@ func _stamp(name: String) -> void:
 		_show(index + 1)
 	else:
 		toast.text = "⚠️ Invalid stamp"
+		_play_error()
 		busy = false
 
 ## Animate ticket sliding out
@@ -331,7 +349,7 @@ func _animate_ticket_out() -> void:
 	tween_in.tween_property(ticket_vbox, "position:x", 0, 0.25)
 	await tween_in.finished
 
-## Play "reality tremor" effect - UI + 3D scene
+## Play "reality tremor" effect - UI + 3D scene + visual overlay
 func _play_tremor() -> void:
 	# Flash background red briefly
 	var tween = create_tween()
@@ -346,9 +364,41 @@ func _play_tremor() -> void:
 	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(3, 0), 0.03)
 	shake_tween.tween_property(vbox, "position", original_vbox_pos, 0.03)
 	
+	# Intensify scanline overlay briefly
+	if scanline_overlay and scanline_overlay.material:
+		var mat = scanline_overlay.material as ShaderMaterial
+		if mat:
+			var overlay_tween = create_tween()
+			overlay_tween.tween_method(_set_glitch_intensity, 0.0, 0.5, 0.1)
+			overlay_tween.tween_method(_set_glitch_intensity, 0.5, 0.0, 0.2)
+	
 	# Also trigger 3D tremor (null-safe)
 	if office_3d and office_3d.has_method("apply_tremor"):
 		office_3d.apply_tremor(0.6, 0.3)
+
+## Set glitch intensity on shader
+func _set_glitch_intensity(value: float) -> void:
+	if scanline_overlay and scanline_overlay.material:
+		var mat = scanline_overlay.material as ShaderMaterial
+		if mat:
+			mat.set_shader_parameter("glitch_intensity", value)
+
+## Sound effect helpers (null-safe)
+func _play_click() -> void:
+	if sfx and sfx.has_method("play_click"):
+		sfx.play_click()
+
+func _play_stamp(approved: bool) -> void:
+	if sfx and sfx.has_method("play_stamp"):
+		sfx.play_stamp(approved)
+
+func _play_error() -> void:
+	if sfx and sfx.has_method("play_error"):
+		sfx.play_error()
+
+func _play_glitch() -> void:
+	if sfx and sfx.has_method("play_glitch"):
+		sfx.play_glitch()
 
 ## Update meter display
 func _update_meters() -> void:
@@ -386,4 +436,5 @@ func _next_shift() -> void:
 	get_tree().reload_current_scene()
 
 func _back() -> void:
+	_play_click()
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")
