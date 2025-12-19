@@ -1,5 +1,5 @@
 extends Control
-## Shift - Gameplay controller with rulebook popup and tremor effects
+## Shift - Gameplay controller with rulebook popup, tremor effects, and 3D backdrop
 
 # UI references
 @onready var background: ColorRect = $Background
@@ -20,6 +20,10 @@ extends Control
 @onready var rules_text: Label = $RulebookPopup/VBox/Scroll/RulesText
 @onready var rulebook_close_button: Button = $RulebookPopup/VBox/RulebookCloseButton
 
+# 3D office reference (may be null if scene fails to load)
+@onready var office_viewport: SubViewport = $OfficeViewportContainer/OfficeViewport
+var office_3d: Node3D = null
+
 # Game state
 var shift_number: int = 1
 var tickets: Array = []
@@ -34,6 +38,10 @@ func _ready() -> void:
 	# Store original values for effects
 	original_bg_color = background.color
 	original_vbox_pos = vbox.position
+	
+	# Get reference to Office3D scene (null-safe)
+	if office_viewport and office_viewport.get_child_count() > 0:
+		office_3d = office_viewport.get_child(0)
 	
 	# Wire buttons
 	back_button.pressed.connect(_back)
@@ -150,11 +158,11 @@ func _stamp(name: String) -> void:
 		toast.text = "⚠️ Invalid stamp"
 		busy = false
 
-## Play "reality tremor" effect - background flash + subtle shake
+## Play "reality tremor" effect - UI + 3D scene
 func _play_tremor() -> void:
 	# Flash background red briefly
 	var tween = create_tween()
-	tween.tween_property(background, "color", Color(0.4, 0.1, 0.1, 1), 0.1)
+	tween.tween_property(background, "color", Color(0.4, 0.1, 0.1, 0.9), 0.1)
 	tween.tween_property(background, "color", original_bg_color, 0.15)
 	
 	# Shake the VBox slightly
@@ -164,6 +172,10 @@ func _play_tremor() -> void:
 	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(-3, 0), 0.03)
 	shake_tween.tween_property(vbox, "position", original_vbox_pos + Vector2(3, 0), 0.03)
 	shake_tween.tween_property(vbox, "position", original_vbox_pos, 0.03)
+	
+	# Also trigger 3D tremor (null-safe)
+	if office_3d and office_3d.has_method("apply_tremor"):
+		office_3d.apply_tremor(0.6, 0.3)
 
 ## Update meter display
 func _update_meters() -> void:
