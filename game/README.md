@@ -6,7 +6,7 @@ Godot 4.x prototype for **The Stamp Office**.
 
 ## Status: Shifts 01–10 Playable ✅
 
-All 10 shifts are playable via the shift selector!
+All 10 shifts are playable with first-person exploration!
 
 ---
 
@@ -19,17 +19,18 @@ All 10 shifts are playable via the shift selector!
 | **LOOK** (default) | Captured | WASD works | Cannot click |
 | **CURSOR** | Visible | Disabled | Click or use 1-4 keys |
 
-Press **Tab** to toggle modes.
+Press **Tab** to toggle modes. Press **E** to focus on desk (enters cursor mode).
 
-### Movement (LOOK mode)
+### Movement (LOOK Mode)
 
 | Key | Action |
 |-----|--------|
-| `W`/`A`/`S`/`D` | Walk |
+| `W`/`A`/`S`/`D` or Arrows | Walk |
 | `Shift` | Sprint |
+| `Space` | Jump (optional) |
 | Mouse | Look around |
 
-### Workflow (CURSOR mode)
+### Desk Workflow (CURSOR Mode)
 
 | Key | Action |
 |-----|--------|
@@ -46,8 +47,20 @@ Press **Tab** to toggle modes.
 | Key | Action |
 |-----|--------|
 | `Tab` | Toggle LOOK/CURSOR mode |
-| `E` | Focus/unfocus desk |
+| `E` | Focus on desk (work mode) |
 | `Esc` | Back to menu |
+
+---
+
+## The Office
+
+Explore the 3D office space:
+- Walk around using WASD
+- Look around with the mouse
+- Press E near the desk to start working
+- Press Tab to toggle between exploring and clicking
+
+The desk has a paper UI where you process tickets using the workflow buttons or keyboard shortcuts.
 
 ---
 
@@ -67,17 +80,11 @@ godot --path game
 
 Or open `game/project.godot` in Godot Editor and press **F5**.
 
-### Step 3: Play
-
-1. Game starts in **LOOK mode** — WASD moves, mouse looks
-2. Press **Tab** to switch to **CURSOR mode** — click paper UI
-3. Press **Tab** again to return to LOOK mode
-
 ---
 
 ## Debug HUD
 
-A small debug overlay in the top-left shows:
+A small green debug overlay shows:
 - Current mode (LOOK or CURSOR)
 - Position and velocity
 - WASD input state
@@ -88,10 +95,10 @@ A small debug overlay in the top-left shows:
 
 | File | Purpose |
 |------|---------|
-| `scripts/PlayerController.gd` | First-person movement + mode toggle |
+| `scripts/Player.gd` | First-person movement controller |
 | `scripts/Shift.gd` | Gameplay + mouse forwarding |
-| `scripts/Office3D.gd` | 3D backdrop + tremor |
-| `scenes/Office3D.tscn` | 3D scene with Player rig |
+| `scripts/Office3D.gd` | 3D backdrop + tremor effects |
+| `scenes/Office3D.tscn` | Expanded 3D office scene |
 | `project.godot` | Input mappings |
 
 ---
@@ -104,4 +111,4 @@ A small debug overlay in the top-left shows:
 
 **Can't click paper?**
 - Press **Tab** to enter CURSOR mode
-- Mouse should become visible
+- Or press **E** to focus on desk

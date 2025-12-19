@@ -13,20 +13,11 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 
 ## ✨ Features
 
-- 🎫 **Diegetic UI Comedy** — Humor delivered through in-world tickets, byzantine rule systems, and passive-aggressive system notifications
-- 🏢 **Absurdist Bureaucracy** — Process paperwork that subtly (or not so subtly) alters reality itself
-- 🎨 **Low-Poly Aesthetic** — Deliberately uncanny 3D visuals that walk the line between cozy and unsettling
-- 📋 **Narrative Job Sim** — Your choices matter... assuming you filled out Form 27-B/6 correctly
-- 🔮 **Documentation-First Development** — Building the lore before the code
-
----
-
-## 🎬 Preview
-
-<!-- GIF placeholder: Replace with actual gameplay GIF when available -->
-![Gameplay Preview](https://via.placeholder.com/800x450.png?text=Gameplay+GIF+Coming+Soon)
-
-*Actual gameplay footage coming soon™*
+- 🎫 **Diegetic UI Comedy** — Humor through in-world tickets and passive-aggressive system notifications
+- 🏢 **Absurdist Bureaucracy** — Process paperwork that alters reality itself
+- 🎨 **Low-Poly Aesthetic** — Uncanny 3D visuals between cozy and unsettling
+- 🚶 **First-Person Exploration** — Walk around the office with WASD
+- 📋 **Narrative Job Sim** — Your choices matter (if you filled out Form 27-B/6)
 
 ---
 
@@ -36,11 +27,12 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 
 | Key | Action |
 |-----|--------|
-| `W` / `A` / `S` / `D` | Walk around the office |
+| `W`/`A`/`S`/`D` | Walk around |
 | `Shift` | Sprint |
+| `Space` | Jump |
 | Mouse | Look around |
 | `Tab` | Toggle cursor mode |
-| `E` | Focus/unfocus desk |
+| `E` | Focus on desk |
 | `Esc` | Back to menu |
 
 ### Desk Workflow (Cursor Mode)
@@ -48,160 +40,95 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 | Key | Action |
 |-----|--------|
 | `1` | Open folder |
-| `2` | Inspect attachment |
+| `2` | Inspect |
 | `3` | Check rules |
 | `4` | File ticket |
-| `R` | Open rulebook |
-| `A` | Approve stamp |
-| `D` | Deny stamp |
+| `A`/`D` | Approve/Deny |
 
-### Mode Switching
+### How It Works
 
-- **LOOK mode** (default): Mouse captured, WASD moves you
-- **CURSOR mode**: Mouse visible, click paper UI or use 1-4 shortcuts
-- Press **Tab** to toggle, or **E** to focus on desk
+1. **Walk around** the office using WASD + mouse look
+2. Press **E** to focus on the desk and work
+3. In **cursor mode**, click the paper or use keyboard shortcuts
+4. Press **Tab** to toggle between modes
+5. Press **Esc** to return to menu
 
 ---
 
 ## 🚀 Quickstart
 
-> **Status: Prototype Complete**
-> 
-> All 10 shifts are playable via the shift selector!
-
 ```bash
-# Clone the repository
+# Clone and enter
 git clone https://github.com/ThanhNguyxn/the-stamp-office.git
 cd the-stamp-office
 
-# Sync data into Godot project
+# Sync data
 python tools/sync_game_data.py
 
-# Run the prototype (requires Godot 4.2+)
+# Run (Godot 4.2+)
 godot --path game
-
-# Or explore the documentation
-cd docs
 ```
 
-> **Windows note:** If `godot` isn't in your PATH, use the full path:
-> ```
-> "C:\Program Files\Godot\Godot_v4.2-stable_win64.exe" --path game
-> ```
-> Or open `game/project.godot` directly in the Godot editor and press **F5**.
+Or open `game/project.godot` in Godot Editor and press **F5**.
 
 ---
 
-## 📁 Repository Structure
+## 📁 Structure
 
 ```
 the-stamp-office/
-├── docs/                      # Design documents and specifications
-│   ├── vision.md              # Core pitch, pillars, structure
-│   ├── style_lock.md          # Visual/audio/UI rules
-│   ├── meme_safety.md         # Humor guidelines
-│   ├── clip_moment_board.md   # Shareable moments catalog
-│   └── script/                # Shift scripts and endings
-│       ├── SHIFT_01.md … SHIFT_10.md
-│       └── ENDINGS.md
-├── data/                      # Game data files
-│   ├── README.md              # Data structure documentation
-│   ├── schema.json            # JSON schema definitions
-│   ├── tickets/               # Per-shift ticket data
-│   │   └── shift01.json … shift10.json
-│   ├── rules/
-│   │   └── rules.json         # All 40 rules (4 per shift)
-│   └── toasts/
-│       └── toasts.json        # Global toast pool (119 toasts)
-├── prompts/                   # LLM prompts for content generation
-├── tools/                     # Development utilities
-│   ├── validate_data.py       # Data validator
-│   └── sync_game_data.py      # Sync data/ → game/data/
-├── game/                      # Godot 4 prototype
-├── .github/                   # Issue/PR templates
-├── LICENSE
-├── README.md
-├── CONTRIBUTING.md
-├── CODE_OF_CONDUCT.md
-└── SECURITY.md
+├── docs/           # Design documents
+├── data/           # Game data (JSON)
+├── tools/          # Dev utilities
+├── game/           # Godot 4 project
+└── README.md
 ```
 
 ---
 
 ## 🗺️ Roadmap
 
-- [x] **Phase 0: Meta** — Repository setup, OSS templates ✓
-- [x] **Phase 1: Foundation** — Core design documents, game bible ✓
-- [x] **Phase 2: Data Architecture** — Define ticket/rule systems ✓
-- [x] **Phase 3: Prototype** — Initial Godot project, basic mechanics ✓
-- [x] **Phase 4: Vertical Slice** — Playable demo ✓
-- [ ] **Phase 5: Alpha** — Multiple shifts, core gameplay loop
-  - [x] Persistent progression
-  - [x] Settings
-  - [x] Save system
+- [x] **Phase 0-1:** Repository + design docs
+- [x] **Phase 2:** Data architecture (127 tickets, 40 rules, 119 toasts)
+- [x] **Phase 3:** Godot prototype scaffold
+- [x] **Phase 4:** Vertical slice complete
+  - [x] Rulebook, tremor VFX, 3D office, SFX
+  - [x] Random interrupt events
+- [x] **Phase 5:** Alpha features
+  - [x] Persistent progression + save system
   - [x] First-person WASD movement
+  - [x] Expanded 3D office map
   - [x] Cursor/look mode toggle
   - [ ] Story/lore integration
   - [ ] Ending variations
-- [ ] **Phase 6: Beta** — Polish, testing
-- [ ] **Phase 7: Release**
+- [ ] **Phase 6:** Beta
+- [ ] **Phase 7:** Release
 
 ---
 
 ## 🔧 Troubleshooting
 
-### WASD doesn't work?
+**WASD doesn't work?** → Press **Tab** to enter LOOK mode
 
-Make sure you're in **LOOK mode** (mouse captured). Press **Tab** to toggle. The debug HUD in the top-left shows your current mode.
-
-### Can't click the paper UI?
-
-Switch to **CURSOR mode** by pressing **Tab**. Your mouse becomes visible and you can click.
-
-### "godot" command not recognized (Windows)
-
-1. Use full path: `"C:\Program Files\Godot\Godot_v4.2-stable_win64.exe" --path game`
-2. Or open `game/project.godot` in Godot Editor and press **F5**
+**Can't click paper?** → Press **Tab** or **E** to enter CURSOR mode
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a PR.
-
----
-
-## 📜 Code of Conduct
-
-This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
-
----
-
-## 🔒 Security
-
-Found a vulnerability? Please review our [Security Policy](SECURITY.md).
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting PRs.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file.
-
----
-
-## ⚠️ Meme Safety Note
-
-> **All characters, organizations, brands, and bureaucratic entities in this project are entirely fictional.**
+MIT License — see [LICENSE](LICENSE)
 
 ---
 
 ## ☕ Support
 
-If you enjoy this project and want to support its development:
-
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/thanhnguyxn)
-
-**Buy Me a Coffee:** [https://buymeacoffee.com/thanhnguyxn](https://buymeacoffee.com/thanhnguyxn)
 
 ---
 
