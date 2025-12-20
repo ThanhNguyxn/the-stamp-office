@@ -1,4 +1,4 @@
-[gd_scene load_steps=168 format=3 uid="uid://coffice3dscene"]
+[gd_scene load_steps=185 format=3 uid="uid://coffice3dscene"]
 
 [ext_resource type="Script" path="res://scripts/Office3D.gd" id="1_office"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2_player"]
@@ -748,6 +748,70 @@ roughness = 0.2
 [sub_resource type="StandardMaterial3D" id="Material_rope"]
 albedo_color = Color(0.6, 0.1, 0.15, 1)
 roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_bulletin_board"]
+size = Vector3(1.5, 1.0, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bulletin_frame"]
+size = Vector3(1.6, 1.1, 0.03)
+
+[sub_resource type="StandardMaterial3D" id="Material_bulletin_board"]
+albedo_color = Color(0.6, 0.5, 0.35, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Material_bulletin_frame"]
+albedo_color = Color(0.35, 0.28, 0.2, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_notice"]
+size = Vector3(0.2, 0.28, 0.01)
+
+[sub_resource type="StandardMaterial3D" id="Material_notice_white"]
+albedo_color = Color(0.95, 0.95, 0.92, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="Material_notice_yellow"]
+albedo_color = Color(0.95, 0.9, 0.5, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="Material_notice_pink"]
+albedo_color = Color(0.95, 0.7, 0.75, 1)
+roughness = 0.95
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fire_ext_body"]
+top_radius = 0.08
+bottom_radius = 0.08
+height = 0.45
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fire_ext_top"]
+top_radius = 0.03
+bottom_radius = 0.05
+height = 0.08
+
+[sub_resource type="StandardMaterial3D" id="Material_fire_ext"]
+albedo_color = Color(0.85, 0.15, 0.1, 1)
+metallic = 0.4
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_exit_sign"]
+size = Vector3(0.4, 0.15, 0.03)
+
+[sub_resource type="StandardMaterial3D" id="Material_exit_sign"]
+albedo_color = Color(0.1, 0.7, 0.2, 1)
+emission_enabled = true
+emission = Color(0.1, 0.8, 0.2, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_bench"]
+size = Vector3(1.8, 0.08, 0.45)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bench_leg"]
+size = Vector3(0.08, 0.4, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="Material_bench"]
+albedo_color = Color(0.5, 0.4, 0.3, 1)
+metallic = 0.1
+roughness = 0.6
 
 [sub_resource type="BoxMesh" id="BoxMesh_welcome_mat"]
 size = Vector3(1.5, 0.02, 0.8)
@@ -2446,6 +2510,130 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.9, -4)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Furniture/CoatRackCollision"]
 shape = SubResource("BoxShape_coat_rack")
+
+[node name="MainHall" type="Node3D" parent="."]
+
+[node name="BulletinBoard" type="Node3D" parent="MainHall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.9, 1.8, 8)
+
+[node name="Frame" type="MeshInstance3D" parent="MainHall/BulletinBoard"]
+mesh = SubResource("BoxMesh_bulletin_frame")
+surface_material_override/0 = SubResource("Material_bulletin_frame")
+
+[node name="Board" type="MeshInstance3D" parent="MainHall/BulletinBoard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.02)
+mesh = SubResource("BoxMesh_bulletin_board")
+surface_material_override/0 = SubResource("Material_bulletin_board")
+
+[node name="Notice1" type="MeshInstance3D" parent="MainHall/BulletinBoard"]
+transform = Transform3D(0.98, 0.17, 0, -0.17, 0.98, 0, 0, 0, 1, -0.4, 0.2, 0.04)
+mesh = SubResource("BoxMesh_notice")
+surface_material_override/0 = SubResource("Material_notice_white")
+
+[node name="Notice2" type="MeshInstance3D" parent="MainHall/BulletinBoard"]
+transform = Transform3D(0.97, -0.26, 0, 0.26, 0.97, 0, 0, 0, 1, 0.1, 0.25, 0.04)
+mesh = SubResource("BoxMesh_notice")
+surface_material_override/0 = SubResource("Material_notice_yellow")
+
+[node name="Notice3" type="MeshInstance3D" parent="MainHall/BulletinBoard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, -0.15, 0.04)
+mesh = SubResource("BoxMesh_notice")
+surface_material_override/0 = SubResource("Material_notice_pink")
+
+[node name="Notice4" type="MeshInstance3D" parent="MainHall/BulletinBoard"]
+transform = Transform3D(0.94, 0.34, 0, -0.34, 0.94, 0, 0, 0, 1, 0.35, -0.1, 0.04)
+mesh = SubResource("BoxMesh_notice")
+surface_material_override/0 = SubResource("Material_notice_white")
+
+[node name="Notice5" type="MeshInstance3D" parent="MainHall/BulletinBoard"]
+transform = Transform3D(0.98, -0.17, 0, 0.17, 0.98, 0, 0, 0, 1, 0.5, 0.15, 0.04)
+mesh = SubResource("BoxMesh_notice")
+surface_material_override/0 = SubResource("Material_notice_yellow")
+
+[node name="FireExtinguisher" type="Node3D" parent="MainHall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.85, 1.2, 5)
+
+[node name="Body" type="MeshInstance3D" parent="MainHall/FireExtinguisher"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_fire_ext_body")
+surface_material_override/0 = SubResource("Material_fire_ext")
+
+[node name="Top" type="MeshInstance3D" parent="MainHall/FireExtinguisher"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, 0)
+mesh = SubResource("CylinderMesh_fire_ext_top")
+surface_material_override/0 = SubResource("Material_fire_ext")
+
+[node name="ExitSign1" type="MeshInstance3D" parent="MainHall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -29.8)
+mesh = SubResource("BoxMesh_exit_sign")
+surface_material_override/0 = SubResource("Material_exit_sign")
+
+[node name="ExitSign2" type="MeshInstance3D" parent="MainHall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.9, 3.5, 0)
+mesh = SubResource("BoxMesh_exit_sign")
+surface_material_override/0 = SubResource("Material_exit_sign")
+
+[node name="Bench1" type="Node3D" parent="MainHall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 8)
+
+[node name="Seat" type="MeshInstance3D" parent="MainHall/Bench1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44, 0)
+mesh = SubResource("BoxMesh_bench")
+surface_material_override/0 = SubResource("Material_bench")
+
+[node name="LegL" type="MeshInstance3D" parent="MainHall/Bench1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.2, 0)
+mesh = SubResource("BoxMesh_bench_leg")
+surface_material_override/0 = SubResource("Material_chair_leg")
+
+[node name="LegR" type="MeshInstance3D" parent="MainHall/Bench1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.2, 0)
+mesh = SubResource("BoxMesh_bench_leg")
+surface_material_override/0 = SubResource("Material_chair_leg")
+
+[node name="Bench2" type="Node3D" parent="MainHall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 8)
+
+[node name="Seat" type="MeshInstance3D" parent="MainHall/Bench2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44, 0)
+mesh = SubResource("BoxMesh_bench")
+surface_material_override/0 = SubResource("Material_bench")
+
+[node name="LegL" type="MeshInstance3D" parent="MainHall/Bench2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.2, 0)
+mesh = SubResource("BoxMesh_bench_leg")
+surface_material_override/0 = SubResource("Material_chair_leg")
+
+[node name="LegR" type="MeshInstance3D" parent="MainHall/Bench2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.2, 0)
+mesh = SubResource("BoxMesh_bench_leg")
+surface_material_override/0 = SubResource("Material_chair_leg")
+
+[node name="HallPlant1" type="Node3D" parent="MainHall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0)
+
+[node name="Pot" type="MeshInstance3D" parent="MainHall/HallPlant1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("CylinderMesh_pot")
+surface_material_override/0 = SubResource("Material_pot")
+
+[node name="Leaves" type="MeshInstance3D" parent="MainHall/HallPlant1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("SphereMesh_plant")
+surface_material_override/0 = SubResource("Material_plant")
+
+[node name="HallPlant2" type="Node3D" parent="MainHall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0)
+
+[node name="Pot" type="MeshInstance3D" parent="MainHall/HallPlant2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("CylinderMesh_pot")
+surface_material_override/0 = SubResource("Material_pot")
+
+[node name="Leaves" type="MeshInstance3D" parent="MainHall/HallPlant2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("SphereMesh_plant")
+surface_material_override/0 = SubResource("Material_plant")
 
 [node name="Doors" type="Node3D" parent="."]
 
