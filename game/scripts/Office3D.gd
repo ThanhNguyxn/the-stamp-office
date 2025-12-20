@@ -97,14 +97,24 @@ func _build_office_details() -> void:
 	print("[Office] Office details built")
 
 func _add_passive_aggressive_signs() -> void:
-	# Sign positions and rotations [position, rotation_y, sign_index]
+	# Sign positions on WALLS [position, rotation_y, sign_index]
+	# rotation_y: 0 = facing +Z, PI = facing -Z, PI/2 = facing +X, -PI/2 = facing -X
 	var sign_placements: Array = [
-		[Vector3(-3, 2.2, -5), 0, 0],      # Near entrance
-		[Vector3(5, 2.2, 0), -PI/2, 1],    # Corridor
-		[Vector3(-5, 2.2, -15), PI/2, 2],  # Break room area
-		[Vector3(0, 2.2, -25), 0, 3],      # Archive entrance
-		[Vector3(8, 2.2, -10), -PI/2, 4],  # Manager door area
-		[Vector3(-8, 2.2, 5), PI/2, 5],    # Lobby
+		# Back wall (z=-30, facing forward toward +Z)
+		[Vector3(-8, 2.5, -29.9), PI, 0],
+		[Vector3(8, 2.5, -29.9), PI, 1],
+		
+		# Front wall (z=20, facing backward toward -Z)  
+		[Vector3(-6, 2.5, 19.9), 0, 2],
+		[Vector3(6, 2.5, 19.9), 0, 3],
+		
+		# Left wall (x=-20, facing right toward +X)
+		[Vector3(-19.9, 2.5, 0), PI/2, 4],
+		[Vector3(-19.9, 2.5, -15), PI/2, 5],
+		
+		# Right wall (x=20, facing left toward -X)
+		[Vector3(19.9, 2.5, 5), -PI/2, 6],
+		[Vector3(19.9, 2.5, -10), -PI/2, 7],
 	]
 	
 	var signs_parent = Node3D.new()
@@ -124,25 +134,40 @@ func _create_sign_at(parent: Node3D, pos: Vector3, rot_y: float, text: String) -
 	sign_node.rotation.y = rot_y
 	parent.add_child(sign_node)
 	
-	# Sign backing board
+	# Sign backing board - dark metal frame
 	var board = MeshInstance3D.new()
 	var board_mesh = BoxMesh.new()
-	board_mesh.size = Vector3(0.8, 0.5, 0.02)
+	board_mesh.size = Vector3(1.0, 0.6, 0.03)
 	board.mesh = board_mesh
 	
 	var board_mat = StandardMaterial3D.new()
-	board_mat.albedo_color = Color(0.15, 0.15, 0.18)
+	board_mat.albedo_color = Color(0.1, 0.1, 0.12)
+	board_mat.metallic = 0.3
+	board_mat.roughness = 0.7
 	board.material_override = board_mat
 	sign_node.add_child(board)
 	
-	# Sign text
+	# Inner panel - slightly lighter
+	var panel = MeshInstance3D.new()
+	var panel_mesh = BoxMesh.new()
+	panel_mesh.size = Vector3(0.92, 0.52, 0.01)
+	panel.mesh = panel_mesh
+	panel.position.z = 0.02
+	
+	var panel_mat = StandardMaterial3D.new()
+	panel_mat.albedo_color = Color(0.2, 0.18, 0.16)
+	panel.material_override = panel_mat
+	sign_node.add_child(panel)
+	
+	# Sign text - red warning style
 	var label = Label3D.new()
 	label.text = text
-	label.font_size = 48
-	label.position.z = 0.015
-	label.modulate = Color(0.9, 0.3, 0.2)
-	label.outline_size = 4
-	label.outline_modulate = Color(0, 0, 0)
+	label.font_size = 42
+	label.position.z = 0.025
+	label.modulate = Color(0.95, 0.25, 0.2)
+	label.outline_size = 3
+	label.outline_modulate = Color(0.1, 0.05, 0.05)
+	label.pixel_size = 0.002
 	sign_node.add_child(label)
 
 func _add_room_triggers() -> void:
