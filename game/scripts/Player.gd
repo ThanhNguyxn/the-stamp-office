@@ -73,8 +73,13 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel") and desk_focused:
 		focus_desk(false)
 	
+	# When desk focused, don't move at all - camera is fixed
+	if desk_focused:
+		velocity = Vector3.ZERO
+		return
+	
 	# Movement only in LOOK mode (not cursor, not desk)
-	if cursor_mode or desk_focused:
+	if cursor_mode:
 		if not is_on_floor():
 			velocity.y -= gravity * delta
 		else:
@@ -164,18 +169,25 @@ func focus_desk(enabled: bool) -> void:
 		if head:
 			saved_head_pitch = head.rotation.x
 		
+		# STOP all movement immediately
+		velocity = Vector3.ZERO
+		
 		# Move to TOP-DOWN view of paper
-		# Position: directly ABOVE the desk looking straight DOWN
-		global_position = Vector3(0, 2.5, 1.2)  # High above desk
+		# Desk is at (0, 0, 2), paper is on desk surface at y=0.81
+		# Position camera above looking down at paper
+		global_position = Vector3(0, 2.2, 2.5)  # Above desk, slightly forward
 		rotation.y = 0  # Face forward
 		if head:
-			head.rotation.x = -1.4  # Look straight down (~80 degrees)
+			head.rotation.x = -1.2  # Look down at desk (~70 degrees)
 		
 		desk_focused = true
 		set_cursor_mode(true)  # Auto-enable cursor for clicking
 		print("[Player] Desk focused - E or Esc to leave")
 		
 	elif not enabled and desk_focused:
+		# STOP all movement before restoring position
+		velocity = Vector3.ZERO
+		
 		# Restore saved state
 		global_position = saved_position
 		rotation.y = saved_rotation

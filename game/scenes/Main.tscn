@@ -176,6 +176,16 @@ text = "🎲 Random Events"
 layout_mode = 2
 text = "🎯 Reduce Motion"
 
+[node name="JumpscareCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+layout_mode = 2
+button_pressed = true
+text = "👻 Horror Events"
+
+[node name="ScreenshakeCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+layout_mode = 2
+button_pressed = true
+text = "📳 Screen Shake"
+
 [node name="VfxBox" type="HBoxContainer" parent="SettingsPopup/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 10

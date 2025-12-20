@@ -130,6 +130,28 @@ godot --path game
   - [x] Secret stamp mechanic (NOT_A_THING)
   - [x] Level 7 deny tracking
   - [x] Ending determination logic
+- [x] Enhanced 3D office graphics (low-poly Phở Anh Hai style):
+  - [x] Detailed desk with monitor, keyboard, mug, papers, lamp
+  - [x] Office chair with wheels, pole, armrests
+  - [x] Filing cabinets with drawer details and handles
+  - [x] Plants with stems, dirt, leaves
+  - [x] Ceiling light fixtures
+  - [x] Wall decorations (clock, posters)
+  - [x] Break room props (magazines, coffee mug)
+- [x] Horror events system (`game/scripts/HorrorEvents.gd`):
+  - [x] 8 event types (light flicker, whisper, screen glitch, etc.)
+  - [x] Tension system increases with wrong decisions
+  - [x] Events intensity scales with shift number
+  - [x] Respects accessibility settings (jumpscares toggle)
+- [x] Horror atmosphere:
+  - [x] Darker lighting with desaturated colors
+  - [x] Increased fog density
+  - [x] SSAO shadows
+  - [x] Screen shader effects (glitch, static, vignette)
+- [x] Settings menu improvements:
+  - [x] Horror events toggle
+  - [x] Screen shake toggle
+  - [x] VFX intensity slider
 
 ### Phase 6: Beta 🔄
 - [ ] Polish and bug fixes

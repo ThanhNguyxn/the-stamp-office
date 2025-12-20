@@ -1,0 +1,218 @@
+[gd_scene load_steps=2 format=3 uid="uid://bduoje8adu4yk"]
+
+[ext_resource type="Script" path="res://scripts/Settings.gd" id="1_settings"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_settings")
+
+[node name="Overlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -350.0
+offset_right = 300.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "⚙ SETTINGS"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="AudioSection" type="VBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="AudioLabel" type="Label" parent="Panel/VBox/AudioSection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "🔊 Audio"
+
+[node name="MasterVolume" type="HBoxContainer" parent="Panel/VBox/AudioSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBox/AudioSection/MasterVolume"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Master Volume"
+
+[node name="Slider" type="HSlider" parent="Panel/VBox/AudioSection/MasterVolume"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.8
+
+[node name="SFXVolume" type="HBoxContainer" parent="Panel/VBox/AudioSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBox/AudioSection/SFXVolume"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="Slider" type="HSlider" parent="Panel/VBox/AudioSection/SFXVolume"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.8
+
+[node name="MusicVolume" type="HBoxContainer" parent="Panel/VBox/AudioSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBox/AudioSection/MusicVolume"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Music Volume"
+
+[node name="Slider" type="HSlider" parent="Panel/VBox/AudioSection/MusicVolume"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.6
+
+[node name="HSeparator2" type="HSeparator" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="GraphicsSection" type="VBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="GraphicsLabel" type="Label" parent="Panel/VBox/GraphicsSection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "🖥 Graphics"
+
+[node name="Fullscreen" type="HBoxContainer" parent="Panel/VBox/GraphicsSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBox/GraphicsSection/Fullscreen"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="CheckButton" type="CheckButton" parent="Panel/VBox/GraphicsSection/Fullscreen"]
+layout_mode = 2
+button_pressed = true
+
+[node name="VSync" type="HBoxContainer" parent="Panel/VBox/GraphicsSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBox/GraphicsSection/VSync"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "V-Sync"
+
+[node name="CheckButton" type="CheckButton" parent="Panel/VBox/GraphicsSection/VSync"]
+layout_mode = 2
+button_pressed = true
+
+[node name="Quality" type="HBoxContainer" parent="Panel/VBox/GraphicsSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBox/GraphicsSection/Quality"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Quality"
+
+[node name="OptionButton" type="OptionButton" parent="Panel/VBox/GraphicsSection/Quality"]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 2
+item_count = 3
+popup/item_0/text = "Low"
+popup/item_1/text = "Medium"
+popup/item_1/id = 1
+popup/item_2/text = "High"
+popup/item_2/id = 2
+
+[node name="HSeparator3" type="HSeparator" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="GameplaySection" type="VBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="GameplayLabel" type="Label" parent="Panel/VBox/GameplaySection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "🎮 Gameplay"
+
+[node name="Sensitivity" type="HBoxContainer" parent="Panel/VBox/GameplaySection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBox/GameplaySection/Sensitivity"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Mouse Sensitivity"
+
+[node name="Slider" type="HSlider" parent="Panel/VBox/GameplaySection/Sensitivity"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.1
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="Jumpscares" type="HBoxContainer" parent="Panel/VBox/GameplaySection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBox/GameplaySection/Jumpscares"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Jumpscares"
+
+[node name="CheckButton" type="CheckButton" parent="Panel/VBox/GameplaySection/Jumpscares"]
+layout_mode = 2
+button_pressed = true
+
+[node name="ScreenShake" type="HBoxContainer" parent="Panel/VBox/GameplaySection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBox/GameplaySection/ScreenShake"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Screen Shake"
+
+[node name="CheckButton" type="CheckButton" parent="Panel/VBox/GameplaySection/ScreenShake"]
+layout_mode = 2
+button_pressed = true
+
+[node name="HSeparator4" type="HSeparator" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "← Back"
+
+[connection signal="pressed" from="Panel/VBox/BackButton" to="." method="_on_back_pressed"]

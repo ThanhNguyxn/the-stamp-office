@@ -43,6 +43,9 @@ extends Control
 @onready var sfx: Node = $Sfx
 @onready var shift_events: Node = $ShiftEvents
 
+# Horror system
+var horror_events: Node = null
+
 # 3D office
 @onready var office_viewport: SubViewport = $OfficeViewportContainer/OfficeViewport
 var office_3d: Node3D = null
@@ -107,6 +110,9 @@ func _ready() -> void:
 	add_child(story_director)
 	if story_director.has_signal("story_message"):
 		story_director.connect("story_message", _on_story_message)
+	
+	# Create horror events system
+	_setup_horror_events()
 	
 	_ensure_viewport_3d_capable()
 	_setup_paper_texture()
@@ -718,10 +724,12 @@ func _stamp(name: String) -> void:
 		var delta = int(o.get("contradiction_delta", 0))
 		contradiction += delta
 		_update_meters()
+		_update_horror_tension()
 		_play_stamp(name == "APPROVED")
 		if delta >= 3:
 			_play_glitch()
 			_play_tremor()
+			_trigger_horror_on_bad_decision()
 		if stamp_buttons:
 			for c in stamp_buttons.get_children():
 				for b in c.get_children():
@@ -883,3 +891,59 @@ func _back() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	_play_click()
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+
+# === HORROR EVENTS SYSTEM ===
+
+func _setup_horror_events() -> void:
+	# Load horror script
+	var horror_script = load("res://scripts/HorrorEvents.gd")
+	if horror_script:
+		horror_events = Node.new()
+		horror_events.set_script(horror_script)
+		horror_events.name = "HorrorEvents"
+		add_child(horror_events)
+		
+		# Set references
+		if horror_events.has_method("set_shift"):
+			horror_events.set_shift(shift_number)
+		
+		# Pass camera and light references
+		if camera_3d:
+			horror_events.camera = camera_3d
+		
+		# Collect office lights
+		if office_3d:
+			for child in office_3d.get_children():
+				if child is Light3D:
+					horror_events.office_lights.append(child)
+				for subchild in child.get_children():
+					if subchild is Light3D:
+						horror_events.office_lights.append(subchild)
+		
+		# Connect signal
+		if horror_events.has_signal("horror_event_triggered"):
+			horror_events.connect("horror_event_triggered", _on_horror_event)
+		
+		print("[Shift] Horror system initialized - Shift %d" % shift_number)
+
+func _on_horror_event(event_type: String) -> void:
+	# Show subtle toast for some events
+	if toast:
+		match event_type:
+			"WHISPER":
+				toast.text = "...did you hear that?"
+			"SHADOW_PASS":
+				toast.text = "...something moved..."
+			"INTERCOM_VOICE":
+				toast.text = "*static* ...remain calm... *static*"
+
+func _update_horror_tension() -> void:
+	if horror_events:
+		# Calculate tension from contradiction meter
+		var tension = clampf(float(contradiction) / 100.0, 0.0, 1.0)
+		if horror_events.has_method("set_tension"):
+			horror_events.set_tension(tension)
+
+func _trigger_horror_on_bad_decision() -> void:
+	if horror_events and horror_events.has_method("on_wrong_decision"):
+		horror_events.on_wrong_decision()

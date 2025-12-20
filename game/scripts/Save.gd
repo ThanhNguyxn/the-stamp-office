@@ -13,6 +13,8 @@ var sfx_enabled: bool = true
 var vfx_intensity: float = 1.0
 var events_enabled: bool = true
 var reduce_motion: bool = false
+var jumpscares_enabled: bool = true
+var screenshake_enabled: bool = true
 
 # Story flags (for endings)
 var denied_level7_count: int = 0
@@ -81,6 +83,12 @@ func load_save() -> void:
 		
 		var raw_motion = settings.get("reduce_motion", false)
 		reduce_motion = bool(raw_motion) if raw_motion != null else false
+		
+		var raw_jumpscares = settings.get("jumpscares_enabled", true)
+		jumpscares_enabled = bool(raw_jumpscares) if raw_jumpscares != null else true
+		
+		var raw_screenshake = settings.get("screenshake_enabled", true)
+		screenshake_enabled = bool(raw_screenshake) if raw_screenshake != null else true
 	
 	# Load story flags (backwards-compatible)
 	var story = data.get("story", {})
@@ -115,7 +123,9 @@ func write_save() -> void:
 			"sfx_enabled": sfx_enabled,
 			"vfx_intensity": vfx_intensity,
 			"events_enabled": events_enabled,
-			"reduce_motion": reduce_motion
+			"reduce_motion": reduce_motion,
+			"jumpscares_enabled": jumpscares_enabled,
+			"screenshake_enabled": screenshake_enabled
 		},
 		"story": {
 			"denied_level7_count": denied_level7_count,

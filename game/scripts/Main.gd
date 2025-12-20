@@ -14,6 +14,8 @@ extends Control
 @onready var sfx_check: CheckBox = $SettingsPopup/VBox/SfxCheck
 @onready var events_check: CheckBox = $SettingsPopup/VBox/EventsCheck
 @onready var motion_check: CheckBox = $SettingsPopup/VBox/MotionCheck
+@onready var jumpscare_check: CheckBox = $SettingsPopup/VBox/JumpscareCheck
+@onready var screenshake_check: CheckBox = $SettingsPopup/VBox/ScreenshakeCheck
 @onready var vfx_slider: HSlider = $SettingsPopup/VBox/VfxBox/VfxSlider
 @onready var save_settings_btn: Button = $SettingsPopup/VBox/ButtonRow/SaveButton
 @onready var close_settings_btn: Button = $SettingsPopup/VBox/ButtonRow/CloseButton
@@ -122,6 +124,10 @@ func _init_settings_ui() -> void:
 		events_check.button_pressed = bool(save_node.events_enabled)
 	if motion_check and "reduce_motion" in save_node:
 		motion_check.button_pressed = bool(save_node.reduce_motion)
+	if jumpscare_check and "jumpscares_enabled" in save_node:
+		jumpscare_check.button_pressed = bool(save_node.jumpscares_enabled)
+	if screenshake_check and "screenshake_enabled" in save_node:
+		screenshake_check.button_pressed = bool(save_node.screenshake_enabled)
 	if vfx_slider and "vfx_intensity" in save_node:
 		vfx_slider.value = float(save_node.vfx_intensity)
 
@@ -141,6 +147,10 @@ func _save_settings() -> void:
 			save_node.events_enabled = events_check.button_pressed
 		if motion_check and "reduce_motion" in save_node:
 			save_node.reduce_motion = motion_check.button_pressed
+		if jumpscare_check and "jumpscares_enabled" in save_node:
+			save_node.jumpscares_enabled = jumpscare_check.button_pressed
+		if screenshake_check and "screenshake_enabled" in save_node:
+			save_node.screenshake_enabled = screenshake_check.button_pressed
 		if vfx_slider and "vfx_intensity" in save_node:
 			save_node.vfx_intensity = vfx_slider.value
 		
