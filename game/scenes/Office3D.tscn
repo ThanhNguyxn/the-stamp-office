@@ -1,4 +1,4 @@
-[gd_scene load_steps=132 format=3 uid="uid://coffice3dscene"]
+[gd_scene load_steps=142 format=3 uid="uid://coffice3dscene"]
 
 [ext_resource type="Script" path="res://scripts/Office3D.gd" id="1_office"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2_player"]
@@ -683,6 +683,41 @@ size = Vector3(0.5, 0.7, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape_counter"]
 size = Vector3(1.5, 0.9, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_old_papers"]
+size = Vector3(0.35, 0.15, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="Material_old_papers"]
+albedo_color = Color(0.85, 0.78, 0.6, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_ladder_rail"]
+size = Vector3(0.05, 2.0, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ladder_step"]
+size = Vector3(0.4, 0.03, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="Material_ladder"]
+albedo_color = Color(0.5, 0.42, 0.32, 1)
+metallic = 0.1
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_dusty_shelf"]
+size = Vector3(1.2, 0.04, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Material_dusty_shelf"]
+albedo_color = Color(0.4, 0.35, 0.28, 1)
+roughness = 0.9
+
+[sub_resource type="PrismMesh" id="PrismMesh_cobweb"]
+size = Vector3(0.8, 0.01, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="Material_cobweb"]
+albedo_color = Color(0.9, 0.9, 0.9, 0.3)
+roughness = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape_ladder"]
+size = Vector3(0.5, 2.0, 0.1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_paper"]
 size = Vector2(1.6, 1.0)
@@ -1863,6 +1898,113 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.75, -3)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Archive/Box3Collision"]
 shape = SubResource("BoxShape_box")
+
+[node name="OldPapersPile1" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(0.98, 0, 0.17, 0, 1, 0, -0.17, 0, 0.98, 0, 1.88, -5)
+mesh = SubResource("BoxMesh_old_papers")
+surface_material_override/0 = SubResource("Material_old_papers")
+
+[node name="OldPapersPile2" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(0.94, 0, -0.34, 0, 1, 0, 0.34, 0, 0.94, 0.12, 2.0, -5.05)
+mesh = SubResource("BoxMesh_old_papers")
+surface_material_override/0 = SubResource("Material_old_papers")
+
+[node name="OldPapersPile3" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 1.88, -3.5)
+mesh = SubResource("BoxMesh_old_papers")
+surface_material_override/0 = SubResource("Material_old_papers")
+
+[node name="DustyShelf1" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, -5.8)
+mesh = SubResource("BoxMesh_dusty_shelf")
+surface_material_override/0 = SubResource("Material_dusty_shelf")
+
+[node name="DustyShelf2" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.2, -5.8)
+mesh = SubResource("BoxMesh_dusty_shelf")
+surface_material_override/0 = SubResource("Material_dusty_shelf")
+
+[node name="ShelfPapers1" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(0.97, 0, 0.26, 0, 1, 0, -0.26, 0, 0.97, -3.2, 1.6, -5.8)
+mesh = SubResource("BoxMesh_old_papers")
+surface_material_override/0 = SubResource("Material_old_papers")
+
+[node name="ShelfPapers2" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 2.28, -5.8)
+mesh = SubResource("BoxMesh_old_papers")
+surface_material_override/0 = SubResource("Material_old_papers")
+
+[node name="Ladder" type="Node3D" parent="Archive"]
+transform = Transform3D(0.98, 0, 0.17, 0, 1, 0, -0.17, 0, 0.98, -2, 0, -4)
+
+[node name="RailLeft" type="MeshInstance3D" parent="Archive/Ladder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1.0, 0)
+mesh = SubResource("BoxMesh_ladder_rail")
+surface_material_override/0 = SubResource("Material_ladder")
+
+[node name="RailRight" type="MeshInstance3D" parent="Archive/Ladder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.0, 0)
+mesh = SubResource("BoxMesh_ladder_rail")
+surface_material_override/0 = SubResource("Material_ladder")
+
+[node name="Step1" type="MeshInstance3D" parent="Archive/Ladder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_ladder_step")
+surface_material_override/0 = SubResource("Material_ladder")
+
+[node name="Step2" type="MeshInstance3D" parent="Archive/Ladder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_ladder_step")
+surface_material_override/0 = SubResource("Material_ladder")
+
+[node name="Step3" type="MeshInstance3D" parent="Archive/Ladder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("BoxMesh_ladder_step")
+surface_material_override/0 = SubResource("Material_ladder")
+
+[node name="Step4" type="MeshInstance3D" parent="Archive/Ladder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("BoxMesh_ladder_step")
+surface_material_override/0 = SubResource("Material_ladder")
+
+[node name="Step5" type="MeshInstance3D" parent="Archive/Ladder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_ladder_step")
+surface_material_override/0 = SubResource("Material_ladder")
+
+[node name="Step6" type="MeshInstance3D" parent="Archive/Ladder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("BoxMesh_ladder_step")
+surface_material_override/0 = SubResource("Material_ladder")
+
+[node name="LadderCollision" type="StaticBody3D" parent="Archive"]
+transform = Transform3D(0.98, 0, 0.17, 0, 1, 0, -0.17, 0, 0.98, -2, 1.0, -4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Archive/LadderCollision"]
+shape = SubResource("BoxShape_ladder")
+
+[node name="Cobweb1" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(1, 0, 0, 0, 0.17, -0.98, 0, 0.98, 0.17, 5.3, 3.5, -5.7)
+mesh = SubResource("PrismMesh_cobweb")
+surface_material_override/0 = SubResource("Material_cobweb")
+
+[node name="Cobweb2" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(0.7, 0, 0.7, 0, 0.17, -0.98, -0.7, 0.98, 0.12, -3.5, 3.5, -5.7)
+mesh = SubResource("PrismMesh_cobweb")
+surface_material_override/0 = SubResource("Material_cobweb")
+
+[node name="Cobweb3" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(0.5, 0, 0.87, 0, 0.17, -0.98, -0.87, 0.1, 0.08, 5.3, 3.5, -2)
+mesh = SubResource("PrismMesh_cobweb")
+surface_material_override/0 = SubResource("Material_cobweb")
+
+[node name="ArchiveLight" type="OmniLight3D" parent="Archive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, -4)
+light_color = Color(0.9, 0.85, 0.7, 1)
+light_energy = 0.6
+light_indirect_energy = 0.3
+omni_range = 8.0
+omni_attenuation = 1.5
 
 [node name="Furniture" type="Node3D" parent="."]
 
