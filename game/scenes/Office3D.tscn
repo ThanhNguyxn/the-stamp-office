@@ -1,4 +1,4 @@
-[gd_scene load_steps=118 format=3 uid="uid://coffice3dscene"]
+[gd_scene load_steps=132 format=3 uid="uid://coffice3dscene"]
 
 [ext_resource type="Script" path="res://scripts/Office3D.gd" id="1_office"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2_player"]
@@ -620,6 +620,69 @@ roughness = 0.6
 
 [sub_resource type="BoxShape3D" id="BoxShape_coat_rack"]
 size = Vector3(0.4, 1.8, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vending"]
+size = Vector3(0.8, 1.8, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="Material_vending"]
+albedo_color = Color(0.15, 0.2, 0.35, 1)
+metallic = 0.4
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Material_vending_glass"]
+albedo_color = Color(0.2, 0.25, 0.3, 0.6)
+metallic = 0.1
+roughness = 0.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_fridge"]
+size = Vector3(0.5, 0.7, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Material_fridge"]
+albedo_color = Color(0.9, 0.9, 0.92, 1)
+metallic = 0.5
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_microwave"]
+size = Vector3(0.4, 0.25, 0.35)
+
+[sub_resource type="StandardMaterial3D" id="Material_microwave"]
+albedo_color = Color(0.2, 0.2, 0.22, 1)
+metallic = 0.6
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="Material_microwave_door"]
+albedo_color = Color(0.15, 0.15, 0.18, 0.8)
+metallic = 0.2
+roughness = 0.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_counter"]
+size = Vector3(1.5, 0.9, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="Material_counter"]
+albedo_color = Color(0.75, 0.72, 0.68, 1)
+metallic = 0.1
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_counter_top"]
+size = Vector3(1.55, 0.05, 0.65)
+
+[sub_resource type="BoxMesh" id="BoxMesh_microwave_door"]
+size = Vector3(0.3, 0.18, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fridge_handle"]
+size = Vector3(0.02, 0.15, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vending_glass"]
+size = Vector3(0.6, 1.0, 0.02)
+
+[sub_resource type="BoxShape3D" id="BoxShape_vending"]
+size = Vector3(0.8, 1.8, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_fridge"]
+size = Vector3(0.5, 0.7, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape_counter"]
+size = Vector3(1.5, 0.9, 0.6)
 
 [sub_resource type="QuadMesh" id="QuadMesh_paper"]
 size = Vector2(1.6, 1.0)
@@ -1495,6 +1558,81 @@ surface_material_override/0 = SubResource("Material_plant")
 transform = Transform3D(1, 0, 0, 0, 0.87, 0.5, 0, -0.5, 0.87, 0, 0.58, -0.1)
 mesh = SubResource("PrismMesh_leaf")
 surface_material_override/0 = SubResource("Material_plant")
+
+[node name="VendingMachine" type="Node3D" parent="BreakRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -5.5)
+
+[node name="Body" type="MeshInstance3D" parent="BreakRoom/VendingMachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("BoxMesh_vending")
+surface_material_override/0 = SubResource("Material_vending")
+
+[node name="GlassPanel" type="MeshInstance3D" parent="BreakRoom/VendingMachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0.28)
+mesh = SubResource("BoxMesh_vending_glass")
+surface_material_override/0 = SubResource("Material_vending_glass")
+
+[node name="VendingCollision" type="StaticBody3D" parent="BreakRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.9, -5.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BreakRoom/VendingCollision"]
+shape = SubResource("BoxShape_vending")
+
+[node name="Counter" type="Node3D" parent="BreakRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -5.5)
+
+[node name="Body" type="MeshInstance3D" parent="BreakRoom/Counter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_counter")
+surface_material_override/0 = SubResource("Material_counter")
+
+[node name="CounterTop" type="MeshInstance3D" parent="BreakRoom/Counter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92, 0)
+mesh = SubResource("BoxMesh_counter_top")
+surface_material_override/0 = SubResource("Material_desk")
+
+[node name="CounterCollision" type="StaticBody3D" parent="BreakRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.45, -5.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BreakRoom/CounterCollision"]
+shape = SubResource("BoxShape_counter")
+
+[node name="Microwave" type="Node3D" parent="BreakRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 0.95, -5.5)
+
+[node name="Body" type="MeshInstance3D" parent="BreakRoom/Microwave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+mesh = SubResource("BoxMesh_microwave")
+surface_material_override/0 = SubResource("Material_microwave")
+
+[node name="Door" type="MeshInstance3D" parent="BreakRoom/Microwave"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0.16)
+mesh = SubResource("BoxMesh_microwave_door")
+surface_material_override/0 = SubResource("Material_microwave_door")
+
+[node name="MiniFridge" type="Node3D" parent="BreakRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 0, -5.5)
+
+[node name="Body" type="MeshInstance3D" parent="BreakRoom/MiniFridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("BoxMesh_fridge")
+surface_material_override/0 = SubResource("Material_fridge")
+
+[node name="Handle" type="MeshInstance3D" parent="BreakRoom/MiniFridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22, 0.45, 0.26)
+mesh = SubResource("BoxMesh_fridge_handle")
+surface_material_override/0 = SubResource("Material_microwave")
+
+[node name="FridgeCollision" type="StaticBody3D" parent="BreakRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 0.35, -5.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BreakRoom/FridgeCollision"]
+shape = SubResource("BoxShape_fridge")
+
+[node name="BreakRoomTrash" type="MeshInstance3D" parent="BreakRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.2, -3)
+mesh = SubResource("CylinderMesh_trash_can")
+surface_material_override/0 = SubResource("Material_trash_can")
 
 [node name="Archive" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -22)
