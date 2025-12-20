@@ -186,8 +186,7 @@ func _open_settings() -> void:
 			settings_panel.open_settings()
 
 func _close_settings() -> void:
-	if settings_panel and settings_panel.has_method("close_settings"):
-		settings_panel.close_settings()
+	# Just hide the popup - Settings.gd handles its own close_settings()
 	if settings_popup:
 		var tween = create_tween()
 		tween.tween_property(settings_popup, "modulate:a", 0.0, 0.15)
