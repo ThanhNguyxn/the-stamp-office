@@ -22,8 +22,8 @@ var interact_hint_label: Label = null
 
 # Body parts for presence
 var player_body: Node3D = null
-var left_arm: MeshInstance3D = null
-var right_arm: MeshInstance3D = null
+var left_arm: Node3D = null
+var right_arm: Node3D = null
 
 var cursor_mode: bool = false
 var desk_focused: bool = false
