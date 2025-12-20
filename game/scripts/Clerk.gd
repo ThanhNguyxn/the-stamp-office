@@ -168,11 +168,11 @@ func body_twitch() -> void:
 
 ## Stamp animation
 func do_stamp_animation() -> void:
-	var stamp := get_node_or_null("Stamp")
+	var stamp: MeshInstance3D = get_node_or_null("Stamp") as MeshInstance3D
 	if not stamp:
 		return
 	
-	var original_pos := stamp.position
+	var original_pos: Vector3 = stamp.position
 	var tween := create_tween()
 	
 	# Lift stamp

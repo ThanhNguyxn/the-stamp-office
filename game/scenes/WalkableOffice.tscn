@@ -1,0 +1,568 @@
+[gd_scene load_steps=35 format=3 uid="uid://cwalkableoffice"]
+
+[ext_resource type="Script" path="res://scripts/WalkableOffice.gd" id="1_walkable"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="2_player"]
+[ext_resource type="Script" path="res://scripts/Door.gd" id="3_door"]
+[ext_resource type="Script" path="res://scripts/Clerk.gd" id="4_clerk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
+sky_top_color = Color(0.15, 0.18, 0.25, 1)
+sky_horizon_color = Color(0.3, 0.32, 0.38, 1)
+ground_bottom_color = Color(0.08, 0.08, 0.1, 1)
+ground_horizon_color = Color(0.2, 0.2, 0.25, 1)
+
+[sub_resource type="Sky" id="Sky_1"]
+sky_material = SubResource("ProceduralSkyMaterial_1")
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 2
+sky = SubResource("Sky_1")
+ambient_light_color = Color(0.35, 0.33, 0.3, 1)
+ambient_light_energy = 0.5
+tonemap_mode = 2
+tonemap_exposure = 0.85
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_intensity = 2.0
+ssil_enabled = true
+ssil_intensity = 0.6
+glow_enabled = true
+glow_intensity = 0.1
+glow_bloom = 0.02
+fog_enabled = true
+fog_light_color = Color(0.25, 0.23, 0.28, 1)
+fog_density = 0.008
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.015
+volumetric_fog_albedo = Color(0.3, 0.28, 0.35, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Floor"]
+albedo_color = Color(0.4, 0.38, 0.35, 1)
+metallic = 0.1
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_Floor_Tile"]
+albedo_color = Color(0.5, 0.48, 0.45, 1)
+metallic = 0.15
+roughness = 0.75
+
+[sub_resource type="StandardMaterial3D" id="Mat_Wall"]
+albedo_color = Color(0.65, 0.62, 0.58, 1)
+metallic = 0.0
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="Mat_Wall_Dark"]
+albedo_color = Color(0.45, 0.42, 0.38, 1)
+metallic = 0.0
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ceiling"]
+albedo_color = Color(0.8, 0.78, 0.75, 1)
+metallic = 0.0
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="Mat_Door"]
+albedo_color = Color(0.45, 0.35, 0.25, 1)
+metallic = 0.1
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_Door_Frame"]
+albedo_color = Color(0.55, 0.45, 0.35, 1)
+metallic = 0.15
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_Desk"]
+albedo_color = Color(0.5, 0.38, 0.25, 1)
+metallic = 0.15
+roughness = 0.55
+
+[sub_resource type="StandardMaterial3D" id="Mat_Cabinet"]
+albedo_color = Color(0.5, 0.52, 0.55, 1)
+metallic = 0.4
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_Shelf"]
+albedo_color = Color(0.55, 0.45, 0.35, 1)
+metallic = 0.1
+roughness = 0.75
+
+[sub_resource type="StandardMaterial3D" id="Mat_Printer"]
+albedo_color = Color(0.25, 0.25, 0.28, 1)
+metallic = 0.3
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_Fridge"]
+albedo_color = Color(0.85, 0.85, 0.88, 1)
+metallic = 0.5
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_Counter"]
+albedo_color = Color(0.4, 0.4, 0.42, 1)
+metallic = 0.2
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_Column"]
+albedo_color = Color(0.6, 0.58, 0.55, 1)
+metallic = 0.0
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_Sign"]
+albedo_color = Color(0.2, 0.35, 0.25, 1)
+metallic = 0.1
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_Manager_Door"]
+albedo_color = Color(0.25, 0.15, 0.1, 1)
+metallic = 0.2
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_Clerk_Body"]
+albedo_color = Color(0.22, 0.25, 0.28, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_Clerk_Head"]
+albedo_color = Color(0.85, 0.72, 0.62, 1)
+roughness = 0.9
+
+[sub_resource type="BoxShape3D" id="BoxShape_Floor_Desk"]
+size = Vector3(12, 0.2, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape_Floor_Corridor"]
+size = Vector3(30, 0.2, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape_Floor_Archive"]
+size = Vector3(14, 0.2, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape_Floor_Printer"]
+size = Vector3(8, 0.2, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape_Floor_BreakA"]
+size = Vector3(9, 0.2, 7)
+
+[sub_resource type="BoxShape3D" id="BoxShape_Floor_BreakB"]
+size = Vector3(9, 0.2, 7)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_Player"]
+radius = 0.35
+height = 1.8
+
+[node name="WalkableOffice" type="Node3D"]
+script = ExtResource("1_walkable")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.433, 0.25, 0, 0.5, 0.866, -0.5, -0.75, 0.433, 5, 8, 5)
+light_color = Color(0.95, 0.9, 0.8, 1)
+light_energy = 0.6
+shadow_enabled = true
+
+[node name="DeskRoom" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Floor" type="StaticBody3D" parent="DeskRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -0.1, 5)
+
+[node name="Mesh" type="MeshInstance3D" parent="DeskRoom/Floor"]
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Floor_Tile")
+
+[node name="Shape" type="CollisionShape3D" parent="DeskRoom/Floor"]
+shape = SubResource("BoxShape_Floor_Desk")
+
+[node name="Walls" type="Node3D" parent="DeskRoom"]
+
+[node name="WallNorth" type="MeshInstance3D" parent="DeskRoom/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Wall")
+
+[node name="WallSouth" type="MeshInstance3D" parent="DeskRoom/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 10)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Wall")
+
+[node name="WallWest" type="MeshInstance3D" parent="DeskRoom/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 5)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Wall")
+
+[node name="Ceiling" type="MeshInstance3D" parent="DeskRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 3, 5)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Ceiling")
+
+[node name="Desk" type="Node3D" parent="DeskRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 3)
+
+[node name="DeskTop" type="MeshInstance3D" parent="DeskRoom/Desk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Desk")
+
+[node name="Chair" type="MeshInstance3D" parent="DeskRoom/Desk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 1.2)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Desk")
+
+[node name="Cabinets" type="Node3D" parent="DeskRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="Cabinet1" type="MeshInstance3D" parent="DeskRoom/Cabinets"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Cabinet")
+
+[node name="Cabinet2" type="MeshInstance3D" parent="DeskRoom/Cabinets"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 1.5)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Cabinet")
+
+[node name="Light_Desk" type="OmniLight3D" parent="DeskRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2.8, 3)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 1.5
+omni_range = 6.0
+
+[node name="Clerk" type="Node3D" parent="DeskRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 1)
+script = ExtResource("4_clerk")
+
+[node name="Body" type="MeshInstance3D" parent="DeskRoom/Clerk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Clerk_Body")
+
+[node name="Head" type="MeshInstance3D" parent="DeskRoom/Clerk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Clerk_Head")
+
+[node name="Door_DeskToCorridor" type="StaticBody3D" parent="DeskRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 5)
+script = ExtResource("3_door")
+target_room = "corridor"
+
+[node name="DoorMesh" type="MeshInstance3D" parent="DeskRoom/Door_DeskToCorridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.1, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Door")
+
+[node name="Frame" type="MeshInstance3D" parent="DeskRoom/Door_DeskToCorridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Door_Frame")
+
+[node name="Corridor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+
+[node name="Floor" type="StaticBody3D" parent="Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -0.1, 2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Corridor/Floor"]
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Floor")
+
+[node name="Shape" type="CollisionShape3D" parent="Corridor/Floor"]
+shape = SubResource("BoxShape_Floor_Corridor")
+
+[node name="WallNorth" type="MeshInstance3D" parent="Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.5, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Wall_Dark")
+
+[node name="WallSouth" type="MeshInstance3D" parent="Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.5, 4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Wall_Dark")
+
+[node name="Ceiling" type="MeshInstance3D" parent="Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3, 2)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Ceiling")
+
+[node name="Columns" type="Node3D" parent="Corridor"]
+
+[node name="Column1" type="MeshInstance3D" parent="Corridor/Columns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 2)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Column")
+
+[node name="Column2" type="MeshInstance3D" parent="Corridor/Columns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.5, 2)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Column")
+
+[node name="Column3" type="MeshInstance3D" parent="Corridor/Columns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1.5, 2)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Column")
+
+[node name="Signs" type="Node3D" parent="Corridor"]
+
+[node name="SignArchive" type="MeshInstance3D" parent="Corridor/Signs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2.5, 0.1)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Sign")
+
+[node name="SignPrinter" type="MeshInstance3D" parent="Corridor/Signs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 2.5, 4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Sign")
+
+[node name="SignBreak" type="MeshInstance3D" parent="Corridor/Signs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 2.5, 0.1)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Sign")
+
+[node name="Lights" type="Node3D" parent="Corridor"]
+
+[node name="Light1" type="OmniLight3D" parent="Corridor/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.8, 2)
+light_color = Color(0.9, 0.85, 0.75, 1)
+light_energy = 1.0
+omni_range = 5.0
+
+[node name="Light2" type="OmniLight3D" parent="Corridor/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2.8, 2)
+light_color = Color(0.9, 0.85, 0.75, 1)
+light_energy = 1.0
+omni_range = 5.0
+
+[node name="Light3" type="OmniLight3D" parent="Corridor/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 2.8, 2)
+light_color = Color(0.9, 0.85, 0.75, 1)
+light_energy = 1.0
+omni_range = 5.0
+
+[node name="Door_Archive" type="StaticBody3D" parent="Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+script = ExtResource("3_door")
+target_room = "archive"
+
+[node name="DoorMesh" type="MeshInstance3D" parent="Corridor/Door_Archive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Door")
+
+[node name="Door_Printer" type="StaticBody3D" parent="Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 4)
+script = ExtResource("3_door")
+target_room = "printer_room"
+
+[node name="DoorMesh" type="MeshInstance3D" parent="Corridor/Door_Printer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Door")
+
+[node name="Door_BreakA" type="StaticBody3D" parent="Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 0)
+script = ExtResource("3_door")
+target_room = "break_room_a"
+
+[node name="DoorMesh" type="MeshInstance3D" parent="Corridor/Door_BreakA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Door")
+
+[node name="Door_BreakB" type="StaticBody3D" parent="Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 4)
+script = ExtResource("3_door")
+target_room = "break_room_b"
+
+[node name="DoorMesh" type="MeshInstance3D" parent="Corridor/Door_BreakB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Door")
+
+[node name="Door_Manager" type="StaticBody3D" parent="Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 2)
+script = ExtResource("3_door")
+target_room = "manager_door"
+is_locked = true
+locked_message = "DO NOT KNOCK"
+
+[node name="DoorMesh" type="MeshInstance3D" parent="Corridor/Door_Manager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.1, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Manager_Door")
+
+[node name="ManagerSign" type="MeshInstance3D" parent="Corridor/Door_Manager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 1.8, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Sign")
+
+[node name="Archive" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -8)
+
+[node name="Floor" type="StaticBody3D" parent="Archive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -0.1, 4)
+
+[node name="Mesh" type="MeshInstance3D" parent="Archive/Floor"]
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Floor")
+
+[node name="Shape" type="CollisionShape3D" parent="Archive/Floor"]
+shape = SubResource("BoxShape_Floor_Archive")
+
+[node name="Shelves" type="Node3D" parent="Archive"]
+
+[node name="Shelf1" type="MeshInstance3D" parent="Archive/Shelves"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.2, 1)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Shelf")
+
+[node name="Shelf2" type="MeshInstance3D" parent="Archive/Shelves"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.2, 4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Shelf")
+
+[node name="Shelf3" type="MeshInstance3D" parent="Archive/Shelves"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.2, 7)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Shelf")
+
+[node name="Shelf4" type="MeshInstance3D" parent="Archive/Shelves"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.2, 1)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Shelf")
+
+[node name="Shelf5" type="MeshInstance3D" parent="Archive/Shelves"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.2, 4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Shelf")
+
+[node name="Shelf6" type="MeshInstance3D" parent="Archive/Shelves"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.2, 7)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Shelf")
+
+[node name="Ceiling" type="MeshInstance3D" parent="Archive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3.5, 4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Ceiling")
+
+[node name="Light" type="OmniLight3D" parent="Archive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3.2, 4)
+light_color = Color(0.85, 0.8, 0.7, 1)
+light_energy = 0.8
+omni_range = 8.0
+
+[node name="PrinterRoom" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 7)
+
+[node name="Floor" type="StaticBody3D" parent="PrinterRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.1, 3)
+
+[node name="Mesh" type="MeshInstance3D" parent="PrinterRoom/Floor"]
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Floor_Tile")
+
+[node name="Shape" type="CollisionShape3D" parent="PrinterRoom/Floor"]
+shape = SubResource("BoxShape_Floor_Printer")
+
+[node name="Printer" type="MeshInstance3D" parent="PrinterRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.6, 3)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Printer")
+
+[node name="PaperTray" type="MeshInstance3D" parent="PrinterRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.2, 4)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Shelf")
+
+[node name="Ceiling" type="MeshInstance3D" parent="PrinterRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3, 3)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Ceiling")
+
+[node name="Light" type="OmniLight3D" parent="PrinterRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2.8, 3)
+light_color = Color(0.95, 0.9, 0.8, 1)
+light_energy = 1.2
+omni_range = 6.0
+
+[node name="BreakRoomA" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 0, -7)
+
+[node name="Floor" type="StaticBody3D" parent="BreakRoomA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, -0.1, 3.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="BreakRoomA/Floor"]
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Floor_Tile")
+
+[node name="Shape" type="CollisionShape3D" parent="BreakRoomA/Floor"]
+shape = SubResource("BoxShape_Floor_BreakA")
+
+[node name="Fridge" type="MeshInstance3D" parent="BreakRoomA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.9, 1)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Fridge")
+
+[node name="Counter" type="MeshInstance3D" parent="BreakRoomA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.45, 1)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Counter")
+
+[node name="Table" type="MeshInstance3D" parent="BreakRoomA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.4, 5)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Desk")
+
+[node name="Ceiling" type="MeshInstance3D" parent="BreakRoomA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 3.5)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Ceiling")
+
+[node name="Light" type="OmniLight3D" parent="BreakRoomA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2.8, 3.5)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 1.3
+omni_range = 7.0
+
+[node name="BreakRoomB" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 0, 7)
+
+[node name="Floor" type="StaticBody3D" parent="BreakRoomB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, -0.1, 3.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="BreakRoomB/Floor"]
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Floor")
+
+[node name="Shape" type="CollisionShape3D" parent="BreakRoomB/Floor"]
+shape = SubResource("BoxShape_Floor_BreakB")
+
+[node name="OldFridge" type="MeshInstance3D" parent="BreakRoomB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.9, 6)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Cabinet")
+
+[node name="BrokenTable" type="MeshInstance3D" parent="BreakRoomB"]
+transform = Transform3D(-0.985, 0, 0.174, 0, 1, 0, -0.174, 0, -0.985, 4.5, 0.35, 3.5)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Desk")
+
+[node name="Ceiling" type="MeshInstance3D" parent="BreakRoomB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 3.5)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("Mat_Ceiling")
+
+[node name="Light" type="OmniLight3D" parent="BreakRoomB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2.8, 3.5)
+light_color = Color(0.7, 0.6, 0.5, 1)
+light_energy = 0.5
+omni_range = 5.0
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 6)
+script = ExtResource("2_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape_Player")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+fov = 70.0

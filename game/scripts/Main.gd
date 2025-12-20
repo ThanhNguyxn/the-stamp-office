@@ -1,181 +1,212 @@
 extends Control
-## Main Menu with Shift Selector, Settings, and Progression
-## Defensive: null-checks for Save autoload, graceful fallback
+## Main Menu - Professional UI with Shift Selector, Settings, Credits
+## The Stamp Office - A Bureaucratic Horror Experience
 
-@onready var shift_select: OptionButton = $VBox/ShiftBox/ShiftSelect
-@onready var start_button: Button = $VBox/StartButton
-@onready var settings_button: Button = $VBox/ButtonRow/SettingsButton
-@onready var quit_button: Button = $VBox/ButtonRow/QuitButton
-@onready var reset_button: Button = $VBox/ResetButton
-@onready var progress_label: Label = $VBox/ProgressLabel
+# Shift selector
+@onready var shift_prev: Button = %ShiftPrev
+@onready var shift_next: Button = %ShiftNext
+@onready var shift_display: Label = %ShiftDisplay
+@onready var shift_progress: ProgressBar = %ShiftProgress
 
-# Settings popup
-@onready var settings_popup: PanelContainer = $SettingsPopup
-@onready var sfx_check: CheckBox = $SettingsPopup/VBox/SfxCheck
-@onready var events_check: CheckBox = $SettingsPopup/VBox/EventsCheck
-@onready var motion_check: CheckBox = $SettingsPopup/VBox/MotionCheck
-@onready var jumpscare_check: CheckBox = $SettingsPopup/VBox/JumpscareCheck
-@onready var screenshake_check: CheckBox = $SettingsPopup/VBox/ScreenshakeCheck
-@onready var vfx_slider: HSlider = $SettingsPopup/VBox/VfxBox/VfxSlider
-@onready var save_settings_btn: Button = $SettingsPopup/VBox/ButtonRow/SaveButton
-@onready var close_settings_btn: Button = $SettingsPopup/VBox/ButtonRow/CloseButton
+# Main buttons
+@onready var start_button: Button = %StartButton
+@onready var settings_button: Button = %SettingsButton
+@onready var credits_button: Button = %CreditsButton
+@onready var quit_button: Button = %QuitButton
+@onready var reset_button: Button = %ResetButton
+
+# Popups
+@onready var settings_popup: Control = $SettingsLayer/SettingsPopup
+@onready var settings_panel = $SettingsLayer/SettingsPopup/Settings
+@onready var credits_popup: Control = $CreditsLayer/CreditsPopup
+@onready var close_credits: Button = $CreditsLayer/CreditsPopup/CreditsPanel/Margin/VBox/CloseCredits
+
+# Tips
+@onready var tips_label: Label = $TipsLabel
 
 # Confirm dialog
-@onready var confirm_dialog: PanelContainer = $ConfirmDialog
-@onready var confirm_yes: Button = $ConfirmDialog/VBox/ButtonRow/ConfirmYes
-@onready var confirm_no: Button = $ConfirmDialog/VBox/ButtonRow/ConfirmNo
+@onready var confirm_dialog: ConfirmationDialog = $ConfirmDialog
+
+# Animation
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
+
+# State
+var current_shift: int = 1
+var max_unlocked_shift: int = 1
+
+# Tips to cycle through
+var tips: Array[String] = [
+	"💡 TIP: Read the rules carefully...",
+	"💡 TIP: Some stamps are more equal than others",
+	"💡 TIP: The clock is always watching",
+	"💡 TIP: Don't trust the printer",
+	"💡 TIP: Manager's door should stay closed",
+	"💡 TIP: The fridge hums with secrets",
+	"💡 TIP: Archives hold forgotten truths",
+	"💡 TIP: Break room coffee is... suspicious",
+]
+var current_tip_index: int = 0
+var tip_timer: float = 0.0
 
 func _ready() -> void:
-	# Load save data (null-safe)
+	# Load save data
 	var save_node = _get_save()
 	if save_node:
 		save_node.load_save()
+		if "unlocked_max_shift" in save_node:
+			max_unlocked_shift = clampi(int(save_node.unlocked_max_shift), 1, 10)
 	
-	# Populate shift selector based on unlocked shifts
-	_update_shift_dropdown()
-	_update_progress_label()
-	_init_settings_ui()
+	# Set initial shift to highest unlocked
+	current_shift = max_unlocked_shift
+	_update_shift_display()
 	
-	# Wire main buttons (null-safe)
+	# Connect buttons
+	_connect_buttons()
+	
+	# Start tip cycling
+	_randomize_tip()
+	
+	# Fade in effect
+	modulate.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(self, "modulate:a", 1.0, 0.5)
+
+func _process(delta: float) -> void:
+	# Cycle tips every 8 seconds
+	tip_timer += delta
+	if tip_timer >= 8.0:
+		tip_timer = 0.0
+		_next_tip()
+
+func _connect_buttons() -> void:
+	# Shift navigation
+	if shift_prev:
+		shift_prev.pressed.connect(_on_shift_prev)
+	if shift_next:
+		shift_next.pressed.connect(_on_shift_next)
+	
+	# Main buttons
 	if start_button:
 		start_button.pressed.connect(_on_start)
+		start_button.mouse_entered.connect(_on_button_hover.bind(start_button))
 	if settings_button:
 		settings_button.pressed.connect(_open_settings)
+		settings_button.mouse_entered.connect(_on_button_hover.bind(settings_button))
+	if credits_button:
+		credits_button.pressed.connect(_open_credits)
+		credits_button.mouse_entered.connect(_on_button_hover.bind(credits_button))
 	if quit_button:
 		quit_button.pressed.connect(_on_quit)
+		quit_button.mouse_entered.connect(_on_button_hover.bind(quit_button))
 	if reset_button:
 		reset_button.pressed.connect(_on_reset_pressed)
 	
-	# Wire settings popup (null-safe)
-	if save_settings_btn:
-		save_settings_btn.pressed.connect(_save_settings)
-	if close_settings_btn:
-		close_settings_btn.pressed.connect(_close_settings)
+	# Credits close
+	if close_credits:
+		close_credits.pressed.connect(_close_credits)
 	
-	# Wire confirm dialog (null-safe)
-	if confirm_yes:
-		confirm_yes.pressed.connect(_confirm_reset)
-	if confirm_no:
-		confirm_no.pressed.connect(_cancel_reset)
+	# Settings panel close callback
+	if settings_panel and settings_panel.has_signal("close_requested"):
+		settings_panel.close_requested.connect(_close_settings)
 	
-	# Apply settings to this scene
-	if save_node:
-		save_node.apply_settings_to_scene(self)
+	# Confirm dialog
+	if confirm_dialog:
+		confirm_dialog.confirmed.connect(_confirm_reset)
+		confirm_dialog.canceled.connect(_cancel_reset)
 
-## Get Save autoload node (null-safe, multiple methods)
-func _get_save() -> Node:
-	# Try direct path first
-	var save_node = get_node_or_null("/root/Save")
-	if save_node:
-		return save_node
-	
-	# Try Engine singleton (Godot 4 method)
-	if Engine.has_singleton("Save"):
-		return Engine.get_singleton("Save")
-	
-	return null
+## Button hover effect
+func _on_button_hover(btn: Button) -> void:
+	# Quick scale pulse
+	var tween = create_tween()
+	tween.tween_property(btn, "scale", Vector2(1.02, 1.02), 0.1)
+	tween.tween_property(btn, "scale", Vector2(1.0, 1.0), 0.1)
 
-## Check if Save autoload exists
-func _has_save() -> bool:
-	return _get_save() != null
+## Update shift display
+func _update_shift_display() -> void:
+	if shift_display:
+		shift_display.text = "SHIFT %02d" % current_shift
+	
+	if shift_progress:
+		shift_progress.value = current_shift
+		shift_progress.max_value = 10
+	
+	# Update button states
+	if shift_prev:
+		shift_prev.disabled = current_shift <= 1
+		shift_prev.modulate.a = 0.3 if current_shift <= 1 else 1.0
+	if shift_next:
+		shift_next.disabled = current_shift >= max_unlocked_shift
+		shift_next.modulate.a = 0.3 if current_shift >= max_unlocked_shift else 1.0
 
-## Update shift dropdown based on unlocked shifts
-func _update_shift_dropdown() -> void:
-	if not shift_select:
-		return
-	
-	shift_select.clear()
-	var max_shift = 1
-	var save_node = _get_save()
-	if save_node and "unlocked_max_shift" in save_node:
-		max_shift = clampi(int(save_node.unlocked_max_shift), 1, 10)
-	
-	for i in range(1, max_shift + 1):
-		shift_select.add_item("Shift %02d" % i, i)
-	
-	# Select highest unlocked by default
-	if shift_select.item_count > 0:
-		shift_select.selected = shift_select.item_count - 1
+## Navigate shifts
+func _on_shift_prev() -> void:
+	if current_shift > 1:
+		current_shift -= 1
+		_update_shift_display()
+		_animate_shift_change()
 
-## Update progress label
-func _update_progress_label() -> void:
-	if not progress_label:
-		return
-	
-	var max_shift = 1
-	var save_node = _get_save()
-	if save_node and "unlocked_max_shift" in save_node:
-		max_shift = clampi(int(save_node.unlocked_max_shift), 1, 10)
-	
-	if max_shift >= 10:
-		progress_label.text = "📊 All Shifts Unlocked! 🎉"
-	else:
-		progress_label.text = "📊 Unlocked: Shift 01 → Shift %02d" % max_shift
+func _on_shift_next() -> void:
+	if current_shift < max_unlocked_shift:
+		current_shift += 1
+		_update_shift_display()
+		_animate_shift_change()
 
-## Initialize settings UI from save values
-func _init_settings_ui() -> void:
-	var save_node = _get_save()
-	if not save_node:
-		return
-	
-	if sfx_check and "sfx_enabled" in save_node:
-		sfx_check.button_pressed = bool(save_node.sfx_enabled)
-	if events_check and "events_enabled" in save_node:
-		events_check.button_pressed = bool(save_node.events_enabled)
-	if motion_check and "reduce_motion" in save_node:
-		motion_check.button_pressed = bool(save_node.reduce_motion)
-	if jumpscare_check and "jumpscares_enabled" in save_node:
-		jumpscare_check.button_pressed = bool(save_node.jumpscares_enabled)
-	if screenshake_check and "screenshake_enabled" in save_node:
-		screenshake_check.button_pressed = bool(save_node.screenshake_enabled)
-	if vfx_slider and "vfx_intensity" in save_node:
-		vfx_slider.value = float(save_node.vfx_intensity)
+func _animate_shift_change() -> void:
+	if shift_display:
+		var tween = create_tween()
+		tween.tween_property(shift_display, "modulate:a", 0.5, 0.05)
+		tween.tween_property(shift_display, "modulate:a", 1.0, 0.1)
 
-## Open settings popup
+## Tips management
+func _randomize_tip() -> void:
+	current_tip_index = randi() % tips.size()
+	_show_tip()
+
+func _next_tip() -> void:
+	current_tip_index = (current_tip_index + 1) % tips.size()
+	_show_tip()
+
+func _show_tip() -> void:
+	if tips_label:
+		var tween = create_tween()
+		tween.tween_property(tips_label, "modulate:a", 0.0, 0.3)
+		tween.tween_callback(func(): tips_label.text = tips[current_tip_index])
+		tween.tween_property(tips_label, "modulate:a", 1.0, 0.3)
+
+## Open settings
 func _open_settings() -> void:
-	_init_settings_ui()
 	if settings_popup:
 		settings_popup.visible = true
+		# Fade in
+		settings_popup.modulate.a = 0.0
+		var tween = create_tween()
+		tween.tween_property(settings_popup, "modulate:a", 1.0, 0.2)
 
-## Save settings and close
-func _save_settings() -> void:
-	var save_node = _get_save()
-	if save_node:
-		if sfx_check and "sfx_enabled" in save_node:
-			save_node.sfx_enabled = sfx_check.button_pressed
-		if events_check and "events_enabled" in save_node:
-			save_node.events_enabled = events_check.button_pressed
-		if motion_check and "reduce_motion" in save_node:
-			save_node.reduce_motion = motion_check.button_pressed
-		if jumpscare_check and "jumpscares_enabled" in save_node:
-			save_node.jumpscares_enabled = jumpscare_check.button_pressed
-		if screenshake_check and "screenshake_enabled" in save_node:
-			save_node.screenshake_enabled = screenshake_check.button_pressed
-		if vfx_slider and "vfx_intensity" in save_node:
-			save_node.vfx_intensity = vfx_slider.value
-		
-		if save_node.has_method("write_save"):
-			save_node.write_save()
-		if save_node.has_method("apply_settings_to_scene"):
-			save_node.apply_settings_to_scene(self)
-	
-	if settings_popup:
-		settings_popup.visible = false
-	
-	_update_progress_label()
-	_update_shift_dropdown()
-
-## Close settings without saving
 func _close_settings() -> void:
 	if settings_popup:
-		settings_popup.visible = false
+		var tween = create_tween()
+		tween.tween_property(settings_popup, "modulate:a", 0.0, 0.15)
+		tween.tween_callback(func(): settings_popup.visible = false)
 
-## Reset button pressed - show confirmation
+## Open credits
+func _open_credits() -> void:
+	if credits_popup:
+		credits_popup.visible = true
+		credits_popup.modulate.a = 0.0
+		var tween = create_tween()
+		tween.tween_property(credits_popup, "modulate:a", 1.0, 0.2)
+
+func _close_credits() -> void:
+	if credits_popup:
+		var tween = create_tween()
+		tween.tween_property(credits_popup, "modulate:a", 0.0, 0.15)
+		tween.tween_callback(func(): credits_popup.visible = false)
+
+## Reset progress
 func _on_reset_pressed() -> void:
 	if confirm_dialog:
-		confirm_dialog.visible = true
+		confirm_dialog.popup_centered()
 
-## Confirm reset
 func _confirm_reset() -> void:
 	var save_node = _get_save()
 	if save_node:
@@ -184,31 +215,47 @@ func _confirm_reset() -> void:
 		if save_node.has_method("write_save"):
 			save_node.write_save()
 	
-	if confirm_dialog:
-		confirm_dialog.visible = false
-	
-	_update_shift_dropdown()
-	_update_progress_label()
+	max_unlocked_shift = 1
+	current_shift = 1
+	_update_shift_display()
 
-## Cancel reset
 func _cancel_reset() -> void:
-	if confirm_dialog:
-		confirm_dialog.visible = false
+	pass
 
+## Start game
 func _on_start() -> void:
-	if not shift_select:
-		return
-	
-	var shift_num = shift_select.get_selected_id()
-	if shift_num == 0:
-		shift_num = 1
-	
-	# Store selected shift in autoload for Shift scene to read
+	# Store selected shift in autoload
 	var gamestate = get_node_or_null("/root/GameState")
 	if gamestate and "selected_shift" in gamestate:
-		gamestate.selected_shift = shift_num
+		gamestate.selected_shift = current_shift
 	
-	get_tree().change_scene_to_file("res://scenes/Shift.tscn")
+	# Fade out and transition
+	var tween = create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(func(): get_tree().change_scene_to_file("res://scenes/Shift.tscn"))
 
+## Quit game
 func _on_quit() -> void:
-	get_tree().quit()
+	# Fade out
+	var tween = create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(func(): get_tree().quit())
+
+## Get Save autoload node (null-safe)
+func _get_save() -> Node:
+	var save_node = get_node_or_null("/root/Save")
+	if save_node:
+		return save_node
+	if Engine.has_singleton("Save"):
+		return Engine.get_singleton("Save")
+	return null
+
+## Handle input for closing popups with ESC
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if settings_popup and settings_popup.visible:
+			_close_settings()
+			get_viewport().set_input_as_handled()
+		elif credits_popup and credits_popup.visible:
+			_close_credits()
+			get_viewport().set_input_as_handled()

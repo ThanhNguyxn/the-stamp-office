@@ -1,7 +1,112 @@
-[gd_scene load_steps=3 format=3 uid="uid://cmainscene001"]
+[gd_scene load_steps=12 format=3 uid="uid://bsxf3j2qrmfxk"]
 
-[ext_resource type="Script" uid="uid://c2j5t52hud4eg" path="res://scripts/Main.gd" id="1_main"]
-[ext_resource type="PackedScene" uid="uid://8t7w7r2w20qc" path="res://scenes/Office3D.tscn" id="2_office"]
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://b4yz0iuvqzrkr" path="res://scenes/Office3D.tscn" id="2_office"]
+[ext_resource type="PackedScene" uid="uid://cqn5l1vmvhm8f" path="res://scenes/Settings.tscn" id="3_settings"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_bg"]
+bg_color = Color(0.02, 0.02, 0.04, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.25, 0.2, 0.6)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_normal"]
+bg_color = Color(0.12, 0.1, 0.08, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.35, 0.25, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+bg_color = Color(0.25, 0.2, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7, 0.5, 0.3, 1.0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0.4, 0.3, 0.1, 0.3)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_pressed"]
+bg_color = Color(0.35, 0.28, 0.18, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9, 0.7, 0.4, 1.0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_normal"]
+bg_color = Color(0.15, 0.35, 0.15, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.6, 0.3, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_hover"]
+bg_color = Color(0.2, 0.5, 0.2, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.8, 0.4, 1.0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0.2, 0.5, 0.2, 0.4)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_danger_normal"]
+bg_color = Color(0.4, 0.1, 0.1, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.2, 0.2, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_danger_hover"]
+bg_color = Color(0.6, 0.15, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9, 0.3, 0.3, 1.0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0.5, 0.1, 0.1, 0.4)
+shadow_size = 4
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -21,247 +126,352 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="OfficeViewport" type="SubViewport" parent="OfficeViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="OfficeViewportContainer"]
 handle_input_locally = false
-size = Vector2i(1280, 720)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
-[node name="Office3D" parent="OfficeViewportContainer/OfficeViewport" instance=ExtResource("2_office")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013563633, -1.1920929e-07, 0.0074095726)
+[node name="Office3D" parent="OfficeViewportContainer/SubViewport" instance=ExtResource("2_office")]
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="VignetteOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="MainContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.08, 0.08, 0.1, 0.75)
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 60
 
-[node name="VBox" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -180.0
-offset_right = 200.0
-offset_bottom = 180.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 15
-alignment = 1
-
-[node name="Title" type="Label" parent="VBox"]
+[node name="HBox" type="HBoxContainer" parent="MainContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+
+[node name="LeftPanel" type="PanelContainer" parent="MainContainer/HBox"]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_bg")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/HBox/LeftPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 40
+
+[node name="VBox" type="VBoxContainer" parent="MainContainer/HBox/LeftPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TitleSection" type="VBoxContainer" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/TitleSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 42
 text = "THE STAMP OFFICE"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="VBox"]
+[node name="Subtitle" type="Label" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/TitleSection"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/font_color = Color(0.6, 0.55, 0.45, 0.8)
 theme_override_font_sizes/font_size = 14
-text = "Horror look. Comedy feel. Paperwork runs reality."
+text = "A Bureaucratic Horror Experience"
 horizontal_alignment = 1
 
-[node name="ProgressLabel" type="Label" parent="VBox"]
+[node name="Separator1" type="HSeparator" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox"]
+modulate = Color(0.4, 0.35, 0.25, 0.5)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.5, 0.8, 0.5, 1)
-theme_override_font_sizes/font_size = 12
-text = "📊 Unlocked: Shift 01 → Shift 01"
+
+[node name="ShiftSection" type="VBoxContainer" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ShiftLabel" type="Label" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ShiftSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.65, 0.55, 0.9)
+theme_override_font_sizes/font_size = 13
+text = "SELECT SHIFT"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="VBox"]
-custom_minimum_size = Vector2(0, 10)
+[node name="ShiftBox" type="HBoxContainer" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ShiftSection"]
 layout_mode = 2
-
-[node name="ShiftBox" type="HBoxContainer" parent="VBox"]
-layout_mode = 2
-theme_override_constants/separation = 10
 alignment = 1
 
-[node name="ShiftLabel" type="Label" parent="VBox/ShiftBox"]
+[node name="ShiftPrev" type="Button" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ShiftSection/ShiftBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Select Shift:"
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "◀"
 
-[node name="ShiftSelect" type="OptionButton" parent="VBox/ShiftBox"]
-custom_minimum_size = Vector2(120, 40)
+[node name="ShiftDisplay" type="Label" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ShiftSection/ShiftBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-
-[node name="StartButton" type="Button" parent="VBox"]
-custom_minimum_size = Vector2(250, 50)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "▶ Start"
-
-[node name="ButtonRow" type="HBoxContainer" parent="VBox"]
-layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
-
-[node name="SettingsButton" type="Button" parent="VBox/ButtonRow"]
-custom_minimum_size = Vector2(120, 40)
-layout_mode = 2
-text = "⚙ Settings"
-
-[node name="QuitButton" type="Button" parent="VBox/ButtonRow"]
-custom_minimum_size = Vector2(120, 40)
-layout_mode = 2
-text = "✕ Quit"
-
-[node name="ResetButton" type="Button" parent="VBox"]
-custom_minimum_size = Vector2(200, 35)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.8, 0.4, 0.4, 1)
-text = "🔄 Reset Progress"
-
-[node name="Version" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -30.0
-offset_right = 100.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_font_sizes/font_size = 12
-text = "v0.4.0 — Phase 5 Alpha"
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 28
+text = "SHIFT 01"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="SettingsPopup" type="PanelContainer" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -150.0
-offset_right = 200.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBox" type="VBoxContainer" parent="SettingsPopup"]
+[node name="ShiftNext" type="Button" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ShiftSection/ShiftBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-theme_override_constants/separation = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "▶"
 
-[node name="Title" type="Label" parent="SettingsPopup/VBox"]
+[node name="ShiftProgress" type="ProgressBar" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ShiftSection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
+max_value = 10.0
+step = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="Separator2" type="HSeparator" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox"]
+modulate = Color(0.4, 0.35, 0.25, 0.5)
+layout_mode = 2
+
+[node name="ButtonSection" type="VBoxContainer" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StartButton" type="Button" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ButtonSection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 1, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
-text = "⚙ SETTINGS"
-horizontal_alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_start_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_start_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "▶  START SHIFT"
 
-[node name="SfxCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+[node name="SettingsButton" type="Button" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ButtonSection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
-button_pressed = true
-text = "🔊 Sound Effects"
+theme_override_colors/font_color = Color(0.85, 0.8, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "⚙  SETTINGS"
 
-[node name="EventsCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+[node name="CreditsButton" type="Button" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ButtonSection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
-button_pressed = true
-text = "🎲 Random Events"
+theme_override_colors/font_color = Color(0.85, 0.8, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "📜  CREDITS"
 
-[node name="MotionCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+[node name="QuitButton" type="Button" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ButtonSection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
-text = "🎯 Reduce Motion"
+theme_override_colors/font_color = Color(0.9, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_danger_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "✕  QUIT GAME"
 
-[node name="JumpscareCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+[node name="Spacer" type="Control" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox"]
 layout_mode = 2
-button_pressed = true
-text = "👻 Horror Events"
+size_flags_vertical = 3
 
-[node name="ScreenshakeCheck" type="CheckBox" parent="SettingsPopup/VBox"]
+[node name="ResetSection" type="VBoxContainer" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox"]
 layout_mode = 2
-button_pressed = true
-text = "📳 Screen Shake"
+theme_override_constants/separation = 8
 
-[node name="VfxBox" type="HBoxContainer" parent="SettingsPopup/VBox"]
+[node name="ResetButton" type="Button" parent="MainContainer/HBox/LeftPanel/MarginContainer/VBox/ResetSection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_colors/font_color = Color(0.7, 0.5, 0.5, 0.8)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "Reset Progress"
 
-[node name="VfxLabel" type="Label" parent="SettingsPopup/VBox/VfxBox"]
-layout_mode = 2
-text = "📺 VFX Intensity:"
-
-[node name="VfxSlider" type="HSlider" parent="SettingsPopup/VBox/VfxBox"]
-custom_minimum_size = Vector2(150, 20)
+[node name="RightSpacer" type="Control" parent="MainContainer/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-max_value = 1.0
-step = 0.1
-value = 1.0
 
-[node name="ButtonRow" type="HBoxContainer" parent="SettingsPopup/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 15
-alignment = 1
+[node name="VersionLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -35.0
+offset_right = 200.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.5, 0.45, 0.4, 0.6)
+theme_override_font_sizes/font_size = 12
+text = "v0.1.0 - Early Development"
 
-[node name="SaveButton" type="Button" parent="SettingsPopup/VBox/ButtonRow"]
-custom_minimum_size = Vector2(100, 40)
-layout_mode = 2
-text = "✓ Save"
+[node name="TipsLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -350.0
+offset_top = -35.0
+offset_right = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6, 0.55, 0.45, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "💡 TIP: Read the rules carefully..."
+horizontal_alignment = 2
 
-[node name="CloseButton" type="Button" parent="SettingsPopup/VBox/ButtonRow"]
-custom_minimum_size = Vector2(100, 40)
-layout_mode = 2
-text = "✕ Close"
+[node name="SettingsLayer" type="CanvasLayer" parent="."]
+layer = 10
 
-[node name="ConfirmDialog" type="PanelContainer" parent="."]
+[node name="SettingsPopup" type="Control" parent="SettingsLayer"]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dimmer" type="ColorRect" parent="SettingsLayer/SettingsPopup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Settings" parent="SettingsLayer/SettingsPopup" instance=ExtResource("3_settings")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -80.0
-offset_right = 180.0
-offset_bottom = 80.0
+offset_left = -400.0
+offset_top = -350.0
+offset_right = 400.0
+offset_bottom = 350.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="ConfirmDialog"]
-layout_mode = 2
-theme_override_constants/separation = 15
+[node name="CreditsLayer" type="CanvasLayer" parent="."]
+layer = 10
 
-[node name="Title" type="Label" parent="ConfirmDialog/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.7, 0.3, 1)
-theme_override_font_sizes/font_size = 18
-text = "⚠ Reset Progress?"
-horizontal_alignment = 1
+[node name="CreditsPopup" type="Control" parent="CreditsLayer"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Body" type="Label" parent="ConfirmDialog/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 14
-text = "This will lock all shifts except Shift 01.
-Your settings will be preserved."
-horizontal_alignment = 1
+[node name="Dimmer" type="ColorRect" parent="CreditsLayer/CreditsPopup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.8)
 
-[node name="ButtonRow" type="HBoxContainer" parent="ConfirmDialog/VBox"]
+[node name="CreditsPanel" type="PanelContainer" parent="CreditsLayer/CreditsPopup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -250.0
+offset_right = 300.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_bg")
+
+[node name="Margin" type="MarginContainer" parent="CreditsLayer/CreditsPopup/CreditsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBox" type="VBoxContainer" parent="CreditsLayer/CreditsPopup/CreditsPanel/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 20
-alignment = 1
 
-[node name="ConfirmYes" type="Button" parent="ConfirmDialog/VBox/ButtonRow"]
-custom_minimum_size = Vector2(100, 40)
+[node name="CreditsTitle" type="Label" parent="CreditsLayer/CreditsPopup/CreditsPanel/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
-text = "Reset"
+theme_override_colors/font_color = Color(0.9, 0.85, 0.7, 1)
+theme_override_font_sizes/font_size = 28
+text = "CREDITS"
+horizontal_alignment = 1
 
-[node name="ConfirmNo" type="Button" parent="ConfirmDialog/VBox/ButtonRow"]
-custom_minimum_size = Vector2(100, 40)
+[node name="CreditsText" type="RichTextLabel" parent="CreditsLayer/CreditsPopup/CreditsPanel/Margin/VBox"]
 layout_mode = 2
-text = "Cancel"
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center][color=#c9b896]THE STAMP OFFICE[/color]
+
+[color=#8a8070]A Bureaucratic Horror Experience[/color]
+
+━━━━━━━━━━━━━━━━━━━━
+
+[color=#a09080]Created with love and existential dread[/color]
+
+[color=#706050]Built with Godot Engine 4.5[/color]
+
+━━━━━━━━━━━━━━━━━━━━
+
+[color=#605040]© 2025 - All Rights Reserved[/color][/center]"
+
+[node name="CloseCredits" type="Button" parent="CreditsLayer/CreditsPopup/CreditsPanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "CLOSE"
+
+[node name="ConfirmDialog" type="ConfirmationDialog" parent="."]
+title = "Reset Progress"
+initial_position = 1
+size = Vector2i(400, 150)
+dialog_text = "Are you sure you want to reset all progress?
+This cannot be undone."
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

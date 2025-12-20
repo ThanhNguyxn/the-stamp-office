@@ -2,6 +2,7 @@ extends Control
 ## Settings Menu - Audio, Graphics, Gameplay options
 
 signal settings_closed
+signal close_requested
 
 # Audio
 @onready var master_slider: HSlider = $Panel/VBox/AudioSection/MasterVolume/Slider
@@ -225,6 +226,7 @@ func close_settings() -> void:
 	save_settings()
 	hide()
 	settings_closed.emit()
+	close_requested.emit()
 
 func _on_back_pressed() -> void:
 	close_settings()
