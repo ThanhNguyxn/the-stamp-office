@@ -1,4 +1,4 @@
-[gd_scene load_steps=142 format=3 uid="uid://coffice3dscene"]
+[gd_scene load_steps=155 format=3 uid="uid://coffice3dscene"]
 
 [ext_resource type="Script" path="res://scripts/Office3D.gd" id="1_office"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2_player"]
@@ -218,6 +218,38 @@ size = Vector3(0.2, 4, 12)
 
 [sub_resource type="BoxMesh" id="BoxMesh_wall_partition"]
 size = Vector3(0.2, 4, 8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_room_wall_front"]
+size = Vector3(10, 4, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_room_wall_side"]
+size = Vector3(0.2, 4, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_door_wall_left"]
+size = Vector3(3, 4, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_door_wall_right"]
+size = Vector3(3, 4, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_door_top"]
+size = Vector3(2, 1, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_room_door"]
+size = Vector3(1.8, 2.8, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="Material_door"]
+albedo_color = Color(0.45, 0.35, 0.25, 1)
+metallic = 0.1
+roughness = 0.6
+
+[sub_resource type="BoxShape3D" id="BoxShape_room_wall_front"]
+size = Vector3(10, 4, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape_room_wall_side"]
+size = Vector3(0.2, 4, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape_room_door"]
+size = Vector3(1.8, 2.8, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_desk"]
 size = Vector3(2.5, 0.1, 1.2)
@@ -1103,6 +1135,92 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 10)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Structure/Pillar2Collision"]
 shape = SubResource("BoxShape_pillar")
+
+[node name="BreakRoomWallFront" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2, -17)
+mesh = SubResource("BoxMesh_room_wall_front")
+surface_material_override/0 = SubResource("Material_wall")
+
+[node name="BreakRoomWallFrontCollision" type="StaticBody3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2, -17)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Structure/BreakRoomWallFrontCollision"]
+shape = SubResource("BoxShape_room_wall_front")
+
+[node name="BreakRoomWallRight" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, -22)
+mesh = SubResource("BoxMesh_room_wall_side")
+surface_material_override/0 = SubResource("Material_wall")
+
+[node name="BreakRoomWallRightCollision" type="StaticBody3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, -22)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Structure/BreakRoomWallRightCollision"]
+shape = SubResource("BoxShape_room_wall_side")
+
+[node name="BreakRoomDoorWallL" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 2, -17)
+mesh = SubResource("BoxMesh_door_wall_left")
+surface_material_override/0 = SubResource("Material_wall")
+
+[node name="BreakRoomDoorWallLCollision" type="StaticBody3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 2, -17)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Structure/BreakRoomDoorWallLCollision"]
+shape = SubResource("BoxShape_wall_short")
+
+[node name="BreakRoomDoorTop" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 3.5, -17)
+mesh = SubResource("BoxMesh_door_top")
+surface_material_override/0 = SubResource("Material_wall")
+
+[node name="BreakRoomDoor" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.4, -16.9)
+mesh = SubResource("BoxMesh_room_door")
+surface_material_override/0 = SubResource("Material_door")
+
+[node name="ArchiveWallFront" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2, -17)
+mesh = SubResource("BoxMesh_room_wall_front")
+surface_material_override/0 = SubResource("Material_wall")
+
+[node name="ArchiveWallFrontCollision" type="StaticBody3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2, -17)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Structure/ArchiveWallFrontCollision"]
+shape = SubResource("BoxShape_room_wall_front")
+
+[node name="ArchiveWallLeft" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, -22)
+mesh = SubResource("BoxMesh_room_wall_side")
+surface_material_override/0 = SubResource("Material_wall")
+
+[node name="ArchiveWallLeftCollision" type="StaticBody3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, -22)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Structure/ArchiveWallLeftCollision"]
+shape = SubResource("BoxShape_room_wall_side")
+
+[node name="ArchiveDoorWallR" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 2, -17)
+mesh = SubResource("BoxMesh_door_wall_right")
+surface_material_override/0 = SubResource("Material_wall")
+
+[node name="ArchiveDoorWallRCollision" type="StaticBody3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 2, -17)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Structure/ArchiveDoorWallRCollision"]
+shape = SubResource("BoxShape_wall_short")
+
+[node name="ArchiveDoorTop" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 3.5, -17)
+mesh = SubResource("BoxMesh_door_top")
+surface_material_override/0 = SubResource("Material_wall")
+
+[node name="ArchiveDoor" type="MeshInstance3D" parent="Structure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.4, -16.9)
+mesh = SubResource("BoxMesh_room_door")
+surface_material_override/0 = SubResource("Material_door")
 
 [node name="Desk" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
