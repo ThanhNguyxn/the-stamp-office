@@ -451,13 +451,19 @@ text = "[center][color=#c9b896]THE STAMP OFFICE[/color]
 
 ━━━━━━━━━━━━━━━━━━━━
 
-[color=#a09080]Created with love and existential dread[/color]
+[color=#a09080]Created by ThanhNguyxn[/color]
+[url=https://github.com/ThanhNguyxn/the-stamp-office][color=#6a9fb5]github.com/ThanhNguyxn/the-stamp-office[/color][/url]
 
-[color=#706050]Built with Godot Engine 4.5[/color]
+[color=#908070]Built with Godot Engine 4.5[/color]
 
 ━━━━━━━━━━━━━━━━━━━━
 
-[color=#605040]© 2025 - All Rights Reserved[/color][/center]"
+[color=#70a070]☕ Support Development[/color]
+[url=https://github.com/sponsors/ThanhNguyxn][color=#e0a060]github.com/sponsors/ThanhNguyxn[/color][/url]
+
+━━━━━━━━━━━━━━━━━━━━
+
+[color=#605040]© 2025 ThanhNguyxn - MIT License[/color][/center]"
 
 [node name="CloseCredits" type="Button" parent="CreditsLayer/CreditsPopup/CreditsPanel/Margin/VBox"]
 custom_minimum_size = Vector2(0, 45)

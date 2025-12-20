@@ -2,10 +2,10 @@ extends Node3D
 ## Office3D - 3D office environment with ambient effects
 ## Provides tremor effects and light flickering
 
-@onready var clerk: Node3D = $Clerk
-@onready var main_light: OmniLight3D = $MainRoomLight
-@onready var corridor_light1: OmniLight3D = $CorridorLight1
-@onready var corridor_light2: OmniLight3D = $CorridorLight2
+@onready var clerk: Node3D = get_node_or_null("Clerk")
+@onready var main_light: OmniLight3D = get_node_or_null("MainRoomLight")
+@onready var corridor_light1: OmniLight3D = get_node_or_null("CorridorLight1")
+@onready var corridor_light2: OmniLight3D = get_node_or_null("CorridorLight2")
 
 # Camera/head for tremor
 var camera: Camera3D = null

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cwalkableoffice"]
+[gd_scene load_steps=35 format=3 uid="uid://dfuuoxcfog6wi"]
 
 [ext_resource type="Script" path="res://scripts/WalkableOffice.gd" id="1_walkable"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2_player"]

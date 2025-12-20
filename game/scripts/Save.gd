@@ -247,8 +247,8 @@ func _apply_vfx_settings(root: Node) -> void:
 	var scanline = _find_node_safe(root, "ScanlineOverlay")
 	if scanline:
 		_apply_shader_intensity(scanline, vfx_intensity)
-	for name in ["VfxOverlay", "Vignette", "PostProcess", "Effects"]:
-		var node = _find_node_safe(root, name)
+	for node_name in ["VfxOverlay", "Vignette", "PostProcess", "Effects"]:
+		var node = _find_node_safe(root, node_name)
 		if node:
 			_apply_shader_intensity(node, vfx_intensity)
 			if "intensity" in node:

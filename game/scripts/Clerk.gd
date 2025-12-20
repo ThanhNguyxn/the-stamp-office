@@ -51,7 +51,7 @@ func _process(delta: float) -> void:
 		blink_time = 0.0
 		_do_blink()
 
-func _idle_animation(delta: float) -> void:
+func _idle_animation(_delta: float) -> void:
 	if not head:
 		return
 	
