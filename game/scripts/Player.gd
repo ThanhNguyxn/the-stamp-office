@@ -99,7 +99,7 @@ func _create_interact_hint() -> void:
 	canvas.add_child(interact_hint_label)
 
 func _create_player_body() -> void:
-	# Create visible body parts attached to camera
+	# Create visible body parts attached to camera - positioned to be visible when looking down
 	if not camera:
 		return
 	
@@ -107,94 +107,171 @@ func _create_player_body() -> void:
 	player_body.name = "PlayerBody"
 	camera.add_child(player_body)
 	
-	# Arm material
-	var arm_material = StandardMaterial3D.new()
-	arm_material.albedo_color = Color(0.85, 0.7, 0.6, 1)  # Skin tone
-	arm_material.roughness = 0.8
+	# Materials
+	var skin_material = StandardMaterial3D.new()
+	skin_material.albedo_color = Color(0.92, 0.78, 0.68, 1)  # Skin tone
+	skin_material.roughness = 0.85
 	
 	var sleeve_material = StandardMaterial3D.new()
-	sleeve_material.albedo_color = Color(0.2, 0.22, 0.25, 1)  # Dark shirt
-	sleeve_material.roughness = 0.7
+	sleeve_material.albedo_color = Color(0.18, 0.2, 0.24, 1)  # Dark shirt sleeve
+	sleeve_material.roughness = 0.75
 	
-	# Left arm (visible when looking down-left)
+	var pants_material = StandardMaterial3D.new()
+	pants_material.albedo_color = Color(0.12, 0.12, 0.14, 1)  # Dark pants
+	pants_material.roughness = 0.7
+	
+	var shoes_material = StandardMaterial3D.new()
+	shoes_material.albedo_color = Color(0.08, 0.06, 0.05, 1)  # Dark shoes
+	shoes_material.roughness = 0.5
+	shoes_material.metallic = 0.1
+	
+	# ===== LEFT ARM (always visible on left side of screen) =====
 	left_arm = MeshInstance3D.new()
 	left_arm.name = "LeftArm"
 	var left_arm_mesh = BoxMesh.new()
-	left_arm_mesh.size = Vector3(0.08, 0.35, 0.08)
+	left_arm_mesh.size = Vector3(0.12, 0.45, 0.12)
 	left_arm.mesh = left_arm_mesh
-	left_arm.position = Vector3(-0.35, -0.5, -0.3)
-	left_arm.rotation_degrees = Vector3(15, 0, 10)
+	left_arm.position = Vector3(-0.35, -0.25, -0.35)  # Closer to camera
+	left_arm.rotation_degrees = Vector3(50, 20, 10)
 	left_arm.material_override = sleeve_material
 	player_body.add_child(left_arm)
+	
+	# Left forearm
+	var left_forearm = MeshInstance3D.new()
+	left_forearm.name = "LeftForearm"
+	var left_forearm_mesh = BoxMesh.new()
+	left_forearm_mesh.size = Vector3(0.1, 0.32, 0.1)
+	left_forearm.mesh = left_forearm_mesh
+	left_forearm.position = Vector3(0, -0.32, 0.08)
+	left_forearm.rotation_degrees = Vector3(-35, 0, 0)
+	left_forearm.material_override = sleeve_material
+	left_arm.add_child(left_forearm)
 	
 	# Left hand
 	var left_hand = MeshInstance3D.new()
 	left_hand.name = "LeftHand"
 	var left_hand_mesh = BoxMesh.new()
-	left_hand_mesh.size = Vector3(0.07, 0.12, 0.05)
+	left_hand_mesh.size = Vector3(0.09, 0.12, 0.06)
 	left_hand.mesh = left_hand_mesh
-	left_hand.position = Vector3(0, -0.22, 0)
-	left_hand.material_override = arm_material
-	left_arm.add_child(left_hand)
+	left_hand.position = Vector3(0, -0.2, 0.04)
+	left_hand.material_override = skin_material
+	left_forearm.add_child(left_hand)
 	
-	# Right arm (visible when looking down-right)
+	# ===== RIGHT ARM (always visible on right side of screen) =====
 	right_arm = MeshInstance3D.new()
 	right_arm.name = "RightArm"
 	var right_arm_mesh = BoxMesh.new()
-	right_arm_mesh.size = Vector3(0.08, 0.35, 0.08)
+	right_arm_mesh.size = Vector3(0.12, 0.45, 0.12)
 	right_arm.mesh = right_arm_mesh
-	right_arm.position = Vector3(0.35, -0.5, -0.3)
-	right_arm.rotation_degrees = Vector3(15, 0, -10)
+	right_arm.position = Vector3(0.35, -0.25, -0.35)  # Closer to camera
+	right_arm.rotation_degrees = Vector3(50, -20, -10)
 	right_arm.material_override = sleeve_material
 	player_body.add_child(right_arm)
+	
+	# Right forearm
+	var right_forearm = MeshInstance3D.new()
+	right_forearm.name = "RightForearm"
+	var right_forearm_mesh = BoxMesh.new()
+	right_forearm_mesh.size = Vector3(0.1, 0.32, 0.1)
+	right_forearm.mesh = right_forearm_mesh
+	right_forearm.position = Vector3(0, -0.32, 0.08)
+	right_forearm.rotation_degrees = Vector3(-35, 0, 0)
+	right_forearm.material_override = sleeve_material
+	right_arm.add_child(right_forearm)
 	
 	# Right hand
 	var right_hand = MeshInstance3D.new()
 	right_hand.name = "RightHand"
 	var right_hand_mesh = BoxMesh.new()
-	right_hand_mesh.size = Vector3(0.07, 0.12, 0.05)
+	right_hand_mesh.size = Vector3(0.09, 0.12, 0.06)
 	right_hand.mesh = right_hand_mesh
-	right_hand.position = Vector3(0, -0.22, 0)
-	right_hand.material_override = arm_material
-	right_arm.add_child(right_hand)
+	right_hand.position = Vector3(0, -0.2, 0.04)
+	right_hand.material_override = skin_material
+	right_forearm.add_child(right_hand)
 	
-	# Torso hint (visible when looking straight down)
+	# ===== BODY (visible when looking down) =====
 	var torso = MeshInstance3D.new()
 	torso.name = "Torso"
 	var torso_mesh = BoxMesh.new()
-	torso_mesh.size = Vector3(0.4, 0.15, 0.25)
+	torso_mesh.size = Vector3(0.5, 0.25, 0.35)
 	torso.mesh = torso_mesh
-	torso.position = Vector3(0, -0.7, -0.1)
+	torso.position = Vector3(0, -0.5, 0.0)  # Closer, centered
 	torso.material_override = sleeve_material
 	player_body.add_child(torso)
 	
-	# Legs hint (visible when looking down)
-	var legs = MeshInstance3D.new()
-	legs.name = "Legs"
-	var legs_mesh = BoxMesh.new()
-	legs_mesh.size = Vector3(0.35, 0.5, 0.2)
-	legs.mesh = legs_mesh
-	legs.position = Vector3(0, -1.1, 0.1)
+	# ===== LEGS (visible when looking straight down) =====
+	var left_leg = MeshInstance3D.new()
+	left_leg.name = "LeftLeg"
+	var left_leg_mesh = BoxMesh.new()
+	left_leg_mesh.size = Vector3(0.16, 0.75, 0.16)
+	left_leg.mesh = left_leg_mesh
+	left_leg.position = Vector3(-0.14, -1.1, 0.2)  # Slightly forward
+	left_leg.material_override = pants_material
+	player_body.add_child(left_leg)
 	
-	var pants_material = StandardMaterial3D.new()
-	pants_material.albedo_color = Color(0.15, 0.15, 0.18, 1)  # Dark pants
-	pants_material.roughness = 0.7
-	legs.material_override = pants_material
-	player_body.add_child(legs)
+	var right_leg = MeshInstance3D.new()
+	right_leg.name = "RightLeg"
+	var right_leg_mesh = BoxMesh.new()
+	right_leg_mesh.size = Vector3(0.16, 0.75, 0.16)
+	right_leg.mesh = right_leg_mesh
+	right_leg.position = Vector3(0.14, -1.1, 0.2)  # Slightly forward
+	right_leg.material_override = pants_material
+	player_body.add_child(right_leg)
 	
-	# Feet
-	var feet = MeshInstance3D.new()
-	feet.name = "Feet"
-	var feet_mesh = BoxMesh.new()
-	feet_mesh.size = Vector3(0.35, 0.08, 0.3)
-	feet.mesh = feet_mesh
-	feet.position = Vector3(0, -1.4, 0.2)
+	# ===== FEET =====
+	var left_foot = MeshInstance3D.new()
+	left_foot.name = "LeftFoot"
+	var left_foot_mesh = BoxMesh.new()
+	left_foot_mesh.size = Vector3(0.14, 0.08, 0.3)
+	left_foot.mesh = left_foot_mesh
+	left_foot.position = Vector3(-0.14, -1.52, 0.35)  # More forward to be visible
+	left_foot.material_override = shoes_material
+	player_body.add_child(left_foot)
 	
-	var shoes_material = StandardMaterial3D.new()
-	shoes_material.albedo_color = Color(0.1, 0.08, 0.06, 1)  # Dark shoes
-	shoes_material.roughness = 0.5
-	feet.material_override = shoes_material
-	player_body.add_child(feet)
+	var right_foot = MeshInstance3D.new()
+	right_foot.name = "RightFoot"
+	var right_foot_mesh = BoxMesh.new()
+	right_foot_mesh.size = Vector3(0.14, 0.08, 0.3)
+	right_foot.mesh = right_foot_mesh
+	right_foot.position = Vector3(0.14, -1.52, 0.35)  # More forward to be visible
+	right_foot.material_override = shoes_material
+	player_body.add_child(right_foot)
+	
+	# Create footstep audio player
+	_create_footstep_audio()
+
+func _create_footstep_audio() -> void:
+	var audio_player = AudioStreamPlayer.new()
+	audio_player.name = "FootstepPlayer"
+	audio_player.volume_db = -8.0
+	add_child(audio_player)
+	
+	# Generate procedural footstep sound
+	var generator = AudioStreamGenerator.new()
+	generator.mix_rate = 22050
+	generator.buffer_length = 0.1
+	audio_player.stream = generator
+	
+	# Connect footstep signal
+	footstep.connect(_play_footstep)
+
+func _play_footstep() -> void:
+	var audio_player = get_node_or_null("FootstepPlayer")
+	if not audio_player:
+		return
+	
+	# Create a simple thud sound procedurally
+	var playback = audio_player.get_stream_playback()
+	if playback:
+		var frames_available = playback.get_frames_available()
+		for i in range(frames_available):
+			var t = float(i) / 22050.0
+			# Simple thud: decaying noise burst
+			var noise = randf_range(-1.0, 1.0)
+			var envelope = exp(-t * 80.0)  # Quick decay
+			var sample = noise * envelope * 0.3
+			playback.push_frame(Vector2(sample, sample))
+		audio_player.play()
 
 func _apply_head_bob(delta: float, is_sprinting: bool) -> void:
 	if not head or not head_bob_enabled or desk_focused:
@@ -212,6 +289,16 @@ func _apply_head_bob(delta: float, is_sprinting: bool) -> void:
 		head.position.y = default_head_y + bob_y
 		head.position.x = bob_x
 		
+		# Arm sway - arms swing opposite to each other
+		if left_arm and right_arm:
+			var arm_swing = sin(head_bob_time * TAU) * 0.15
+			left_arm.rotation.x = deg_to_rad(45) + arm_swing
+			right_arm.rotation.x = deg_to_rad(45) - arm_swing
+			
+			# Slight up/down motion
+			left_arm.position.y = -0.35 + sin(head_bob_time * TAU) * 0.02
+			right_arm.position.y = -0.35 - sin(head_bob_time * TAU) * 0.02
+		
 		# Footstep timing (every half cycle)
 		footstep_timer += delta * head_bob_frequency * freq_mult
 		if footstep_timer >= 0.5:
@@ -222,6 +309,13 @@ func _apply_head_bob(delta: float, is_sprinting: bool) -> void:
 		head.position.y = lerp(head.position.y, default_head_y, delta * 10.0)
 		head.position.x = lerp(head.position.x, 0.0, delta * 10.0)
 		head_bob_time = 0.0
+		
+		# Reset arm positions
+		if left_arm and right_arm:
+			left_arm.rotation.x = lerp(left_arm.rotation.x, deg_to_rad(45), delta * 8.0)
+			right_arm.rotation.x = lerp(right_arm.rotation.x, deg_to_rad(45), delta * 8.0)
+			left_arm.position.y = lerp(left_arm.position.y, -0.35, delta * 8.0)
+			right_arm.position.y = lerp(right_arm.position.y, -0.35, delta * 8.0)
 
 func _physics_process(delta: float) -> void:
 	# Respawn if fallen
