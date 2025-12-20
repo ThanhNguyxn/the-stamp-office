@@ -1,4 +1,4 @@
-[gd_scene load_steps=185 format=3 uid="uid://coffice3dscene"]
+[gd_scene load_steps=190 format=3 uid="uid://coffice3dscene"]
 
 [ext_resource type="Script" path="res://scripts/Office3D.gd" id="1_office"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2_player"]
@@ -2769,3 +2769,241 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 16)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerZones/ReceptionTrigger"]
 shape = SubResource("BoxShape_trigger")
+
+[node name="FloorDetails" type="Node3D" parent="."]
+
+[node name="FloorTile1" type="MeshInstance3D" parent="FloorDetails"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.01, 0)
+mesh = SubResource("BoxMesh_floor_main")
+surface_material_override/0 = SubResource("Material_floor_tile")
+
+[node name="Baseboards" type="Node3D" parent="."]
+
+[node name="BaseboardBack" type="CSGBox3D" parent="Baseboards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -29.9)
+size = Vector3(40, 0.12, 0.05)
+material = SubResource("Material_wall_accent")
+
+[node name="BaseboardFront" type="CSGBox3D" parent="Baseboards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 19.9)
+size = Vector3(40, 0.12, 0.05)
+material = SubResource("Material_wall_accent")
+
+[node name="BaseboardLeft" type="CSGBox3D" parent="Baseboards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.9, 0.06, -5)
+size = Vector3(0.05, 0.12, 50)
+material = SubResource("Material_wall_accent")
+
+[node name="BaseboardRight" type="CSGBox3D" parent="Baseboards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9, 0.06, -5)
+size = Vector3(0.05, 0.12, 50)
+material = SubResource("Material_wall_accent")
+
+[node name="WindowsAndFrames" type="Node3D" parent="."]
+
+[node name="Window1" type="MeshInstance3D" parent="WindowsAndFrames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.95, 2.2, 12)
+mesh = SubResource("BoxMesh_window")
+surface_material_override/0 = SubResource("Material_window")
+
+[node name="Window2" type="MeshInstance3D" parent="WindowsAndFrames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.95, 2.2, 4)
+mesh = SubResource("BoxMesh_window")
+surface_material_override/0 = SubResource("Material_window")
+
+[node name="Window3" type="MeshInstance3D" parent="WindowsAndFrames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.95, 2.2, 12)
+mesh = SubResource("BoxMesh_window")
+surface_material_override/0 = SubResource("Material_window")
+
+[node name="Window4" type="MeshInstance3D" parent="WindowsAndFrames"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.95, 2.2, 4)
+mesh = SubResource("BoxMesh_window")
+surface_material_override/0 = SubResource("Material_window")
+
+[node name="OfficeDetails" type="Node3D" parent="."]
+
+[node name="RubbishBin2" type="MeshInstance3D" parent="OfficeDetails"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.2, 1)
+mesh = SubResource("CylinderMesh_trash_can")
+surface_material_override/0 = SubResource("Material_trash_can")
+
+[node name="PlantDesk" type="Node3D" parent="OfficeDetails"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.8, 1.6)
+
+[node name="Pot" type="MeshInstance3D" parent="OfficeDetails/PlantDesk"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.075, 0)
+mesh = SubResource("CylinderMesh_pot")
+surface_material_override/0 = SubResource("Material_pot")
+
+[node name="Leaves" type="MeshInstance3D" parent="OfficeDetails/PlantDesk"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.25, 0)
+mesh = SubResource("SphereMesh_plant")
+surface_material_override/0 = SubResource("Material_plant")
+
+[node name="ClipboardWall" type="Node3D" parent="OfficeDetails"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.95, 1.8, 2)
+
+[node name="Board" type="MeshInstance3D" parent="OfficeDetails/ClipboardWall"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+mesh = SubResource("BoxMesh_poster_frame")
+surface_material_override/0 = SubResource("Material_frame")
+
+[node name="Paper" type="MeshInstance3D" parent="OfficeDetails/ClipboardWall"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.02, 0, 0)
+mesh = SubResource("BoxMesh_poster_inner")
+surface_material_override/0 = SubResource("Material_paper")
+
+[node name="FilingCabinetArea" type="Node3D" parent="OfficeDetails"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 1)
+
+[node name="Cabinet1" type="Node3D" parent="OfficeDetails/FilingCabinetArea"]
+
+[node name="Body" type="MeshInstance3D" parent="OfficeDetails/FilingCabinetArea/Cabinet1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("BoxMesh_cabinet")
+surface_material_override/0 = SubResource("Material_cabinet")
+
+[node name="Drawer1" type="MeshInstance3D" parent="OfficeDetails/FilingCabinetArea/Cabinet1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0.03)
+mesh = SubResource("BoxMesh_cabinet_drawer")
+surface_material_override/0 = SubResource("Material_cabinet")
+
+[node name="Handle1" type="MeshInstance3D" parent="OfficeDetails/FilingCabinetArea/Cabinet1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0.26)
+mesh = SubResource("BoxMesh_cabinet_handle")
+surface_material_override/0 = SubResource("Material_drawer_handle")
+
+[node name="Cabinet2" type="Node3D" parent="OfficeDetails/FilingCabinetArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="Body" type="MeshInstance3D" parent="OfficeDetails/FilingCabinetArea/Cabinet2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("BoxMesh_cabinet")
+surface_material_override/0 = SubResource("Material_cabinet")
+
+[node name="Drawer1" type="MeshInstance3D" parent="OfficeDetails/FilingCabinetArea/Cabinet2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0.03)
+mesh = SubResource("BoxMesh_cabinet_drawer")
+surface_material_override/0 = SubResource("Material_cabinet")
+
+[node name="Handle1" type="MeshInstance3D" parent="OfficeDetails/FilingCabinetArea/Cabinet2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0.26)
+mesh = SubResource("BoxMesh_cabinet_handle")
+surface_material_override/0 = SubResource("Material_drawer_handle")
+
+[node name="Cabinet1Collision" type="StaticBody3D" parent="OfficeDetails/FilingCabinetArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeDetails/FilingCabinetArea/Cabinet1Collision"]
+shape = SubResource("BoxShape_cabinet")
+
+[node name="Cabinet2Collision" type="StaticBody3D" parent="OfficeDetails/FilingCabinetArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.9, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeDetails/FilingCabinetArea/Cabinet2Collision"]
+shape = SubResource("BoxShape_cabinet")
+
+[node name="PhotoFrame1" type="Node3D" parent="OfficeDetails"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.95, 2.2, 6)
+
+[node name="Frame" type="MeshInstance3D" parent="OfficeDetails/PhotoFrame1"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, 0)
+mesh = SubResource("BoxMesh_poster_frame")
+surface_material_override/0 = SubResource("Material_frame")
+
+[node name="Photo" type="MeshInstance3D" parent="OfficeDetails/PhotoFrame1"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0.02, 0, 0)
+mesh = SubResource("BoxMesh_poster_inner")
+surface_material_override/0 = SubResource("Material_poster2")
+
+[node name="Whiteboard" type="Node3D" parent="OfficeDetails"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -1.9)
+
+[node name="Board" type="MeshInstance3D" parent="OfficeDetails/Whiteboard"]
+mesh = SubResource("BoxMesh_bulletin_board")
+surface_material_override/0 = SubResource("Material_mug")
+
+[node name="Frame" type="MeshInstance3D" parent="OfficeDetails/Whiteboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.01)
+mesh = SubResource("BoxMesh_bulletin_frame")
+surface_material_override/0 = SubResource("Material_frame")
+
+[node name="CabinetTopItems" type="Node3D" parent="OfficeDetails"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.85, 1)
+
+[node name="Box1" type="MeshInstance3D" parent="OfficeDetails/CabinetTopItems"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.12, 0)
+mesh = SubResource("BoxMesh_box")
+surface_material_override/0 = SubResource("Material_box")
+
+[node name="Box2" type="MeshInstance3D" parent="OfficeDetails/CabinetTopItems"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.25, 0.1, 0)
+mesh = SubResource("BoxMesh_box")
+surface_material_override/0 = SubResource("Material_box")
+
+[node name="Papers" type="MeshInstance3D" parent="OfficeDetails/CabinetTopItems"]
+transform = Transform3D(0.98, 0, 0.17, 0, 1, 0, -0.17, 0, 0.98, 1.0, 0.02, 0.1)
+mesh = SubResource("BoxMesh_paper_stack")
+surface_material_override/0 = SubResource("Material_paper")
+
+[node name="ReceptionEnhance" type="Node3D" parent="."]
+
+[node name="PosterWall" type="Node3D" parent="ReceptionEnhance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.2, 19.95)
+
+[node name="Frame" type="MeshInstance3D" parent="ReceptionEnhance/PosterWall"]
+mesh = SubResource("BoxMesh_poster_frame")
+surface_material_override/0 = SubResource("Material_frame")
+
+[node name="Poster" type="MeshInstance3D" parent="ReceptionEnhance/PosterWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.02)
+mesh = SubResource("BoxMesh_poster_inner")
+surface_material_override/0 = SubResource("Material_poster1")
+
+[node name="PosterWall2" type="Node3D" parent="ReceptionEnhance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.2, 19.95)
+
+[node name="Frame" type="MeshInstance3D" parent="ReceptionEnhance/PosterWall2"]
+mesh = SubResource("BoxMesh_poster_frame")
+surface_material_override/0 = SubResource("Material_frame")
+
+[node name="Poster" type="MeshInstance3D" parent="ReceptionEnhance/PosterWall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.02)
+mesh = SubResource("BoxMesh_poster_inner")
+surface_material_override/0 = SubResource("Material_poster2")
+
+[node name="ClockReception" type="Node3D" parent="ReceptionEnhance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 19.95)
+
+[node name="Body" type="MeshInstance3D" parent="ReceptionEnhance/ClockReception"]
+mesh = SubResource("CylinderMesh_clock")
+surface_material_override/0 = SubResource("Material_clock_body")
+
+[node name="Face" type="MeshInstance3D" parent="ReceptionEnhance/ClockReception"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.025)
+mesh = SubResource("CylinderMesh_clock_face")
+surface_material_override/0 = SubResource("Material_clock_face")
+
+[node name="HourHand" type="MeshInstance3D" parent="ReceptionEnhance/ClockReception"]
+transform = Transform3D(0.87, 0.5, 0, -0.5, 0.87, 0, 0, 0, 1, 0.03, 0, 0.03)
+mesh = SubResource("BoxMesh_clock_hand_hour")
+surface_material_override/0 = SubResource("Material_clock_hands")
+
+[node name="MinuteHand" type="MeshInstance3D" parent="ReceptionEnhance/ClockReception"]
+transform = Transform3D(-0.17, 0.98, 0, -0.98, -0.17, 0, 0, 0, 1, 0.05, 0, 0.03)
+mesh = SubResource("BoxMesh_clock_hand_minute")
+surface_material_override/0 = SubResource("Material_clock_hands")
+
+[node name="UmbrellaStand" type="Node3D" parent="ReceptionEnhance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 18)
+
+[node name="Stand" type="MeshInstance3D" parent="ReceptionEnhance/UmbrellaStand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("CylinderMesh_trash_can")
+surface_material_override/0 = SubResource("Material_keyboard")
+
+[node name="DoorMat" type="MeshInstance3D" parent="ReceptionEnhance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 13)
+mesh = SubResource("BoxMesh_welcome_mat")
+surface_material_override/0 = SubResource("Material_welcome_mat")
