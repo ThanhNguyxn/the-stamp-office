@@ -1,4 +1,4 @@
-[gd_scene load_steps=155 format=3 uid="uid://coffice3dscene"]
+[gd_scene load_steps=168 format=3 uid="uid://coffice3dscene"]
 
 [ext_resource type="Script" path="res://scripts/Office3D.gd" id="1_office"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2_player"]
@@ -715,6 +715,52 @@ size = Vector3(0.5, 0.7, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape_counter"]
 size = Vector3(1.5, 0.9, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_magazine_table"]
+size = Vector3(0.6, 0.4, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_number_dispenser"]
+size = Vector3(0.15, 0.25, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="Material_number_dispenser"]
+albedo_color = Color(0.8, 0.2, 0.2, 1)
+metallic = 0.3
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_rope_post"]
+size = Vector3(0.08, 1.0, 0.08)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rope_top"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.05
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rope"]
+top_radius = 0.02
+bottom_radius = 0.02
+height = 1.5
+
+[sub_resource type="StandardMaterial3D" id="Material_rope_post"]
+albedo_color = Color(0.7, 0.6, 0.2, 1)
+metallic = 0.7
+roughness = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Material_rope"]
+albedo_color = Color(0.6, 0.1, 0.15, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_welcome_mat"]
+size = Vector3(1.5, 0.02, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="Material_welcome_mat"]
+albedo_color = Color(0.3, 0.25, 0.2, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_reception_counter"]
+size = Vector3(3.0, 1.1, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape_reception_counter"]
+size = Vector3(3.0, 1.1, 0.8)
 
 [sub_resource type="BoxMesh" id="BoxMesh_old_papers"]
 size = Vector3(0.35, 0.15, 0.25)
@@ -1564,18 +1610,79 @@ surface_material_override/0 = SubResource("Material_stamp")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)
 
 [node name="Counter" type="MeshInstance3D" parent="Reception"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-mesh = SubResource("BoxMesh_counter")
-surface_material_override/0 = SubResource("Material_counter")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+mesh = SubResource("BoxMesh_reception_counter")
+surface_material_override/0 = SubResource("Material_desk")
+
+[node name="CounterFront" type="MeshInstance3D" parent="Reception"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0.35)
+mesh = SubResource("BoxMesh_reception_counter")
+surface_material_override/0 = SubResource("Material_desk_leg")
 
 [node name="CounterCollision" type="StaticBody3D" parent="Reception"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Reception/CounterCollision"]
-shape = SubResource("BoxShape_counter")
+shape = SubResource("BoxShape_reception_counter")
+
+[node name="NumberDispenser" type="MeshInstance3D" parent="Reception"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 1.2, 0.3)
+mesh = SubResource("BoxMesh_number_dispenser")
+surface_material_override/0 = SubResource("Material_number_dispenser")
+
+[node name="WelcomeMat" type="MeshInstance3D" parent="Reception"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 2)
+mesh = SubResource("BoxMesh_welcome_mat")
+surface_material_override/0 = SubResource("Material_welcome_mat")
+
+[node name="RopePost1" type="Node3D" parent="Reception"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1)
+
+[node name="Post" type="MeshInstance3D" parent="Reception/RopePost1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_rope_post")
+surface_material_override/0 = SubResource("Material_rope_post")
+
+[node name="Top" type="MeshInstance3D" parent="Reception/RopePost1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+mesh = SubResource("CylinderMesh_rope_top")
+surface_material_override/0 = SubResource("Material_rope_post")
+
+[node name="RopePost2" type="Node3D" parent="Reception"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -1)
+
+[node name="Post" type="MeshInstance3D" parent="Reception/RopePost2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_rope_post")
+surface_material_override/0 = SubResource("Material_rope_post")
+
+[node name="Top" type="MeshInstance3D" parent="Reception/RopePost2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+mesh = SubResource("CylinderMesh_rope_top")
+surface_material_override/0 = SubResource("Material_rope_post")
+
+[node name="Rope" type="MeshInstance3D" parent="Reception"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0.9, -1)
+mesh = SubResource("CylinderMesh_rope")
+surface_material_override/0 = SubResource("Material_rope")
+
+[node name="MagazineTable" type="MeshInstance3D" parent="Reception"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.2, -2.5)
+mesh = SubResource("BoxMesh_magazine_table")
+surface_material_override/0 = SubResource("Material_table")
+
+[node name="Magazine1" type="MeshInstance3D" parent="Reception"]
+transform = Transform3D(0.98, 0, 0.17, 0, 1, 0, -0.17, 0, 0.98, -6.1, 0.45, -2.5)
+mesh = SubResource("BoxMesh_paper_single")
+surface_material_override/0 = SubResource("Material_paper")
+
+[node name="Magazine2" type="MeshInstance3D" parent="Reception"]
+transform = Transform3D(0.94, 0, -0.34, 0, 1, 0, 0.34, 0, 0.94, -5.9, 0.46, -2.45)
+mesh = SubResource("BoxMesh_paper_single")
+surface_material_override/0 = SubResource("Material_paper")
 
 [node name="WaitingChair1" type="Node3D" parent="Reception"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -2)
 
 [node name="Seat" type="MeshInstance3D" parent="Reception/WaitingChair1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
@@ -1588,7 +1695,7 @@ mesh = SubResource("BoxMesh_chair_back")
 surface_material_override/0 = SubResource("Material_chair")
 
 [node name="WaitingChair2" type="Node3D" parent="Reception"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, -2)
 
 [node name="Seat" type="MeshInstance3D" parent="Reception/WaitingChair2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
@@ -1601,7 +1708,7 @@ mesh = SubResource("BoxMesh_chair_back")
 surface_material_override/0 = SubResource("Material_chair")
 
 [node name="WaitingChair3" type="Node3D" parent="Reception"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -2)
 
 [node name="Seat" type="MeshInstance3D" parent="Reception/WaitingChair3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
@@ -1609,6 +1716,19 @@ mesh = SubResource("BoxMesh_chair_seat")
 surface_material_override/0 = SubResource("Material_chair")
 
 [node name="Back" type="MeshInstance3D" parent="Reception/WaitingChair3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.22)
+mesh = SubResource("BoxMesh_chair_back")
+surface_material_override/0 = SubResource("Material_chair")
+
+[node name="WaitingChair4" type="Node3D" parent="Reception"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0, -2)
+
+[node name="Seat" type="MeshInstance3D" parent="Reception/WaitingChair4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_chair_seat")
+surface_material_override/0 = SubResource("Material_chair")
+
+[node name="Back" type="MeshInstance3D" parent="Reception/WaitingChair4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.22)
 mesh = SubResource("BoxMesh_chair_back")
 surface_material_override/0 = SubResource("Material_chair")
