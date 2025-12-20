@@ -1,12 +1,13 @@
 extends CharacterBody3D
 ## Player - First-person controller with WASD movement and mouse look
-## E = toggle desk focus, Tab = toggle cursor, Esc = leave desk
+## E = toggle desk focus (must look at desk), Tab = toggle cursor, Esc = leave desk
 
 @export var walk_speed: float = 4.0
 @export var sprint_speed: float = 6.0
 @export var mouse_sensitivity: float = 0.002
 @export var gravity: float = 12.0
 @export var jump_velocity: float = 4.5
+@export var interact_distance: float = 3.0  # Max distance to interact with desk
 
 var head: Node3D = null
 var camera: Camera3D = null
@@ -18,6 +19,7 @@ var saved_position: Vector3
 var saved_rotation: float
 var saved_head_pitch: float
 var spawn_point: Vector3 = Vector3(0, 1.0, 5)
+var looking_at_desk: bool = false
 
 const PITCH_MIN: float = -1.4
 const PITCH_MAX: float = 1.4
@@ -59,11 +61,17 @@ func _physics_process(delta: float) -> void:
 		global_position = spawn_point
 		velocity = Vector3.ZERO
 	
+	# Check if looking at desk (raycast from camera)
+	looking_at_desk = _check_looking_at_desk()
+	
 	_update_debug()
 	
-	# E toggles desk focus
+	# E toggles desk focus - only if looking at desk or already at desk
 	if Input.is_action_just_pressed("interact_desk"):
-		focus_desk(not desk_focused)
+		if desk_focused:
+			focus_desk(false)  # Can always leave
+		elif looking_at_desk:
+			focus_desk(true)  # Can only enter if looking at desk
 	
 	# Tab toggles cursor mode (only when NOT at desk)
 	if Input.is_action_just_pressed("toggle_cursor") and not desk_focused:
@@ -124,14 +132,38 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
+func _check_looking_at_desk() -> bool:
+	if not camera:
+		return false
+	
+	# Use physics raycast to check what we're looking at
+	var space_state = get_world_3d().direct_space_state
+	var from = camera.global_position
+	var to = from + (-camera.global_basis.z) * interact_distance
+	
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.exclude = [self]  # Don't hit ourselves
+	
+	var result = space_state.intersect_ray(query)
+	if result:
+		# Check if we hit something that's part of the Desk
+		var hit_obj = result.collider
+		while hit_obj:
+			if hit_obj.name == "Desk" or hit_obj.name == "DeskCollision":
+				return true
+			hit_obj = hit_obj.get_parent()
+	
+	return false
+
 func _update_debug() -> void:
 	if not debug_label:
 		return
 	var mode_str = "CURSOR" if cursor_mode else "LOOK"
 	var desk_str = " [DESK]" if desk_focused else ""
-	var hint = "E/Esc=leave" if desk_focused else "E=desk"
-	debug_label.text = "Mode: %s%s\nPos: (%.1f, %.1f, %.1f)\nVel: (%.1f, %.1f, %.1f)\nWASD: %s | %s" % [
-		mode_str, desk_str,
+	var look_str = " [→DESK]" if looking_at_desk and not desk_focused else ""
+	var hint = "E/Esc=leave" if desk_focused else ("E=sit" if looking_at_desk else "look at desk")
+	debug_label.text = "Mode: %s%s%s\nPos: (%.1f, %.1f, %.1f)\nVel: (%.1f, %.1f, %.1f)\nWASD: %s | %s" % [
+		mode_str, desk_str, look_str,
 		global_position.x, global_position.y, global_position.z,
 		velocity.x, velocity.y, velocity.z,
 		last_input, hint
