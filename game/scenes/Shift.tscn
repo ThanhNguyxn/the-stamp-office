@@ -286,6 +286,35 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0)
 
+[node name="Crosshair" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dot" type="ColorRect" parent="Crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.5)
+
 [node name="BottomHUD" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 12
@@ -314,6 +343,64 @@ theme_override_font_sizes/font_size = 11
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 text = "Ticket 1 / 12"
 horizontal_alignment = 1
+
+[node name="ControlHints" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -130.0
+offset_right = 200.0
+offset_bottom = -10.0
+grow_vertical = 0
+theme_override_styles/panel = null
+
+[node name="VBox" type="VBoxContainer" parent="ControlHints"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="ControlHints/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "🎮 CONTROLS"
+
+[node name="Move" type="Label" parent="ControlHints/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+text = "WASD - Move"
+
+[node name="Look" type="Label" parent="ControlHints/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+text = "Mouse - Look"
+
+[node name="Desk" type="Label" parent="ControlHints/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+text = "E - Focus Desk"
+
+[node name="Cursor" type="Label" parent="ControlHints/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+text = "Tab - Toggle Cursor"
+
+[node name="Sprint" type="Label" parent="ControlHints/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+text = "Shift - Sprint"
+
+[node name="Menu" type="Label" parent="ControlHints/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+text = "Esc - Menu"
 
 [node name="Sfx" type="Node" parent="."]
 script = ExtResource("3_sfx")

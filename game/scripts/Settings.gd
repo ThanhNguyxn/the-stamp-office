@@ -9,7 +9,8 @@ signal settings_closed
 @onready var music_slider: HSlider = $Panel/VBox/AudioSection/MusicVolume/Slider
 
 # Graphics
-@onready var fullscreen_check: CheckButton = $Panel/VBox/GraphicsSection/Fullscreen/CheckButton
+@onready var display_mode_option: OptionButton = $Panel/VBox/GraphicsSection/DisplayMode/OptionButton
+@onready var resolution_option: OptionButton = $Panel/VBox/GraphicsSection/Resolution/OptionButton
 @onready var vsync_check: CheckButton = $Panel/VBox/GraphicsSection/VSync/CheckButton
 @onready var quality_option: OptionButton = $Panel/VBox/GraphicsSection/Quality/OptionButton
 
@@ -23,13 +24,22 @@ var settings_data := {
 	"master_volume": 0.8,
 	"sfx_volume": 0.8,
 	"music_volume": 0.6,
-	"fullscreen": true,
+	"display_mode": 0,  # 0=Fullscreen, 1=Borderless, 2=Windowed, 3=Windowed Resizable
+	"resolution": 2,    # 0=720p, 1=900p, 2=1080p, 3=1440p, 4=4K
 	"vsync": true,
 	"quality": 2,  # 0=Low, 1=Medium, 2=High
 	"mouse_sensitivity": 0.5,
 	"jumpscares_enabled": true,
 	"screenshake_enabled": true
 }
+
+const RESOLUTIONS := [
+	Vector2i(1280, 720),
+	Vector2i(1600, 900),
+	Vector2i(1920, 1080),
+	Vector2i(2560, 1440),
+	Vector2i(3840, 2160)
+]
 
 const SETTINGS_PATH := "user://settings.cfg"
 
@@ -46,8 +56,10 @@ func _connect_signals() -> void:
 		sfx_slider.value_changed.connect(_on_sfx_changed)
 	if music_slider:
 		music_slider.value_changed.connect(_on_music_changed)
-	if fullscreen_check:
-		fullscreen_check.toggled.connect(_on_fullscreen_toggled)
+	if display_mode_option:
+		display_mode_option.item_selected.connect(_on_display_mode_selected)
+	if resolution_option:
+		resolution_option.item_selected.connect(_on_resolution_selected)
 	if vsync_check:
 		vsync_check.toggled.connect(_on_vsync_toggled)
 	if quality_option:
@@ -71,8 +83,12 @@ func _on_music_changed(value: float) -> void:
 	settings_data["music_volume"] = value
 	_apply_audio()
 
-func _on_fullscreen_toggled(enabled: bool) -> void:
-	settings_data["fullscreen"] = enabled
+func _on_display_mode_selected(index: int) -> void:
+	settings_data["display_mode"] = index
+	_apply_display()
+
+func _on_resolution_selected(index: int) -> void:
+	settings_data["resolution"] = index
 	_apply_display()
 
 func _on_vsync_toggled(enabled: bool) -> void:
@@ -105,14 +121,40 @@ func _apply_audio() -> void:
 		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), music_db)
 
 func _apply_display() -> void:
-	if settings_data["fullscreen"]:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	var mode = settings_data["display_mode"]
+	var res_idx = settings_data["resolution"]
+	var resolution = RESOLUTIONS[res_idx] if res_idx < RESOLUTIONS.size() else RESOLUTIONS[2]
+	
+	match mode:
+		0:  # Fullscreen
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		1:  # Borderless
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true)
+			DisplayServer.window_set_size(resolution)
+			_center_window()
+		2:  # Windowed
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
+			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, true)
+			DisplayServer.window_set_size(resolution)
+			_center_window()
+		3:  # Windowed Resizable
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
+			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, false)
+			DisplayServer.window_set_size(resolution)
+			_center_window()
 	
 	DisplayServer.window_set_vsync_mode(
 		DisplayServer.VSYNC_ENABLED if settings_data["vsync"] else DisplayServer.VSYNC_DISABLED
 	)
+
+func _center_window() -> void:
+	var screen_size = DisplayServer.screen_get_size()
+	var window_size = DisplayServer.window_get_size()
+	var pos = (screen_size - window_size) / 2
+	DisplayServer.window_set_position(pos)
 
 func _apply_graphics() -> void:
 	var quality = settings_data["quality"]
@@ -144,8 +186,10 @@ func _update_ui() -> void:
 		sfx_slider.value = settings_data["sfx_volume"]
 	if music_slider:
 		music_slider.value = settings_data["music_volume"]
-	if fullscreen_check:
-		fullscreen_check.button_pressed = settings_data["fullscreen"]
+	if display_mode_option:
+		display_mode_option.selected = settings_data["display_mode"]
+	if resolution_option:
+		resolution_option.selected = settings_data["resolution"]
 	if vsync_check:
 		vsync_check.button_pressed = settings_data["vsync"]
 	if quality_option:

@@ -110,6 +110,8 @@ func _ready() -> void:
 	add_child(story_director)
 	if story_director.has_signal("story_message"):
 		story_director.connect("story_message", _on_story_message)
+	if story_director.has_signal("trigger_horror"):
+		story_director.connect("trigger_horror", _on_story_horror)
 	
 	# Create horror events system
 	_setup_horror_events()
@@ -911,8 +913,15 @@ func _setup_horror_events() -> void:
 		if camera_3d:
 			horror_events.camera = camera_3d
 		
-		# Collect office lights
+		# Collect office lights and find clerk
 		if office_3d:
+			var clerk = office_3d.get_node_or_null("Clerk")
+			if clerk:
+				horror_events.clerk = clerk
+				# Enable creepy mode for later shifts
+				if shift_number >= 5 and clerk.has_method("set_creepy_mode"):
+					clerk.set_creepy_mode(true)
+			
 			for child in office_3d.get_children():
 				if child is Light3D:
 					horror_events.office_lights.append(child)
@@ -947,3 +956,7 @@ func _update_horror_tension() -> void:
 func _trigger_horror_on_bad_decision() -> void:
 	if horror_events and horror_events.has_method("on_wrong_decision"):
 		horror_events.on_wrong_decision()
+
+func _on_story_horror(intensity: String) -> void:
+	if horror_events and horror_events.has_method("trigger_story_scare"):
+		horror_events.trigger_story_scare(intensity)

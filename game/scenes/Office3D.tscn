@@ -1,7 +1,8 @@
-[gd_scene load_steps=105 format=3 uid="uid://coffice3dscene"]
+[gd_scene load_steps=106 format=3 uid="uid://coffice3dscene"]
 
 [ext_resource type="Script" path="res://scripts/Office3D.gd" id="1_office"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2_player"]
+[ext_resource type="Script" path="res://scripts/Clerk.gd" id="3_clerk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 sky_top_color = Color(0.2, 0.25, 0.35, 1)
@@ -1120,6 +1121,7 @@ surface_material_override/0 = SubResource("Material_drawer_handle")
 
 [node name="Clerk" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+script = ExtResource("3_clerk")
 
 [node name="Body" type="MeshInstance3D" parent="Clerk"]
 mesh = SubResource("CapsuleMesh_body")

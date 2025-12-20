@@ -31,25 +31,25 @@ var min_event_interval: float = 30.0  # Minimum seconds between events
 var camera: Camera3D = null
 var environment: Environment = null
 var office_lights: Array[Light3D] = []
+var clerk: Node3D = null
 
-# Audio players
-var whisper_player: AudioStreamPlayer
-var static_player: AudioStreamPlayer
-var ambient_player: AudioStreamPlayer
-
-# Preload horror sounds (placeholders - you'd add actual .ogg/.wav files)
-var horror_sounds := {
-	"whisper": null,
-	"static": null,
-	"creak": null,
-	"breath": null,
-	"intercom": null
-}
+# Horror audio system
+var horror_audio: Node = null
 
 func _ready() -> void:
-	_setup_audio_players()
+	_setup_horror_audio()
 	_load_settings()
 	set_process(true)
+
+func _setup_horror_audio() -> void:
+	var audio_script = load("res://scripts/HorrorAudio.gd")
+	if audio_script:
+		horror_audio = Node.new()
+		horror_audio.set_script(audio_script)
+		horror_audio.name = "HorrorAudio"
+		add_child(horror_audio)
+		horror_audio.start_ambient_drone()
+		print("[Horror] Audio system initialized")
 
 func _load_settings() -> void:
 	var save_node = get_node_or_null("/root/Save")
@@ -60,25 +60,13 @@ func _load_settings() -> void:
 			screenshake_enabled = bool(save_node.screenshake_enabled)
 	print("[Horror] Settings loaded - Jumpscares: %s, Screenshake: %s" % [jumpscares_enabled, screenshake_enabled])
 
-func _setup_audio_players() -> void:
-	whisper_player = AudioStreamPlayer.new()
-	whisper_player.bus = "SFX"
-	whisper_player.volume_db = -10
-	add_child(whisper_player)
-	
-	static_player = AudioStreamPlayer.new()
-	static_player.bus = "SFX"
-	static_player.volume_db = -15
-	add_child(static_player)
-	
-	ambient_player = AudioStreamPlayer.new()
-	ambient_player.bus = "Music"
-	ambient_player.volume_db = -20
-	add_child(ambient_player)
-
 func _process(delta: float) -> void:
 	if not jumpscares_enabled:
 		return
+	
+	# Update audio tension
+	if horror_audio and horror_audio.has_method("set_tension"):
+		horror_audio.set_tension(tension_level)
 	
 	last_event_time += delta
 	
@@ -195,32 +183,38 @@ func _do_screen_glitch() -> void:
 
 func _do_whisper() -> void:
 	# Play whisper sound
-	if whisper_player and horror_sounds["whisper"]:
-		whisper_player.stream = horror_sounds["whisper"]
-		whisper_player.play()
+	if horror_audio and horror_audio.has_method("play_whisper"):
+		horror_audio.play_whisper()
 	
 	print("[Horror] *whisper*... did you hear that?")
 
 func _do_object_move() -> void:
-	# This would move a random prop slightly
-	# For now just print
+	# Play creak sound
+	if horror_audio and horror_audio.has_method("play_creak"):
+		horror_audio.play_creak()
 	print("[Horror] Something moved in the corner of your eye...")
 
 func _do_clerk_stare() -> void:
 	# Clerk turns to look at player
+	if horror_audio and horror_audio.has_method("play_heartbeat"):
+		horror_audio.play_heartbeat()
+	
+	if clerk and clerk.has_method("creepy_head_snap") and camera:
+		clerk.creepy_head_snap(camera)
+	
 	print("[Horror] The clerk is staring at you...")
-	# Would rotate clerk to face camera
 
 func _do_shadow_pass() -> void:
 	# Brief shadow crosses screen
 	if screenshake_enabled:
 		_screen_shake(0.1, 0.02)
+	if horror_audio and horror_audio.has_method("play_whisper"):
+		horror_audio.play_whisper()
 	print("[Horror] A shadow passes by...")
 
 func _do_static_burst() -> void:
-	if static_player and horror_sounds["static"]:
-		static_player.stream = horror_sounds["static"]
-		static_player.play()
+	if horror_audio and horror_audio.has_method("play_static"):
+		horror_audio.play_static()
 	
 	# Brief static on screen
 	if environment:
@@ -230,6 +224,8 @@ func _do_static_burst() -> void:
 
 func _do_intercom_voice() -> void:
 	# Play distorted voice
+	if horror_audio and horror_audio.has_method("play_static"):
+		horror_audio.play_static()
 	print("[Horror] *CRACKLE* ...remain... calm... *STATIC*")
 	
 	# This would display a toast message
@@ -276,13 +272,20 @@ func trigger_story_scare(intensity: String = "low") -> void:
 	match intensity:
 		"low":
 			trigger_event(EventType.LIGHT_FLICKER)
+			if horror_audio and horror_audio.has_method("play_creak"):
+				horror_audio.play_creak()
 		"medium":
 			trigger_event(EventType.SCREEN_GLITCH)
+			if horror_audio and horror_audio.has_method("play_stinger"):
+				horror_audio.play_stinger(0.3)
 			await get_tree().create_timer(0.5).timeout
 			trigger_event(EventType.WHISPER)
 		"high":
+			if horror_audio and horror_audio.has_method("play_stinger"):
+				horror_audio.play_stinger(0.8)
 			trigger_event(EventType.STATIC_BURST)
 			await get_tree().create_timer(0.3).timeout
 			trigger_event(EventType.SCREEN_GLITCH)
 			if screenshake_enabled:
 				_screen_shake(0.5, 0.1)
+

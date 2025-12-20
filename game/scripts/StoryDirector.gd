@@ -1,8 +1,9 @@
 extends Node
 ## StoryDirector - Delivers intercom/memo lines at key moments
-## Per-shift scripted messages for story immersion
+## Per-shift scripted messages for story immersion + horror triggers
 
 signal story_message(text: String, is_intercom: bool)
+signal trigger_horror(intensity: String)  # "low", "medium", "high"
 
 # Story lines per shift (embedded from docs/script/)
 const SHIFT_LINES = {
@@ -86,6 +87,11 @@ func on_shift_start() -> void:
 	if msg != "":
 		story_message.emit(msg, true)
 		message_index = 1
+	
+	# Horror trigger for later shifts
+	if current_shift >= 5:
+		await get_tree().create_timer(3.0).timeout
+		trigger_horror.emit("low")
 
 ## Call at mid-shift (e.g., ticket 4/12 or 6/12)
 func on_mid_shift() -> void:
@@ -94,6 +100,14 @@ func on_mid_shift() -> void:
 		if msg != "":
 			story_message.emit(msg, true)
 			message_index = 2
+		
+		# Mid-shift horror escalation
+		if current_shift >= 6:
+			await get_tree().create_timer(2.0).timeout
+			trigger_horror.emit("medium")
+		elif current_shift >= 3:
+			await get_tree().create_timer(2.0).timeout
+			trigger_horror.emit("low")
 
 ## Call when shift ends
 func on_shift_end() -> void:
@@ -101,3 +115,25 @@ func on_shift_end() -> void:
 	if msg != "":
 		story_message.emit(msg, true)
 		message_index = 3
+	
+	# End-of-shift climactic horror
+	if current_shift >= 8:
+		await get_tree().create_timer(1.5).timeout
+		trigger_horror.emit("high")
+	elif current_shift >= 5:
+		await get_tree().create_timer(1.5).timeout
+		trigger_horror.emit("medium")
+
+## Trigger horror for specific story moments
+func trigger_story_moment(moment_id: String) -> void:
+	match moment_id:
+		"kevin_mention":
+			trigger_horror.emit("low")
+		"void_acknowledgment":
+			trigger_horror.emit("medium")
+		"not_a_thing":
+			trigger_horror.emit("high")
+		"final_revelation":
+			trigger_horror.emit("high")
+			await get_tree().create_timer(1.0).timeout
+			trigger_horror.emit("medium")
