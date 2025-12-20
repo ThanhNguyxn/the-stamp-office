@@ -174,12 +174,12 @@ func focus_desk(enabled: bool) -> void:
 		
 		# Position camera like sitting at desk looking STRAIGHT at monitor
 		# Desk at (0, 0, 2), Monitor at desk-relative (0, 0.8, -0.45)
-		# Monitor screen center global: (0, 1.15, 1.578)
-		# Camera should be in front of monitor looking at it
-		global_position = Vector3(0, 0.45, 2.7)  # Seated at chair, z > desk z
-		rotation.y = PI  # Face toward -z (toward monitor)
+		# Monitor screen center global: (0, 1.15, 1.55)
+		# Camera should be in front of monitor (higher z) looking toward -z
+		global_position = Vector3(0, 0.45, 2.5)  # Seated at chair position
+		rotation.y = 0  # Face toward -z (forward, toward monitor)
 		if head:
-			head.rotation.x = -0.08  # Very slight down to look at screen center
+			head.rotation.x = 0.0  # Look straight ahead at screen
 		
 		desk_focused = true
 		set_cursor_mode(true)  # Auto-enable cursor for clicking
