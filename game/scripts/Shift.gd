@@ -97,9 +97,10 @@ func _ready() -> void:
 		if is_instance_valid(office_3d):
 			player = office_3d.find_child("Player", true, false) as CharacterBody3D
 			camera_3d = office_3d.find_child("Camera3D", true, false) as Camera3D
-			var desk = office_3d.get_node_or_null("Desk")
-			if is_instance_valid(desk):
-				paper_screen = desk.get_node_or_null("PaperScreen") as MeshInstance3D
+			# Find monitor screen to render UI on
+			var monitor = office_3d.find_child("Monitor", true, false) as Node3D
+			if is_instance_valid(monitor):
+				paper_screen = monitor.get_node_or_null("Screen") as MeshInstance3D
 				if is_instance_valid(paper_screen):
 					paper_area = paper_screen.get_node_or_null("PaperArea") as Area3D
 	

@@ -369,16 +369,16 @@ roughness = 0.9
 size = Vector3(0.4, 4, 0.4)
 
 [sub_resource type="BoxMesh" id="BoxMesh_monitor_body"]
-size = Vector3(0.45, 0.3, 0.04)
+size = Vector3(0.65, 0.42, 0.04)
 
-[sub_resource type="BoxMesh" id="BoxMesh_monitor_screen"]
-size = Vector3(0.42, 0.27, 0.01)
+[sub_resource type="QuadMesh" id="QuadMesh_monitor_screen"]
+size = Vector2(0.58, 0.36)
 
 [sub_resource type="BoxMesh" id="BoxMesh_monitor_stand"]
-size = Vector3(0.08, 0.15, 0.08)
+size = Vector3(0.1, 0.18, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_monitor_base"]
-size = Vector3(0.2, 0.02, 0.15)
+size = Vector3(0.25, 0.02, 0.18)
 
 [sub_resource type="BoxMesh" id="BoxMesh_keyboard"]
 size = Vector3(0.35, 0.02, 0.12)
@@ -705,7 +705,7 @@ current = true
 fov = 75.0
 
 [node name="DeskFocus" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.94, 0.34, 0, -0.34, 0.94, 0, 1.35, 3.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.5)
 
 [node name="Structure" type="Node3D" parent="."]
 
@@ -977,7 +977,7 @@ surface_material_override/0 = SubResource("Material_keyboard")
 [node name="DeskProps" type="Node3D" parent="Desk"]
 
 [node name="Monitor" type="Node3D" parent="Desk/DeskProps"]
-transform = Transform3D(0.97, 0, 0.26, 0, 1, 0, -0.26, 0, 0.97, -1.1, 0.8, -0.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -0.35)
 
 [node name="Body" type="MeshInstance3D" parent="Desk/DeskProps/Monitor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
@@ -985,8 +985,8 @@ mesh = SubResource("BoxMesh_monitor_body")
 surface_material_override/0 = SubResource("Material_monitor")
 
 [node name="Screen" type="MeshInstance3D" parent="Desk/DeskProps/Monitor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0.025)
-mesh = SubResource("BoxMesh_monitor_screen")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0.022)
+mesh = SubResource("QuadMesh_monitor_screen")
 surface_material_override/0 = SubResource("Material_screen")
 
 [node name="Stand" type="MeshInstance3D" parent="Desk/DeskProps/Monitor"]
@@ -1000,12 +1000,12 @@ mesh = SubResource("BoxMesh_monitor_base")
 surface_material_override/0 = SubResource("Material_monitor")
 
 [node name="Keyboard" type="MeshInstance3D" parent="Desk/DeskProps"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0, 0.81, 0.15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.81, 0.15)
 mesh = SubResource("BoxMesh_keyboard")
 surface_material_override/0 = SubResource("Material_keyboard")
 
 [node name="Mouse" type="MeshInstance3D" parent="Desk/DeskProps"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, 0.81, 0.15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.81, 0.15)
 mesh = SubResource("BoxMesh_mouse")
 surface_material_override/0 = SubResource("Material_keyboard")
 
