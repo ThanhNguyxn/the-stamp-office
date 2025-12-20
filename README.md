@@ -24,25 +24,38 @@ A 3D low-poly absurdist narrative job simulation where bureaucracy bends the fab
 
 ## 🎮 Controls
 
-### Movement
+### Movement & Exploration
 
 | Key | Action |
 |-----|--------|
 | `W`/`A`/`S`/`D` | Walk |
 | `Shift` | Sprint |
 | `Space` | Jump |
-| Mouse | Look |
+| Mouse | Look around |
 | `Tab` | Toggle cursor mode |
-| `E` | Focus desk |
-| `Esc` | Menu |
+| `E` | Interact (desk, doors, objects) |
+| `Esc` | Back / Menu |
 
-### Workflow (Cursor Mode)
+### Interaction System
+
+- **Look at objects** to see interaction hints
+- **Desk**: Press `E` while looking at desk to sit down and work
+- **Doors**: Press `E` to open/close doors
+- **Locked doors**: Some doors are locked (Manager's office, Break Room B...)
+- **Room triggers**: Entering new areas shows flavor text
+
+### Workflow (At Desk)
 
 | Key | Action |
 |-----|--------|
-| `1-4` | Workflow steps |
-| `A`/`D` | Approve/Deny |
-| `R` | Rulebook |
+| `1` | Open folder |
+| `2` | Inspect ticket |
+| `3` | Check rules |
+| `4` | File ticket |
+| `A` | Approve |
+| `D` | Deny |
+| `R` | Open rulebook |
+| `E` / `Esc` | Stand up from desk |
 
 ---
 

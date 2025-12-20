@@ -11,6 +11,7 @@ All 10 shifts playable with:
 - Story/intercom messages
 - Three endings
 - Secret stamp mechanic
+- Interactive office environment
 
 ---
 
@@ -18,12 +19,12 @@ All 10 shifts playable with:
 
 ### Two Modes
 
-| Mode | Mouse | Movement | Paper UI |
-|------|-------|----------|----------|
-| **LOOK** (default) | Captured | WASD works | Cannot click |
-| **CURSOR** | Visible | Disabled | Click or use shortcuts |
+| Mode | Mouse | Movement | Interaction |
+|------|-------|----------|-------------|
+| **LOOK** (default) | Captured | WASD works | E to interact |
+| **CURSOR** | Visible | Disabled | Click UI elements |
 
-### Movement (LOOK Mode)
+### Movement & Exploration (LOOK Mode)
 
 | Key | Action |
 |-----|--------|
@@ -31,15 +32,21 @@ All 10 shifts playable with:
 | `Shift` | Sprint |
 | `Space` | Jump |
 | Mouse | Look around |
-| Arrow keys | Walk (alternate) |
 
-### Mode Switching
+### Interaction System
 
 | Key | Action |
 |-----|--------|
+| `E` | Interact with object you're looking at |
 | `Tab` | Toggle LOOK/CURSOR mode |
-| `E` | Focus on desk (enters cursor mode) |
-| `Esc` | Back to menu |
+| `Esc` | Back / Stand up / Menu |
+
+**Interactable objects:**
+- **Desk** - Sit down to process tickets
+- **Doors** - Open/close (some are locked)
+- **Signs** - Passive-aggressive office decor
+
+**Hints appear on screen** when looking at interactable objects.
 
 ### Desk Workflow (CURSOR Mode)
 
@@ -53,6 +60,7 @@ All 10 shifts playable with:
 | `A` | Approve stamp |
 | `D` | Deny stamp |
 | `N` | Secret stamp (if unlocked) |
+| `E` / `Esc` | Stand up from desk |
 
 ---
 
@@ -60,11 +68,15 @@ All 10 shifts playable with:
 
 Explore the expanded 3D office:
 - **Processing Desk** - Where you work
-- **Break Room B** - Closed for maintenance
-- **Archive** - Files and cabinets
-- **Stairwell** - DO NOT ENTER
+- **Lobby** - Welcome back. Your shift never ends.
+- **Break Room** - The coffee machine watches.
+- **Printer Room** - The printer breathes. Do not wake it.
+- **Archive** - The files remember what you forgot.
+- **Manager's Office** - DO NOT KNOCK.
+- **Break Room B** - Does not exist. You did not see this.
+- **Stairwell** - ACCESS DENIED. Floor -1 is classified.
 
-Walk around using WASD, press E to work at the desk.
+Walk around using WASD, look at objects with mouse, press E to interact.
 
 ---
 
