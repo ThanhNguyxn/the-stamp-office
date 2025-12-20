@@ -165,6 +165,26 @@ godot --path game
   - [x] Horror events toggle
   - [x] Screen shake toggle
   - [x] VFX intensity slider
+- [x] Realistic first-person body model:
+  - [x] Cylindrical arms with upper arm, forearm, wrist
+  - [x] Detailed hands with fingers (4 fingers + thumb per hand)
+  - [x] Capsule-based torso with belt and buckle
+  - [x] Leg model with thigh, shin, and shoes
+  - [x] Smooth arm bob animation while walking
+- [x] Enhanced office map details:
+  - [x] Floor carpets and patterns
+  - [x] Crown molding along ceiling
+  - [x] Hanging lights with chains
+  - [x] Wall electrical outlets and switches
+  - [x] Ceiling air vents and wall pipes
+  - [x] Multiple visitor chairs with side table
+  - [x] Hallway benches, clocks, fire extinguishers
+  - [x] Direction signs throughout
+  - [x] Break room: sink, coffee maker, toaster, wall cabinet
+  - [x] Archive: shelf units, old lamp, filing boxes, old desk
+  - [x] Reception: computer monitor, bell, brochure stand
+  - [x] Work area: in/out trays, stapler, stamp pad, nameplate
+  - [x] Ambient details: scuff marks, ceiling stains, cobwebs
 
 ### Phase 6: Beta 🔄
 - [ ] Polish and bug fixes
