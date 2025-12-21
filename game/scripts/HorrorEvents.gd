@@ -6,6 +6,7 @@ signal horror_event_triggered(event_type: String)
 
 # Event types
 enum EventType {
+	# Original events
 	LIGHT_FLICKER,
 	SCREEN_GLITCH,
 	WHISPER,
@@ -13,7 +14,22 @@ enum EventType {
 	CLERK_STARE,
 	SHADOW_PASS,
 	STATIC_BURST,
-	INTERCOM_VOICE
+	INTERCOM_VOICE,
+	# New creepy events
+	DOOR_KNOCK,        # Mysterious knocking on office door
+	PHONE_RING,        # Phantom phone rings
+	FOOTSTEPS,         # Footsteps when alone
+	BREATHING,         # Sound of breathing nearby
+	MONITOR_FACE,      # Face flashes on monitor
+	CEILING_SCRATCH,   # Scratching from above
+	CHAIR_MOVE,        # Chair moves on its own
+	PAPER_RUSTLE,      # Papers move by themselves
+	CLOCK_STOP,        # All clocks stop at once
+	COLD_BREATH,       # Player sees their breath (cold spot)
+	REFLECTION_WRONG,  # Something wrong in reflection
+	NAME_CALLED,       # Player's name whispered
+	EYES_WATCHING,     # Feeling of being watched
+	BLOOD_TYPING       # Text appears blood-red on screen
 }
 
 # Settings
@@ -97,18 +113,29 @@ func trigger_random_event() -> void:
 	
 	var available_events: Array[EventType] = []
 	
-	# Early shifts: only subtle events
+	# Early shifts: only subtle events (shifts 1-3)
 	if current_shift <= 3:
-		available_events = [EventType.LIGHT_FLICKER, EventType.WHISPER]
+		available_events = [
+			EventType.LIGHT_FLICKER, 
+			EventType.WHISPER,
+			EventType.PAPER_RUSTLE,
+			EventType.CLOCK_STOP
+		]
+	# Mid shifts: moderate events (shifts 4-6)
 	elif current_shift <= 6:
 		available_events = [
 			EventType.LIGHT_FLICKER, 
 			EventType.WHISPER,
 			EventType.SCREEN_GLITCH,
-			EventType.OBJECT_MOVE
+			EventType.OBJECT_MOVE,
+			EventType.DOOR_KNOCK,
+			EventType.FOOTSTEPS,
+			EventType.PAPER_RUSTLE,
+			EventType.CHAIR_MOVE,
+			EventType.COLD_BREATH
 		]
-	else:
-		# Late game: all events
+	# Late shifts: intense events (shifts 7-8)
+	elif current_shift <= 8:
 		available_events = [
 			EventType.LIGHT_FLICKER,
 			EventType.SCREEN_GLITCH,
@@ -116,7 +143,39 @@ func trigger_random_event() -> void:
 			EventType.CLERK_STARE,
 			EventType.SHADOW_PASS,
 			EventType.STATIC_BURST,
-			EventType.INTERCOM_VOICE
+			EventType.INTERCOM_VOICE,
+			EventType.DOOR_KNOCK,
+			EventType.PHONE_RING,
+			EventType.FOOTSTEPS,
+			EventType.BREATHING,
+			EventType.CEILING_SCRATCH,
+			EventType.CHAIR_MOVE,
+			EventType.NAME_CALLED,
+			EventType.EYES_WATCHING
+		]
+	# Endgame: ALL events including terrifying ones (shifts 9-10)
+	else:
+		available_events = [
+			EventType.LIGHT_FLICKER,
+			EventType.SCREEN_GLITCH,
+			EventType.WHISPER,
+			EventType.CLERK_STARE,
+			EventType.SHADOW_PASS,
+			EventType.STATIC_BURST,
+			EventType.INTERCOM_VOICE,
+			EventType.DOOR_KNOCK,
+			EventType.PHONE_RING,
+			EventType.FOOTSTEPS,
+			EventType.BREATHING,
+			EventType.MONITOR_FACE,
+			EventType.CEILING_SCRATCH,
+			EventType.CHAIR_MOVE,
+			EventType.CLOCK_STOP,
+			EventType.COLD_BREATH,
+			EventType.REFLECTION_WRONG,
+			EventType.NAME_CALLED,
+			EventType.EYES_WATCHING,
+			EventType.BLOOD_TYPING
 		]
 	
 	var event = available_events[randi() % available_events.size()]
@@ -146,6 +205,35 @@ func trigger_event(event: EventType) -> void:
 			_do_static_burst()
 		EventType.INTERCOM_VOICE:
 			_do_intercom_voice()
+		# New horror events
+		EventType.DOOR_KNOCK:
+			_do_door_knock()
+		EventType.PHONE_RING:
+			_do_phone_ring()
+		EventType.FOOTSTEPS:
+			_do_footsteps()
+		EventType.BREATHING:
+			_do_breathing()
+		EventType.MONITOR_FACE:
+			_do_monitor_face()
+		EventType.CEILING_SCRATCH:
+			_do_ceiling_scratch()
+		EventType.CHAIR_MOVE:
+			_do_chair_move()
+		EventType.PAPER_RUSTLE:
+			_do_paper_rustle()
+		EventType.CLOCK_STOP:
+			_do_clock_stop()
+		EventType.COLD_BREATH:
+			_do_cold_breath()
+		EventType.REFLECTION_WRONG:
+			_do_reflection_wrong()
+		EventType.NAME_CALLED:
+			_do_name_called()
+		EventType.EYES_WATCHING:
+			_do_eyes_watching()
+		EventType.BLOOD_TYPING:
+			_do_blood_typing()
 	
 	horror_event_triggered.emit(EventType.keys()[event])
 	print("[Horror] Event: %s" % EventType.keys()[event])
@@ -288,4 +376,228 @@ func trigger_story_scare(intensity: String = "low") -> void:
 			trigger_event(EventType.SCREEN_GLITCH)
 			if screenshake_enabled:
 				_screen_shake(0.5, 0.1)
+
+# ============================================
+# NEW HORROR EVENT IMPLEMENTATIONS
+# ============================================
+
+func _do_door_knock() -> void:
+	# Mysterious knocking from the office door
+	if horror_audio and horror_audio.has_method("play_door_knock"):
+		horror_audio.play_door_knock()
+	else:
+		# Fallback to creak if door knock not available
+		if horror_audio and horror_audio.has_method("play_creak"):
+			horror_audio.play_creak()
+	
+	# Brief pause, then second knock
+	await get_tree().create_timer(0.8).timeout
+	if horror_audio and horror_audio.has_method("play_door_knock"):
+		horror_audio.play_door_knock()
+	
+	print("[Horror] *KNOCK* *KNOCK* Someone at the door...")
+
+func _do_phone_ring() -> void:
+	# Phantom phone ring - phone isn't connected
+	if horror_audio and horror_audio.has_method("play_phone_ring"):
+		horror_audio.play_phone_ring()
+	else:
+		if horror_audio and horror_audio.has_method("play_static"):
+			horror_audio.play_static()
+	
+	# Light flicker coincides with ring
+	if not office_lights.is_empty():
+		var light = office_lights[randi() % office_lights.size()]
+		var tween = create_tween()
+		tween.tween_property(light, "light_energy", 0.3, 0.1)
+		tween.tween_property(light, "light_energy", light.light_energy, 0.2)
+	
+	print("[Horror] The disconnected phone is ringing...")
+
+func _do_footsteps() -> void:
+	# Footsteps when player should be alone
+	if horror_audio and horror_audio.has_method("play_footsteps"):
+		horror_audio.play_footsteps()
+	else:
+		if horror_audio and horror_audio.has_method("play_creak"):
+			# Multiple creaks to simulate steps
+			for i in range(3):
+				horror_audio.play_creak()
+				await get_tree().create_timer(0.4).timeout
+	
+	# Subtle screen shake as if someone walking
+	if screenshake_enabled:
+		_screen_shake(0.3, 0.01)
+	
+	print("[Horror] Footsteps behind you...")
+
+func _do_breathing() -> void:
+	# Sound of breathing very close
+	if horror_audio and horror_audio.has_method("play_breathing"):
+		horror_audio.play_breathing()
+	else:
+		if horror_audio and horror_audio.has_method("play_whisper"):
+			horror_audio.play_whisper()
+	
+	# Very slight camera movement as if something is there
+	if camera and screenshake_enabled:
+		var original = camera.rotation
+		var tween = create_tween()
+		tween.tween_property(camera, "rotation:y", original.y + 0.01, 0.5)
+		tween.tween_property(camera, "rotation:y", original.y, 0.5)
+	
+	print("[Horror] You feel breath on your neck...")
+
+func _do_monitor_face() -> void:
+	# A face appears briefly on the monitor
+	if horror_audio and horror_audio.has_method("play_stinger"):
+		horror_audio.play_stinger(0.6)
+	
+	# Screen glitch effect
+	if environment:
+		var tween = create_tween()
+		tween.tween_property(environment, "glow_intensity", 3.0, 0.05)
+		tween.tween_property(environment, "glow_intensity", 0.2, 0.2)
+	
+	if screenshake_enabled:
+		_screen_shake(0.15, 0.05)
+	
+	print("[Horror] A face stares back from the monitor...")
+
+func _do_ceiling_scratch() -> void:
+	# Scratching sounds from above
+	if horror_audio and horror_audio.has_method("play_scratch"):
+		horror_audio.play_scratch()
+	else:
+		if horror_audio and horror_audio.has_method("play_creak"):
+			horror_audio.play_creak()
+	
+	# Lights flicker slightly
+	if not office_lights.is_empty():
+		for light in office_lights:
+			var original = light.light_energy
+			var tween = create_tween()
+			tween.tween_property(light, "light_energy", original * 0.8, 0.1)
+			tween.tween_property(light, "light_energy", original, 0.2)
+	
+	print("[Horror] Something scratches the ceiling...")
+
+func _do_chair_move() -> void:
+	# Empty chair moves on its own
+	if horror_audio and horror_audio.has_method("play_creak"):
+		horror_audio.play_creak()
+	
+	# Find chair in scene and move it slightly
+	var chair = get_node_or_null("../OfficeChair")
+	if chair:
+		var original_pos = chair.position
+		var tween = create_tween()
+		tween.tween_property(chair, "position:x", original_pos.x + 0.1, 0.3)
+		tween.tween_property(chair, "rotation:y", chair.rotation.y + 0.2, 0.5)
+	
+	print("[Horror] The chair moved on its own...")
+
+func _do_paper_rustle() -> void:
+	# Papers move/rustle without wind
+	if horror_audio and horror_audio.has_method("play_paper_rustle"):
+		horror_audio.play_paper_rustle()
+	else:
+		if horror_audio and horror_audio.has_method("play_whisper"):
+			horror_audio.play_whisper()
+	
+	print("[Horror] Papers rustle... there's no wind here...")
+
+func _do_clock_stop() -> void:
+	# All clocks stop at the same time
+	if horror_audio and horror_audio.has_method("play_static"):
+		horror_audio.play_static()
+	
+	# Dim all lights briefly
+	if not office_lights.is_empty():
+		for light in office_lights:
+			var original = light.light_energy
+			var tween = create_tween()
+			tween.tween_property(light, "light_energy", original * 0.5, 0.5)
+			await get_tree().create_timer(2.0).timeout
+			tween.tween_property(light, "light_energy", original, 0.3)
+	
+	print("[Horror] All the clocks stopped at the same time...")
+
+func _do_cold_breath() -> void:
+	# Player sees their breath - it's suddenly very cold
+	if environment:
+		var tween = create_tween()
+		# Add blue-ish tint
+		var original_adjustment = environment.adjustment_saturation if environment.adjustment_enabled else 1.0
+		environment.adjustment_enabled = true
+		tween.tween_property(environment, "adjustment_saturation", 0.5, 0.5)
+		await get_tree().create_timer(2.0).timeout
+		tween.tween_property(environment, "adjustment_saturation", original_adjustment, 0.5)
+	
+	if horror_audio and horror_audio.has_method("play_whisper"):
+		horror_audio.play_whisper()
+	
+	print("[Horror] You can see your breath... it's freezing...")
+
+func _do_reflection_wrong() -> void:
+	# Something is wrong in the reflection
+	if horror_audio and horror_audio.has_method("play_stinger"):
+		horror_audio.play_stinger(0.4)
+	
+	if environment:
+		var tween = create_tween()
+		tween.tween_property(environment, "glow_intensity", 1.5, 0.1)
+		tween.tween_property(environment, "glow_intensity", 0.2, 0.3)
+	
+	print("[Horror] Your reflection... it moved differently...")
+
+func _do_name_called() -> void:
+	# Player's name whispered
+	if horror_audio and horror_audio.has_method("play_whisper"):
+		horror_audio.play_whisper()
+	
+	await get_tree().create_timer(0.5).timeout
+	
+	if horror_audio and horror_audio.has_method("play_whisper"):
+		horror_audio.play_whisper()
+	
+	print("[Horror] Someone whispered your name...")
+
+func _do_eyes_watching() -> void:
+	# Feeling of being watched - clerk stares but from wrong angle
+	if horror_audio and horror_audio.has_method("play_heartbeat"):
+		horror_audio.play_heartbeat()
+	
+	increase_tension(0.1)
+	
+	# Darken the environment slightly
+	if not office_lights.is_empty():
+		for light in office_lights:
+			var original = light.light_energy
+			var tween = create_tween()
+			tween.tween_property(light, "light_energy", original * 0.7, 1.0)
+			await get_tree().create_timer(3.0).timeout
+			tween.tween_property(light, "light_energy", original, 1.0)
+	
+	print("[Horror] Eyes are watching you from somewhere...")
+
+func _do_blood_typing() -> void:
+	# Text appears blood-red on screen
+	if horror_audio and horror_audio.has_method("play_stinger"):
+		horror_audio.play_stinger(0.7)
+	
+	if environment:
+		var tween = create_tween()
+		tween.tween_property(environment, "glow_intensity", 2.5, 0.1)
+		# Red tint
+		environment.adjustment_enabled = true
+		tween.tween_property(environment, "adjustment_saturation", 1.5, 0.1)
+		await get_tree().create_timer(0.5).timeout
+		tween.tween_property(environment, "glow_intensity", 0.2, 0.3)
+		tween.tween_property(environment, "adjustment_saturation", 1.0, 0.3)
+	
+	if screenshake_enabled:
+		_screen_shake(0.3, 0.08)
+	
+	print("[Horror] The text turns blood red...")
 

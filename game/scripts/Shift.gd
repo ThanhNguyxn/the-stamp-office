@@ -201,6 +201,10 @@ func _ready() -> void:
 	await get_tree().process_frame
 	raycast_ready = true
 
+func _process(delta: float) -> void:
+	# Process ambient horror events
+	_process_ambient_events(delta)
+
 func _on_story_message(text: String, _is_intercom: bool) -> void:
 	if toast:
 		toast.text = text
@@ -897,6 +901,12 @@ func _back() -> void:
 
 # === HORROR EVENTS SYSTEM ===
 
+# Ambient event timers
+var next_ambient_event_time: float = 0.0
+var ambient_event_active: bool = false
+const MIN_AMBIENT_INTERVAL: float = 30.0  # Minimum time between ambient events
+const MAX_AMBIENT_INTERVAL: float = 90.0  # Maximum time between ambient events
+
 func _setup_horror_events() -> void:
 	# Load horror script
 	var horror_script = load("res://scripts/HorrorEvents.gd")
@@ -935,6 +945,154 @@ func _setup_horror_events() -> void:
 			horror_events.connect("horror_event_triggered", _on_horror_event)
 		
 		print("[Shift] Horror system initialized - Shift %d" % shift_number)
+	
+	# Connect story director ambient messages
+	if story_director and story_director.has_signal("ambient_message"):
+		story_director.connect("ambient_message", _on_ambient_message)
+	
+	# Schedule first ambient event
+	_schedule_next_ambient_event()
+
+func _schedule_next_ambient_event() -> void:
+	# Shorter intervals for later shifts (more tense)
+	var interval_mult := 1.0 - (float(shift_number - 1) / 10.0) * 0.5  # 50% shorter at shift 10
+	var min_time := MIN_AMBIENT_INTERVAL * interval_mult
+	var max_time := MAX_AMBIENT_INTERVAL * interval_mult
+	next_ambient_event_time = randf_range(min_time, max_time)
+
+func _process_ambient_events(delta: float) -> void:
+	if ambient_event_active or busy or event_active:
+		return
+	
+	next_ambient_event_time -= delta
+	if next_ambient_event_time <= 0:
+		_trigger_random_ambient_event()
+		_schedule_next_ambient_event()
+
+func _trigger_random_ambient_event() -> void:
+	ambient_event_active = true
+	
+	# Decide what type of ambient event
+	var event_roll := randf()
+	
+	if event_roll < 0.4 and story_director:
+		# Story director ambient message
+		if story_director.has_method("trigger_random_ambient"):
+			story_director.trigger_random_ambient()
+	elif event_roll < 0.7 and horror_events:
+		# Random horror event
+		if horror_events.has_method("trigger_random_event"):
+			horror_events.trigger_random_event()
+	else:
+		# Environmental oddity
+		_trigger_environmental_oddity()
+	
+	# Reset after a short delay
+	await get_tree().create_timer(2.0).timeout
+	ambient_event_active = false
+
+func _trigger_environmental_oddity() -> void:
+	# Random environmental weirdness based on shift
+	var oddities_early := [
+		"_oddity_light_flicker",
+		"_oddity_sound_distant",
+	]
+	var oddities_mid := [
+		"_oddity_light_flicker",
+		"_oddity_sound_distant",
+		"_oddity_object_shift",
+		"_oddity_temperature_drop",
+	]
+	var oddities_late := [
+		"_oddity_light_flicker",
+		"_oddity_sound_distant",
+		"_oddity_object_shift",
+		"_oddity_temperature_drop",
+		"_oddity_time_skip",
+		"_oddity_presence_felt",
+	]
+	
+	var oddities: Array
+	if shift_number <= 4:
+		oddities = oddities_early
+	elif shift_number <= 7:
+		oddities = oddities_mid
+	else:
+		oddities = oddities_late
+	
+	var method_name: String = oddities[randi() % oddities.size()]
+	if has_method(method_name):
+		call(method_name)
+
+func _oddity_light_flicker() -> void:
+	if horror_events and horror_events.office_lights.size() > 0:
+		var light: Light3D = horror_events.office_lights[randi() % horror_events.office_lights.size()]
+		var original := light.light_energy
+		var tween := create_tween()
+		tween.tween_property(light, "light_energy", 0.1, 0.05)
+		tween.tween_property(light, "light_energy", original, 0.1)
+	if toast:
+		toast.text = "The light flickered..."
+
+func _oddity_sound_distant() -> void:
+	if horror_events and horror_events.horror_audio:
+		if horror_events.horror_audio.has_method("play_creak"):
+			horror_events.horror_audio.play_creak()
+	if toast and randf() < 0.5:
+		var sounds := ["A distant creak...", "Something moved far away...", "Was that footsteps?"]
+		toast.text = sounds[randi() % sounds.size()]
+
+func _oddity_object_shift() -> void:
+	# Something in the office moved slightly
+	if office_3d:
+		var objects := ["Papers", "OfficeSupplies", "CoffeeMug"]
+		for obj_name in objects:
+			var obj := office_3d.find_child(obj_name, true, false) as Node3D
+			if obj:
+				var original := obj.rotation
+				var tween := create_tween()
+				tween.tween_property(obj, "rotation:y", original.y + 0.1, 0.3)
+				break
+	if toast:
+		toast.text = "Did something just move?"
+
+func _oddity_temperature_drop() -> void:
+	# Visual cue - slight blue tint
+	if horror_events and horror_events.environment:
+		horror_events.environment.adjustment_enabled = true
+		var original := horror_events.environment.adjustment_saturation
+		var tween := create_tween()
+		tween.tween_property(horror_events.environment, "adjustment_saturation", 0.7, 0.5)
+		tween.tween_interval(1.5)
+		tween.tween_property(horror_events.environment, "adjustment_saturation", original, 0.5)
+	if toast:
+		toast.text = "It suddenly feels cold..."
+
+func _oddity_time_skip() -> void:
+	# Screen briefly goes dark
+	if scanline_overlay:
+		var original_color := scanline_overlay.modulate
+		var tween := create_tween()
+		tween.tween_property(scanline_overlay, "modulate:a", 1.0, 0.1)
+		tween.tween_interval(0.3)
+		tween.tween_property(scanline_overlay, "modulate:a", original_color.a, 0.2)
+	if toast:
+		toast.text = "Wait... what time is it?"
+
+func _oddity_presence_felt() -> void:
+	# Clerk stares if available
+	if horror_events and horror_events.clerk:
+		if horror_events.clerk.has_method("creepy_head_snap") and camera_3d:
+			horror_events.clerk.creepy_head_snap(camera_3d)
+	if horror_events and horror_events.horror_audio:
+		if horror_events.horror_audio.has_method("play_breathing"):
+			horror_events.horror_audio.play_breathing()
+	if toast:
+		toast.text = "You feel eyes on you..."
+
+func _on_ambient_message(msg: String) -> void:
+	if toast:
+		toast.text = msg
 
 func _on_horror_event(event_type: String) -> void:
 	# Show subtle toast for some events

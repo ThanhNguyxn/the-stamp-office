@@ -151,6 +151,91 @@ func play_stinger(intensity: float = 0.5) -> void:
 		horror_player.play()
 		sound_played.emit("stinger")
 
+## Play door knock sound
+func play_door_knock() -> void:
+	if not enabled:
+		return
+	
+	var stream = _generate_knock()
+	if stream:
+		horror_player.stream = stream
+		horror_player.volume_db = -6
+		horror_player.play()
+		sound_played.emit("door_knock")
+
+## Play phone ring (old rotary phone style)
+func play_phone_ring() -> void:
+	if not enabled:
+		return
+	
+	var stream = _generate_phone_ring()
+	if stream:
+		horror_player.stream = stream
+		horror_player.volume_db = -8
+		horror_player.play()
+		sound_played.emit("phone_ring")
+
+## Play footstep sounds
+func play_footsteps() -> void:
+	if not enabled:
+		return
+	
+	var stream = _generate_footstep()
+	if stream:
+		horror_player.stream = stream
+		horror_player.volume_db = -12
+		horror_player.pitch_scale = randf_range(0.9, 1.1)
+		horror_player.play()
+		sound_played.emit("footsteps")
+
+## Play breathing sound
+func play_breathing() -> void:
+	if not enabled:
+		return
+	
+	var stream = _generate_breathing()
+	if stream:
+		whisper_player.stream = stream
+		whisper_player.volume_db = -18
+		whisper_player.play()
+		sound_played.emit("breathing")
+
+## Play scratching sound
+func play_scratch() -> void:
+	if not enabled:
+		return
+	
+	var stream = _generate_scratch()
+	if stream:
+		horror_player.stream = stream
+		horror_player.volume_db = -10
+		horror_player.play()
+		sound_played.emit("scratch")
+
+## Play paper rustling sound
+func play_paper_rustle() -> void:
+	if not enabled:
+		return
+	
+	var stream = _generate_paper_rustle()
+	if stream:
+		ambient_player.stream = stream
+		ambient_player.volume_db = -15
+		ambient_player.play()
+		sound_played.emit("paper_rustle")
+
+## Play low drone for tension
+func play_tension_drone() -> void:
+	if not enabled:
+		return
+	
+	var stream = _generate_tension_drone()
+	if stream:
+		ambient_player.stream = stream
+		ambient_player.volume_db = -25
+		ambient_player.play()
+		sound_played.emit("tension_drone")
+
 # === Procedural Audio Generation ===
 
 func _generate_creak() -> AudioStreamWAV:
@@ -334,3 +419,212 @@ func stop_all() -> void:
 		horror_player.stop()
 	if whisper_player:
 		whisper_player.stop()
+
+# ============================================
+# NEW PROCEDURAL AUDIO GENERATORS
+# ============================================
+
+func _generate_knock() -> AudioStreamWAV:
+	var sample_rate := 22050
+	var duration := 0.15
+	var samples := int(sample_rate * duration)
+	var data := PackedByteArray()
+	data.resize(samples * 2)
+	
+	for i in samples:
+		var t := float(i) / sample_rate
+		var env := exp(-t * 30)  # Sharp attack, quick decay
+		
+		# Wooden knock sound - mix of frequencies
+		var sample := sin(t * 180 * TAU) * 0.4
+		sample += sin(t * 320 * TAU) * 0.2
+		sample += sin(t * 520 * TAU) * 0.1
+		sample += (randf() - 0.5) * 0.3 * env  # Impact noise
+		sample *= env
+		
+		var value := int(clampf(sample, -1.0, 1.0) * 32767)
+		data[i * 2] = value & 0xFF
+		data[i * 2 + 1] = (value >> 8) & 0xFF
+	
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.data = data
+	return stream
+
+func _generate_phone_ring() -> AudioStreamWAV:
+	var sample_rate := 22050
+	var duration := 1.0
+	var samples := int(sample_rate * duration)
+	var data := PackedByteArray()
+	data.resize(samples * 2)
+	
+	for i in samples:
+		var t := float(i) / sample_rate
+		# Classic phone ring pattern - two frequencies alternating
+		var ring_on := fmod(t, 0.1) < 0.05
+		var env := 1.0 if ring_on else 0.0
+		env *= sin(t / duration * PI)  # Fade in/out
+		
+		var sample := sin(t * 440 * TAU) * 0.3
+		sample += sin(t * 480 * TAU) * 0.3
+		sample *= env
+		
+		var value := int(clampf(sample, -1.0, 1.0) * 32767)
+		data[i * 2] = value & 0xFF
+		data[i * 2 + 1] = (value >> 8) & 0xFF
+	
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.data = data
+	return stream
+
+func _generate_footstep() -> AudioStreamWAV:
+	var sample_rate := 22050
+	var duration := 0.2
+	var samples := int(sample_rate * duration)
+	var data := PackedByteArray()
+	data.resize(samples * 2)
+	
+	for i in samples:
+		var t := float(i) / sample_rate
+		var env := exp(-t * 15)
+		
+		# Low thud with some higher frequencies
+		var sample := sin(t * 80 * TAU) * 0.5 * env
+		sample += sin(t * 120 * TAU) * 0.2 * env
+		sample += (randf() - 0.5) * 0.4 * exp(-t * 30)  # Impact noise
+		
+		var value := int(clampf(sample, -1.0, 1.0) * 32767)
+		data[i * 2] = value & 0xFF
+		data[i * 2 + 1] = (value >> 8) & 0xFF
+	
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.data = data
+	return stream
+
+func _generate_breathing() -> AudioStreamWAV:
+	var sample_rate := 22050
+	var duration := 2.5
+	var samples := int(sample_rate * duration)
+	var data := PackedByteArray()
+	data.resize(samples * 2)
+	
+	for i in samples:
+		var t := float(i) / sample_rate
+		# Breathing rhythm - inhale and exhale
+		var breath_phase := fmod(t, 1.2)
+		var env := 0.0
+		if breath_phase < 0.5:
+			env = sin(breath_phase / 0.5 * PI)  # Inhale
+		elif breath_phase < 0.6:
+			env = 0.1  # Pause
+		else:
+			env = sin((breath_phase - 0.6) / 0.6 * PI) * 0.8  # Exhale
+		
+		# Filtered noise for breath sound
+		var sample := (randf() - 0.5) * 0.4 * env
+		# Add some low frequency rumble
+		sample += sin(t * 30 * TAU) * 0.1 * env
+		
+		var value := int(clampf(sample, -1.0, 1.0) * 32767)
+		data[i * 2] = value & 0xFF
+		data[i * 2 + 1] = (value >> 8) & 0xFF
+	
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.data = data
+	return stream
+
+func _generate_scratch() -> AudioStreamWAV:
+	var sample_rate := 22050
+	var duration := randf_range(0.5, 1.0)
+	var samples := int(sample_rate * duration)
+	var data := PackedByteArray()
+	data.resize(samples * 2)
+	
+	var scratch_freq := randf_range(2000, 4000)
+	
+	for i in samples:
+		var t := float(i) / sample_rate
+		var env := sin(t / duration * PI)  # Smooth in/out
+		env *= 0.5 + 0.5 * sin(t * randf_range(3, 8) * TAU)  # Irregular
+		
+		# High frequency scratching noise
+		var sample := (randf() - 0.5) * 0.6 * env
+		sample += sin(t * scratch_freq * TAU) * 0.1 * env
+		
+		var value := int(clampf(sample, -1.0, 1.0) * 32767)
+		data[i * 2] = value & 0xFF
+		data[i * 2 + 1] = (value >> 8) & 0xFF
+	
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.data = data
+	return stream
+
+func _generate_paper_rustle() -> AudioStreamWAV:
+	var sample_rate := 22050
+	var duration := randf_range(0.3, 0.7)
+	var samples := int(sample_rate * duration)
+	var data := PackedByteArray()
+	data.resize(samples * 2)
+	
+	for i in samples:
+		var t := float(i) / sample_rate
+		var env := sin(t / duration * PI)
+		
+		# High-pass filtered noise for paper sound
+		var sample := (randf() - 0.5) * 0.3
+		# Irregular volume changes
+		sample *= 0.3 + 0.7 * abs(sin(t * randf_range(10, 30) * TAU))
+		sample *= env
+		
+		var value := int(clampf(sample, -1.0, 1.0) * 32767)
+		data[i * 2] = value & 0xFF
+		data[i * 2 + 1] = (value >> 8) & 0xFF
+	
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.data = data
+	return stream
+
+func _generate_tension_drone() -> AudioStreamWAV:
+	var sample_rate := 22050
+	var duration := 5.0
+	var samples := int(sample_rate * duration)
+	var data := PackedByteArray()
+	data.resize(samples * 2)
+	
+	var base_freq := 40.0  # Very low frequency
+	
+	for i in samples:
+		var t := float(i) / sample_rate
+		var fade_in := minf(t / 1.0, 1.0)
+		var fade_out := minf((duration - t) / 1.0, 1.0)
+		var env := fade_in * fade_out
+		
+		# Ominous low drone with subtle modulation
+		var freq_mod := 1.0 + 0.02 * sin(t * 0.5 * TAU)
+		var sample := sin(t * base_freq * freq_mod * TAU) * 0.3
+		sample += sin(t * base_freq * 1.5 * TAU) * 0.15  # Fifth
+		sample += sin(t * base_freq * 2.0 * TAU) * 0.1   # Octave
+		# Add subtle beating
+		sample *= 1.0 + 0.1 * sin(t * 2 * TAU)
+		sample *= env
+		
+		var value := int(clampf(sample, -1.0, 1.0) * 32767)
+		data[i * 2] = value & 0xFF
+		data[i * 2 + 1] = (value >> 8) & 0xFF
+	
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.data = data
+	return stream
