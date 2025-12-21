@@ -1539,7 +1539,7 @@ mesh = SubResource("CylinderMesh_mouse_wheel")
 surface_material_override/0 = SubResource("Material_mousepad")
 
 [node name="PCCase" type="Node3D" parent="Desk/DeskProps"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, -0.55, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.25, -0.4)
 
 [node name="Body" type="MeshInstance3D" parent="Desk/DeskProps/PCCase"]
 mesh = SubResource("BoxMesh_pc_case")
@@ -3040,51 +3040,51 @@ surface_material_override/0 = SubResource("Material_welcome_mat")
 
 ; Monitor cable running from back of monitor down to desk
 [node name="MonitorCable1" type="CSGCylinder3D" parent="EnhancedDetails/CableManagement"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 2.5, 1.55)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.7, 1.55)
 radius = 0.008
-height = 0.5
+height = 0.4
 material = SubResource("Material_keyboard")
 
 ; Cable running along back of desk
 [node name="DeskBackCable" type="CSGCylinder3D" parent="EnhancedDetails/CableManagement"]
-transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0.3, 2.75, 1.55)
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0.3, 0.72, 1.55)
 radius = 0.008
-height = 1.2
+height = 1.0
 material = SubResource("Material_keyboard")
 
 ; Cable running down to PC under desk
 [node name="ToPCCable" type="CSGCylinder3D" parent="EnhancedDetails/CableManagement"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 2.25, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.35, 2)
 radius = 0.008
-height = 0.5
+height = 0.7
 material = SubResource("Material_keyboard")
 
 ; Power cable on floor from PC to wall
 [node name="PowerCable" type="CSGCylinder3D" parent="EnhancedDetails/CableManagement"]
-transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 2.5, 0.02, 2)
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 1.5, 0.02, 2)
 radius = 0.01
-height = 3
+height = 1.2
 material = SubResource("Material_keyboard")
 
 ; Keyboard cable
 [node name="KeyboardCable" type="CSGCylinder3D" parent="EnhancedDetails/CableManagement"]
-transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -0.3, 2.78, 1.9)
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -0.3, 0.78, 1.8)
 radius = 0.005
-height = 0.35
+height = 0.3
 material = SubResource("Material_keyboard")
 
 ; Mouse cable
 [node name="MouseCable" type="CSGCylinder3D" parent="EnhancedDetails/CableManagement"]
-transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0.15, 2.78, 2.1)
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0.15, 0.78, 2.0)
 radius = 0.004
-height = 0.45
+height = 0.35
 material = SubResource("Material_keyboard")
 
 ; Cable bundle behind desk (messy realistic look)
 [node name="CableBundle" type="CSGCylinder3D" parent="EnhancedDetails/CableManagement"]
-transform = Transform3D(0.7, 0, 0.7, 0, 1, 0, -0.7, 0, 0.7, 0.5, 2.3, 1.6)
-radius = 0.025
-height = 0.6
+transform = Transform3D(0.7, 0, 0.7, 0, 1, 0, -0.7, 0, 0.7, 0.5, 0.5, 1.6)
+radius = 0.02
+height = 0.5
 material = SubResource("Material_keyboard")
 
 ; --- Floor Pattern/Tiles ---
@@ -3655,7 +3655,7 @@ material = SubResource("Material_cabinet")
 
 ; In/Out trays on desk
 [node name="InOutTray" type="Node3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.8, 2.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.75, 1.65)
 
 [node name="Tray1" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra/InOutTray"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
@@ -3674,30 +3674,30 @@ surface_material_override/0 = SubResource("Material_paper")
 
 ; Stapler
 [node name="Stapler" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(0.98, 0, 0.17, 0, 1, 0, -0.17, 0, 0.98, -0.55, 0.82, 2.35)
+transform = Transform3D(0.98, 0, 0.17, 0, 1, 0, -0.17, 0, 0.98, 0.7, 0.77, 2.35)
 size = Vector3(0.15, 0.04, 0.05)
 material = SubResource("Material_keyboard")
 
 ; Tape dispenser
 [node name="TapeDispenser" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.825, 2.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.78, 2.35)
 size = Vector3(0.1, 0.05, 0.06)
 material = SubResource("Material_keyboard")
 
 ; Stamp pad
 [node name="StampPad" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.815, 2.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.77, 2.25)
 size = Vector3(0.12, 0.03, 0.08)
 material = SubResource("Material_keyboard")
 
 [node name="StampPadTop" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.83, 2.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.785, 2.25)
 size = Vector3(0.1, 0.01, 0.06)
 material = SubResource("Material_stamp")
 
 ; Calendar on wall
 [node name="WallCalendar" type="Node3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.95, 2.0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.95, 2.0, 2)
 
 [node name="Frame" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra/WallCalendar"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
@@ -3706,7 +3706,7 @@ material = SubResource("Material_paper")
 
 ; Family photo on desk
 [node name="DeskPhoto" type="Node3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0.8, 1.7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0.75, 1.65)
 
 [node name="Frame" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra/DeskPhoto"]
 transform = Transform3D(0.98, 0, 0.17, 0, 1, 0, -0.17, 0, 0.98, 0, 0.08, 0)
@@ -3720,13 +3720,13 @@ material = SubResource("Material_frame")
 
 ; Nameplate
 [node name="Nameplate" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82, 2.55)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.77, 2.55)
 size = Vector3(0.2, 0.05, 0.04)
 material = SubResource("Material_desk")
 
 ; Power strip under desk (for PC and monitor)
 [node name="PowerStrip" type="Node3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.03, 2.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.03, 1.5)
 
 [node name="Body" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra/PowerStrip"]
 size = Vector3(0.4, 0.05, 0.08)
@@ -3744,7 +3744,7 @@ material = SubResource("Material_power_led")
 
 ; Desk phone
 [node name="DeskPhone" type="Node3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 0.8, 2.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0.75, 1.65)
 
 [node name="Base" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra/DeskPhone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
@@ -3781,7 +3781,7 @@ material = SubResource("Material_desk_leg")
 
 ; Foot rest under desk
 [node name="FootRest" type="CSGBox3D" parent="EnhancedDetails/WorkAreaExtra"]
-transform = Transform3D(1, 0, 0, 0, 0.98, 0.17, 0, -0.17, 0.98, 0, 0.05, 3.6)
+transform = Transform3D(1, 0, 0, 0, 0.98, 0.17, 0, -0.17, 0.98, 0, 0.08, 3.0)
 size = Vector3(0.5, 0.1, 0.3)
 material = SubResource("Material_keyboard")
 
